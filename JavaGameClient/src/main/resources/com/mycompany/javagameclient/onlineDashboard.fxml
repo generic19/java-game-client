@@ -14,7 +14,7 @@
    <top>
       <BorderPane BorderPane.alignment="CENTER">
          <left>
-            <Label text="Player Name" textFill="WHITE" BorderPane.alignment="CENTER">
+            <Label fx:id="labelPlayerName" text="Player Name" textFill="WHITE" BorderPane.alignment="CENTER">
                <font>
                   <Font name="Borel Regular" size="36.0" />
                </font>
@@ -24,7 +24,7 @@
             </Label>
          </left>
          <right>
-            <Label style="-fx-border-color: #FFE2FF; -fx-border-radius: 60; -fx-border-width: 5;" text="Score: 0" textFill="WHITE" BorderPane.alignment="CENTER">
+            <Label fx:id="labelScore" style="-fx-border-color: #FFE2FF; -fx-border-radius: 60; -fx-border-width: 5;" text="Score: 0" textFill="WHITE" BorderPane.alignment="CENTER">
                <font>
                   <Font name="Borel Regular" size="36.0" />
                </font>
@@ -60,7 +60,7 @@
                   </Label>
                   <ScrollPane prefHeight="329.0" prefWidth="678.0" style="-fx-background: none; -fx-border-color: none;" VBox.vgrow="ALWAYS">
                      <content>
-                        <VBox />
+                        <VBox fx:id="availablePlayersList" />
                      </content>
                   </ScrollPane>
                </children>
@@ -83,7 +83,7 @@
                   </Label>
                   <ScrollPane prefHeight="500.0" prefWidth="402.0" style="-fx-background: none; -fx-border-color: none;" VBox.vgrow="ALWAYS">
                      <content>
-                        <VBox />
+                        <VBox fx:id="inGamePlayersList" />
                      </content>
                   </ScrollPane>
                </children>
@@ -94,7 +94,7 @@
    <bottom>
       <BorderPane BorderPane.alignment="CENTER">
          <right>
-            <Button mnemonicParsing="false" style="-fx-background-color: none; -fx-border-color: white; -fx-font-size: 40; -fx-border-width: 3; -fx-border-radius: 60; -fx-text-fill: white; -fx-font-family: Brawler;" text="Logout" BorderPane.alignment="CENTER">
+            <Button mnemonicParsing="false" onAction="#onLogoutClicked" style="-fx-background-color: none; -fx-border-color: white; -fx-font-size: 40; -fx-border-width: 3; -fx-border-radius: 60; -fx-text-fill: white; -fx-font-family: Brawler;" text="Logout" BorderPane.alignment="CENTER">
             <effect>
                   <DropShadow color="#f942ff" />
                </effect>
@@ -102,7 +102,7 @@
          </right>
          <left>
              
-                  <Button mnemonicParsing="false" prefHeight="71.0" prefWidth="152.0" style="-fx-background-color: none; -fx-border-color: white; -fx-font-size: 40; -fx-border-width: 3; -fx-border-radius: 60; -fx-text-fill: white;" text="Back" BorderPane.alignment="CENTER">
+                  <Button mnemonicParsing="false" onAction="#onBackClicked" prefHeight="71.0" prefWidth="152.0" style="-fx-background-color: none; -fx-border-color: white; -fx-font-size: 40; -fx-border-width: 3; -fx-border-radius: 60; -fx-text-fill: white;" text="Back" BorderPane.alignment="CENTER">
                 <effect>
                   <DropShadow color="#f942ff" />
                </effect>

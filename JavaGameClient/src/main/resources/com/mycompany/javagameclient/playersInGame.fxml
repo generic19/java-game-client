@@ -6,10 +6,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-
-<HBox spacing="60.0" style="-fx-background-color: #36263D; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 60;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<HBox spacing="60.0" style="-fx-background-color: #36263D; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 60;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javagameclient.PlayersInGameController">
    <children>
-      <Label text="Player Name" textFill="WHITE">
+      <Label fx:id="inGamePlayerName" text="Player Name" textFill="WHITE">
          <font>
             <Font name="Borel Regular" size="36.0" />
          </font>
@@ -17,7 +16,7 @@
             <DropShadow color="#f942ff" />
          </effect>
       </Label>
-      <Label text="100" textFill="WHITE">
+      <Label fx:id="inGamePlayerScore" text="100" textFill="WHITE">
          <font>
             <Font name="Borel Regular" size="36.0" />
          </font>
