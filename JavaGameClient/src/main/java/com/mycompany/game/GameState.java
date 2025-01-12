@@ -1,4 +1,4 @@
-package com.iti.javafx.group1.game;
+package com.mycompany.game;
 
 import java.util.Iterator;
 
