@@ -4,7 +4,8 @@ import java.util.Iterator;
 
 
 public interface GameState<M extends GameMove> {
-    
+
+
     /**
      * Gets whose turn it is to play next, or null if this is an end state.
      *
