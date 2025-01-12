@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(from 0% -10% to 10% 100%, #1D1E2D, #44234D);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javagameclient.XoGameController">
+   <children>
+      <HBox alignment="BOTTOM_CENTER" prefHeight="100.0">
+         <children>
+            <Label fx:id="lblHeader" text="Player 1's turn..." textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Open Sans Regular" size="24.0" />
+               </font>
+               <HBox.margin>
+                  <Insets bottom="10.0" />
+               </HBox.margin>
+               <effect>
+                  <DropShadow height="15.0" radius="7.0" width="15.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" opacity="0.7973231077194214" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </Label>
+         </children>
+      </HBox>
+      <GridPane prefHeight="250.0" VBox.vgrow="ALWAYS">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <ImageView fitHeight="100.0" fitWidth="100.0">
+                     <image>
+                        <Image url="@images/Neon%20X.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="lblLeftPlayer" alignment="CENTER" contentDisplay="TEXT_ONLY" graphicTextGap="0.0" text="Player 1" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+                     <font>
+                        <Font name="Borel Regular" size="21.0" />
+                     </font>
+                     <effect>
+                        <DropShadow blurType="GAUSSIAN" height="19.0" radius="9.0" width="19.0">
+                           <color>
+                              <Color red="0.9960784316062927" green="0.8039215803146362" blue="0.45490196347236633" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets bottom="-10.0" top="-10.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="lblLeftPlayerScore" layoutX="65.0" layoutY="147.0" text="2" textFill="WHITE">
+                     <font>
+                        <Font name="Borel Regular" size="18.0" />
+                     </font>
+                     <effect>
+                        <DropShadow blurType="GAUSSIAN" height="19.0" radius="9.0" width="19.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" opacity="0.6692160367965698" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+               <children>
+                  <ImageView fitHeight="100.0" fitWidth="100.0">
+                     <image>
+                        <Image url="@images/Neon%20O.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="lblRightPlayer" text="Player 2" textFill="WHITE">
+                     <font>
+                        <Font name="Borel Regular" size="21.0" />
+                     </font>
+                     <effect>
+                        <DropShadow blurType="GAUSSIAN" height="19.0" radius="9.0" width="19.0">
+                           <color>
+                              <Color red="0.9960784316062927" green="0.8039215803146362" blue="0.45490196347236633" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <padding>
+                        <Insets bottom="-10.0" top="-10.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="lblRightPlayerScore" layoutX="65.0" layoutY="147.0" text="0" textFill="WHITE">
+                     <font>
+                        <Font name="Borel Regular" size="18.0" />
+                     </font>
+                     <effect>
+                        <DropShadow blurType="GAUSSIAN" height="19.0" radius="9.0" width="19.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" opacity="0.6692160367965698" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                  </Label>
+               </children>
+            </VBox>
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #F6E2FF; -fx-border-radius: 25; -fx-border-width: 4; -fx-background-image: url(&quot;images/Grid1.png&quot;); -fx-background-size: 100% 100%; -fx-background-position: center center;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+               <effect>
+                  <DropShadow blurType="GAUSSIAN">
+                     <color>
+                        <Color red="0.8131200075149536" green="0.4415999948978424" blue="0.9599999785423279" opacity="0.8489483594894409" />
+                     </color>
+                     <input>
+                        <DropShadow blurType="GAUSSIAN" height="32.0" radius="15.5" width="32.0">
+                           <color>
+                              <Color red="0.7774999737739563" green="0.10999999940395355" blue="1.0" opacity="0.3199999928474426" />
+                           </color>
+                           <input>
+                              <DropShadow blurType="GAUSSIAN" height="47.0" radius="23.0" width="47.0">
+                                 <color>
+                                    <Color red="0.7333333492279053" blue="1.0" opacity="0.19502867758274078" />
+                                 </color>
+                              </DropShadow>
+                           </input>
+                        </DropShadow>
+                     </input>
+                  </DropShadow>
+               </effect>
+               <children>
+                  <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <ImageView fitHeight="200.0" fitWidth="200.0" preserveRatio="true" StackPane.alignment="CENTER">
+                           <image>
+                              <Image url="@images/Grid.png" />
+                           </image>
+                           <StackPane.margin>
+                              <Insets />
+                           </StackPane.margin>
+                        </ImageView>
+                        <GridPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: url(&quot;images/Grid.png&quot;);" StackPane.alignment="CENTER">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <StackPane.margin>
+                              <Insets />
+                           </StackPane.margin>
+                           <children>
+                              <ImageView fx:id="imageRow0Col0" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                                 <image>
+                                    <Image url="@images/Neon%20X.png" />
+                                 </image></ImageView>
+                              <ImageView fx:id="imageRow0Col1" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                                 <image>
+                                    <Image url="@images/Neon%20O.png" />
+                                 </image></ImageView>
+                              <ImageView fx:id="imageRow0Col2" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                                 <image>
+                                    <Image url="@images/Neon%20X.png" />
+                                 </image></ImageView>
+                              <ImageView fx:id="imageRow1Col0" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
+                              <ImageView fx:id="imageRow1Col1" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                                 <image>
+                                    <Image url="@images/Neon%20O.png" />
+                                 </image></ImageView>
+                              <ImageView fx:id="imageRow1Col2" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
+                              <ImageView fx:id="imageRow2Col0" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                                 <image>
+                                    <Image url="@images/Neon%20X.png" />
+                                 </image></ImageView>
+                              <ImageView fx:id="imageRow2Col1" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                                 <image>
+                                    <Image url="@images/Neon%20O.png" />
+                                 </image></ImageView>
+                              <ImageView fx:id="imageRow2Col2" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
+                           </children>
+                        </GridPane>
+                        <Line fx:id="winningLine" endY="190.0" stroke="#ffd3d3" strokeLineCap="ROUND" strokeWidth="3.0" StackPane.alignment="TOP_LEFT">
+                           <effect>
+                              <DropShadow blurType="GAUSSIAN">
+                                 <color>
+                                    <Color red="1.0" green="0.2638888955116272" blue="0.2638888955116272" />
+                                 </color>
+                              </DropShadow>
+                           </effect>
+                           <StackPane.margin>
+                              <Insets left="97.0" top="3.0" />
+                           </StackPane.margin>
+                        </Line>
+                     </children>
+                  </StackPane>
+               </children>
+            </AnchorPane>
+         </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </GridPane>
+      <AnchorPane prefHeight="100.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#onLeave" style="-fx-background-color: none; -fx-border-color: FFE2FF; -fx-border-radius: 50; -fx-border-width: 2;" text="Leave" textFill="WHITE" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0">
+               <graphic>
+                  <ImageView fitHeight="13.0" preserveRatio="true">
+                     <image>
+                        <Image url="@images/Chevron%20Right.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font name="Borel Regular" size="17.0" />
+               </font>
+               <padding>
+                  <Insets bottom="-8.0" left="15.0" right="20.0" top="-8.0" />
+               </padding>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" height="30.0" radius="14.5" width="30.0">
+                     <color>
+                        <Color red="0.8941176533699036" green="0.5529412031173706" blue="1.0" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </Button>
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>
