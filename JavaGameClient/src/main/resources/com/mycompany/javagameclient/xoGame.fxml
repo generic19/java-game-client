@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(from 0% -10% to 10% 100%, #1D1E2D, #44234D);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(from 0% -10% to 10% 100%, #1D1E2D, #44234D);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javagameclient.XoGameController">
    <children>
       <HBox alignment="BOTTOM_CENTER" prefHeight="100.0">
          <children>
@@ -196,25 +196,11 @@
                               <ImageView fx:id="imageRow2Col1" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                                  <image>
                                     <Image url="@images/Neon%20O.png" />
-                                 </image>
-                                 <effect>
-                                    <DropShadow blurType="GAUSSIAN" height="40.0" radius="19.5" width="40.0">
-                                       <color>
-                                          <Color red="1.0" green="1.0" blue="1.0" opacity="0.6299999952316284" />
-                                       </color>
-                                       <input>
-                                          <DropShadow height="5.0" radius="2.0" width="5.0">
-                                             <color>
-                                                <Color red="1.0" green="1.0" blue="1.0" opacity="0.7900000214576721" />
-                                             </color>
-                                          </DropShadow>
-                                       </input>
-                                    </DropShadow>
-                                 </effect></ImageView>
+                                 </image></ImageView>
                               <ImageView fx:id="imageRow2Col2" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
                            </children>
                         </GridPane>
-                        <Line endY="190.0" stroke="#ffd3d3" strokeLineCap="ROUND" strokeWidth="3.0" StackPane.alignment="TOP_LEFT">
+                        <Line fx:id="winningLine" endY="190.0" stroke="#ffd3d3" strokeLineCap="ROUND" strokeWidth="3.0" StackPane.alignment="TOP_LEFT">
                            <effect>
                               <DropShadow blurType="GAUSSIAN">
                                  <color>
