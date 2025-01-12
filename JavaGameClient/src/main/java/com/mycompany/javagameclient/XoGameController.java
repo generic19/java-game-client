@@ -6,11 +6,14 @@ package com.mycompany.javagameclient;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import com.mycompany.game.Game;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Line;
 
 /**
@@ -19,33 +22,37 @@ import javafx.scene.shape.Line;
  * @author basel
  */
 public class XoGameController implements Initializable {
-
     @FXML private Label lblHeader;
     @FXML private Label lblLeftPlayer;
     @FXML private Label lblLeftPlayerScore;
     @FXML private Label lblRightPlayer;
     @FXML private Label lblRightPlayerScore;
-    @FXML private ImageView imageRow0Col0;
-    @FXML private ImageView imageRow0Col1;
-    @FXML private ImageView imageRow0Col2;
-    @FXML private ImageView imageRow1Col0;
-    @FXML private ImageView imageRow1Col1;
-    @FXML private ImageView imageRow1Col2;
-    @FXML private ImageView imageRow2Col0;
-    @FXML private ImageView imageRow2Col1;
-    @FXML private ImageView imageRow2Col2;
     @FXML private Line winningLine;
-
-    /**
-     * Initializes the controller class.
-     */
+    @FXML private GridPane cellGrid;
+    
+    private Game game;
+    private String firstPlayerName;
+    private String secondPlayerName;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
+    
+    }
+    
+    public void initializeGame(GameMode mode) {
+
+    }
 
     @FXML
     private void onLeave(ActionEvent event) {
     }
+
+    @FXML
+    private void onCellClicked(MouseEvent event) {
     
+    }
+    
+    public enum GameMode {
+        localWithComputer, localWithFriend;
+    }
 }
