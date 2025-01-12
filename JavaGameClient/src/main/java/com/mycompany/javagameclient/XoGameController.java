@@ -34,8 +34,7 @@ public class XoGameController implements Initializable {
     @FXML private ImageView imageRow2Col0;
     @FXML private ImageView imageRow2Col1;
     @FXML private ImageView imageRow2Col2;
-    @FXML
-    private Line winningLine;
+    @FXML private Line winningLine;
 
     /**
      * Initializes the controller class.
