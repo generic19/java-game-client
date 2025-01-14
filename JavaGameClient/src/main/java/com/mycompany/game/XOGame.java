@@ -11,25 +11,25 @@ import java.util.List;
  *
  * @author AhmedAli
  */
-public class GameImplementation implements Game<GameMove, GameState<GameMove>>{
+public class XOGame implements Game<XOGameMove, XOGameState>{
     
-    private GameState<GameMove> currentState;
+    private XOGameState currentState;
     private GameAgent[] gameAgents = new GameAgent[2];
-    private final List <Listener<GameMove, GameState<GameMove>>> listeners = new ArrayList<>();
+    private final List <Listener<XOGameMove, XOGameState>> listeners = new ArrayList<>();
     
-
-    public GameImplementation(GameState<GameMove> currentState) {
-        this.currentState = currentState;
+    
+    public XOGame() {
+        this.currentState = new XOGameState();
     }
     
     
     @Override
-    public GameState<GameMove> getState() {
+    public XOGameState getState() {
         return currentState;
     }
 
     @Override
-    public void play(GameMove move) throws IllegalStateException {
+    public synchronized void play(XOGameMove move) throws IllegalStateException {
         if(currentState.isValidMove(move)){
             currentState = currentState.play(move);
             for(Listener listener: listeners){
@@ -38,7 +38,7 @@ public class GameImplementation implements Game<GameMove, GameState<GameMove>>{
             Player nextTurnPlayer = currentState.getNextTurnPlayer();
             GameAgent agent = gameAgents[nextTurnPlayer.ordinal()];
             if(agent != null){
-                play(agent.getNextMove(currentState));
+                play((XOGameMove) agent.getNextMove(currentState));
             }
         }else{
             throw new IllegalStateException("Invalid move: " + move);
@@ -46,10 +46,8 @@ public class GameImplementation implements Game<GameMove, GameState<GameMove>>{
     }
 
     @Override
-    public void attachAgent(Player player, GameAgent<GameMove, GameState<GameMove>> agent) {
-        
+    public void attachAgent(Player player, GameAgent agent) {
         gameAgents[player.ordinal()] = agent; 
-        
     }
 
     @Override
@@ -58,12 +56,12 @@ public class GameImplementation implements Game<GameMove, GameState<GameMove>>{
     }
 
     @Override
-    public void addListener(Listener<GameMove, GameState<GameMove>> listener) {
+    public void addListener(Listener<XOGameMove, XOGameState> listener) {
         listeners.add(listener);
     }
 
     @Override
-    public void removeListener(Listener<GameMove, GameState<GameMove>> listener) {
+    public void removeListener(Listener<XOGameMove, XOGameState> listener) {
         listeners.remove(listener);
     }
     

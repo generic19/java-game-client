@@ -3,19 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.javagameclient;
-import java.net.URL;
-import java.util.ResourceBundle;
+import com.mycompany.game.GameAgent;
+import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.input.MouseEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 
 public class LevelScreenController {
-
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
 
     @FXML
     void onEasyClicked(ActionEvent event) {
@@ -31,9 +26,13 @@ public class LevelScreenController {
     void onMediumClicked(ActionEvent event) {
 
     }
-
-    @FXML
-    void initialize() {
-
+    
+    private void startGameWithAgent(GameAgent agent) throws IOException {
+        FXMLLoader loader = App.getFXMLLoader("xoGame");
+        Parent root = loader.load();
+        
+        XoGameController controller = loader.getController();
+        controller.initializeGameForLocalWithComputer(agent);
+        
     }
 }

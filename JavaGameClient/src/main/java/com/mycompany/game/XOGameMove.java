@@ -8,10 +8,9 @@ package com.mycompany.game;
  *
  * @author ArwaKhaled
  */
-public class XOGameMove implements GameMove{
-
-    
-    private int index ;
+public class XOGameMove implements GameMove {
+    private final Player player;
+    private final int index ;
 
     public int getRow() {
         return index/3;
@@ -25,17 +24,26 @@ public class XOGameMove implements GameMove{
         return index;
     }
 
-    public XOGameMove(int index) {
+    public XOGameMove(int index, Player player) {
+        if (index < 0 || index > 8) {
+            throw new UnsupportedOperationException("position must be between 0 and 8");
+        }
         this.index = index;
+        this.player = player;
     }
     
     public boolean equals(GameMove other) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        
+        XOGameMove otherMove = (XOGameMove) other;
+        
+        return this.index == otherMove.index && this.player.equals(otherMove.player);
     }
 
     @Override
     public Player getPlayer() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return player;
     }
-    
 }

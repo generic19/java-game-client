@@ -4,19 +4,15 @@
  */
 package com.mycompany.javagameclient;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.input.MouseEvent;
 
 public class HomeScreenController {
 
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
 
     @FXML
     void onLoginClicked(MouseEvent event) {
@@ -29,8 +25,8 @@ public class HomeScreenController {
     }
 
     @FXML
-    void onPlayWithDriend(ActionEvent event) {
-
+    void onPlayWithFriend(ActionEvent event) throws IOException {
+        App.switchToFXML("xoGameNameInput");
     }
 
     @FXML
@@ -39,8 +35,8 @@ public class HomeScreenController {
     }
 
     @FXML
-    void onplayWithComputer(ActionEvent event) {
-
+    void onplayWithComputer(ActionEvent event) throws IOException {
+        App.switchToFXML("LevelScreen");
     }
 
     @FXML

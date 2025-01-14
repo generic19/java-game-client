@@ -8,15 +8,15 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="557.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller = "com.mycompany.javagameclient.HomeScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="557.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javagameclient.HomeScreenController">
    <children>
       <ImageView fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../images/GameBackGround.png" />
+            <Image url="@images/GameBackGround.png" />
          </image></ImageView>
       <ImageView fitHeight="332.0" fitWidth="602.0" layoutX="96.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../images/homeScreenBoard.png" />
+            <Image url="@images/homeScreenBoard.png" />
          </image>
       </ImageView>
       <Button layoutX="165.0" layoutY="163.0" mnemonicParsing="false" onAction="#onPlayOnlineClicked" prefHeight="37.0" prefWidth="232.0" style="-fx-background-color: none; -fx-font: brawler; -fx-border-radius: 25; -fx-border-width: 3; -fx-border-color: FFE2FF;" text="Play Online" textFill="WHITE">
@@ -27,7 +27,7 @@
             <Font name="Brawler Regular" size="15.0" />
          </font>
       </Button>
-      <Button layoutX="163.0" layoutY="257.0" mnemonicParsing="false" onAction="#onPlayWithDriend" prefHeight="37.0" prefWidth="232.0" style="-fx-background-color: none; -fx-border-radius: 25; -fx-border-width: 3; -fx-border-color: FFE2FF;" text="Play With Friend" textFill="WHITE">
+      <Button layoutX="163.0" layoutY="257.0" mnemonicParsing="false" onAction="#onPlayWithFriend" prefHeight="37.0" prefWidth="232.0" style="-fx-background-color: none; -fx-border-radius: 25; -fx-border-width: 3; -fx-border-color: FFE2FF;" text="Play With Friend" textFill="WHITE">
          <effect>
             <DropShadow blurType="GAUSSIAN" color="#ffe2ff" />
          </effect>

@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(from 0% -10% to 10% 100%, #1D1E2D, #44234D);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javagameclient.XoGameController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="695.0" style="-fx-background-color: linear-gradient(from 0% -10% to 10% 100%, #1D1E2D, #44234D);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javagameclient.XoGameController">
    <children>
       <HBox alignment="BOTTOM_CENTER" prefHeight="100.0">
          <children>
@@ -171,36 +171,18 @@
                               <Insets />
                            </StackPane.margin>
                            <children>
-                              <ImageView fitHeight="60.0" fitWidth="60.0" onMouseClicked="#onCellClicked" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
-                                 <image>
-                                    <Image url="@images/Neon%20X.png" />
-                                 </image></ImageView>
-                              <ImageView fitHeight="60.0" fitWidth="60.0" onMouseClicked="#onCellClicked" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
-                                 <image>
-                                    <Image url="@images/Neon%20O.png" />
-                                 </image></ImageView>
-                              <ImageView fitHeight="60.0" fitWidth="60.0" onMouseClicked="#onCellClicked" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
-                                 <image>
-                                    <Image url="@images/Neon%20X.png" />
-                                 </image></ImageView>
+                              <ImageView fitHeight="60.0" fitWidth="60.0" onMouseClicked="#onCellClicked" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
+                              <ImageView fitHeight="60.0" fitWidth="60.0" onMouseClicked="#onCellClicked" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
+                              <ImageView fitHeight="60.0" fitWidth="60.0" onMouseClicked="#onCellClicked" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
                               <ImageView fitHeight="60.0" fitWidth="60.0" onMouseClicked="#onCellClicked" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
-                              <ImageView fitHeight="60.0" fitWidth="60.0" onMouseClicked="#onCellClicked" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
-                                 <image>
-                                    <Image url="@images/Neon%20O.png" />
-                                 </image></ImageView>
+                              <ImageView fitHeight="60.0" fitWidth="60.0" onMouseClicked="#onCellClicked" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
                               <ImageView fitHeight="60.0" fitWidth="60.0" onMouseClicked="#onCellClicked" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
-                              <ImageView fitHeight="60.0" fitWidth="60.0" onMouseClicked="#onCellClicked" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
-                                 <image>
-                                    <Image url="@images/Neon%20X.png" />
-                                 </image></ImageView>
-                              <ImageView fitHeight="60.0" fitWidth="60.0" onMouseClicked="#onCellClicked" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
-                                 <image>
-                                    <Image url="@images/Neon%20O.png" />
-                                 </image></ImageView>
+                              <ImageView fitHeight="60.0" fitWidth="60.0" onMouseClicked="#onCellClicked" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
+                              <ImageView fitHeight="60.0" fitWidth="60.0" onMouseClicked="#onCellClicked" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
                               <ImageView fitHeight="60.0" fitWidth="60.0" onMouseClicked="#onCellClicked" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
                            </children>
                         </GridPane>
-                        <Line fx:id="winningLine" endY="190.0" stroke="#ffd3d3" strokeLineCap="ROUND" strokeWidth="3.0" StackPane.alignment="TOP_LEFT">
+                        <Line fx:id="winningLine" endY="190.0" stroke="#ffd3d3" strokeLineCap="ROUND" strokeWidth="3.0" visible="false" StackPane.alignment="TOP_LEFT">
                            <effect>
                               <DropShadow blurType="GAUSSIAN">
                                  <color>

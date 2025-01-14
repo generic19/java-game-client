@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(from 0% -10% to 10% 100%, #1D1E2D, #44234D);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javagameclient.XoGameNameInputController">
+   <children>
+      <Label text="Enter your Names" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Open Sans Regular" size="24.0" />
+         </font>
+         <effect>
+            <DropShadow height="15.0" radius="7.0" width="15.0">
+               <color>
+                  <Color red="1.0" green="1.0" blue="1.0" opacity="0.7973231077194214" />
+               </color>
+            </DropShadow>
+         </effect>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </Label>
+      <VBox alignment="CENTER" spacing="30.0" VBox.vgrow="ALWAYS">
+         <children>
+            <HBox alignment="CENTER" spacing="20.0">
+               <children>
+                  <ImageView fitHeight="85.0" fitWidth="85.0">
+                     <image>
+                        <Image url="@images/Neon%20X.png" />
+                     </image>
+                  </ImageView>
+                  <VBox prefHeight="86.0" prefWidth="359.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="TEXT_ONLY" graphicTextGap="0.0" text="Player 1" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+                           <font>
+                              <Font name="Borel Regular" size="20.0" />
+                           </font>
+                           <effect>
+                              <DropShadow blurType="GAUSSIAN" height="19.0" radius="9.0" width="19.0">
+                                 <color>
+                                    <Color red="0.9960784316062927" green="0.8039215803146362" blue="0.45490196347236633" />
+                                 </color>
+                              </DropShadow>
+                           </effect>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets top="-10.0" />
+                           </padding>
+                        </Label>
+                        <TextField fx:id="txtPlayer1Name" style="-fx-background-color: none; -fx-text-fill: #ffffff; -fx-border-color: white; -fx-border-radius: 8; -fx-border-width: 1.5;">
+                           <font>
+                              <Font name="Brawler Regular" size="16.0" />
+                           </font>
+                           <effect>
+                              <DropShadow blurType="GAUSSIAN" height="19.0" radius="9.0" width="19.0">
+                                 <color>
+                                    <Color red="1.0" green="1.0" blue="1.0" opacity="0.8011472225189209" />
+                                 </color>
+                              </DropShadow>
+                           </effect>
+                        </TextField>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" spacing="20.0">
+               <children>
+                  <ImageView fitHeight="85.0" fitWidth="85.0">
+                     <image>
+                        <Image url="@images/Neon%20O.png" />
+                     </image>
+                  </ImageView>
+                  <VBox prefHeight="86.0" prefWidth="359.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="TEXT_ONLY" graphicTextGap="0.0" text="Player 2" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+                           <font>
+                              <Font name="Borel Regular" size="20.0" />
+                           </font>
+                           <effect>
+                              <DropShadow blurType="GAUSSIAN" height="19.0" radius="9.0" width="19.0">
+                                 <color>
+                                    <Color red="0.9960784316062927" green="0.8039215803146362" blue="0.45490196347236633" />
+                                 </color>
+                              </DropShadow>
+                           </effect>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets top="-10.0" />
+                           </padding>
+                        </Label>
+                        <TextField fx:id="txtPlayer2Name" style="-fx-background-color: none; -fx-text-fill: white; -fx-border-color: white; -fx-border-radius: 8; -fx-border-width: 1.5;">
+                           <font>
+                              <Font name="Brawler Regular" size="16.0" />
+                           </font>
+                           <effect>
+                              <DropShadow blurType="GAUSSIAN" height="19.0" radius="9.0" width="19.0">
+                                 <color>
+                                    <Color red="1.0" green="1.0" blue="1.0" opacity="0.8011472225189209" />
+                                 </color>
+                              </DropShadow>
+                           </effect>
+                        </TextField>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <AnchorPane>
+         <children>
+            <Button mnemonicParsing="false" onAction="#onBack" style="-fx-background-color: none; -fx-border-color: FFE2FF; -fx-border-radius: 50; -fx-border-width: 2;" text="Back" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+               <graphic>
+                  <ImageView fitHeight="13.0" preserveRatio="true">
+                     <image>
+                        <Image url="@images/Chevron%20Right.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font name="Borel Regular" size="17.0" />
+               </font>
+               <padding>
+                  <Insets bottom="-8.0" left="15.0" right="20.0" top="-8.0" />
+               </padding>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" height="30.0" radius="14.5" width="30.0">
+                     <color>
+                        <Color red="0.8941176533699036" green="0.5529412031173706" blue="1.0" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </Button>
+            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#onStartGame" style="-fx-background-color: none; -fx-border-color: FFE2FF; -fx-border-radius: 50; -fx-border-width: 2;" text="Start Game" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="Borel Regular" size="17.0" />
+               </font>
+               <padding>
+                  <Insets bottom="-8.0" left="15.0" right="20.0" top="-8.0" />
+               </padding>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" height="30.0" radius="14.5" width="30.0">
+                     <color>
+                        <Color red="0.8941176533699036" green="0.5529412031173706" blue="1.0" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </Button>
+         </children>
+      </AnchorPane>
+   </children>
+   <padding>
+      <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+   </padding>
+</VBox>

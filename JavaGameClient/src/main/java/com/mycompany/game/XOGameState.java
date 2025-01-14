@@ -11,7 +11,7 @@ import java.util.Vector;
  *
  * @author ArwaKhaled
  */
-public class GameStateImp implements GameState<XOGameMove> {
+public class XOGameState implements GameState<XOGameMove> {
 
     private char[] board; 
     
@@ -19,7 +19,7 @@ public class GameStateImp implements GameState<XOGameMove> {
     private XOGameMove lastMove;
     private Vector<Integer> validBoard ;
     //int index ;
-    public GameStateImp() {
+    public XOGameState() {
         validBoard= new Vector<> ();
         for(int i=0;i<9;i++){
         validBoard.add(i);}
@@ -27,7 +27,7 @@ public class GameStateImp implements GameState<XOGameMove> {
         currentPlayer = Player.one;
         lastMove = null;
     }
-    public GameStateImp( GameStateImp oldGame , XOGameMove lastMove ) {
+    public XOGameState( XOGameState oldGame , XOGameMove lastMove ) {
         
         validBoard= (Vector<Integer>)oldGame.validBoard.clone();
         board = oldGame.board.clone(); 
@@ -35,6 +35,10 @@ public class GameStateImp implements GameState<XOGameMove> {
         this.lastMove =lastMove  ;
          validBoard.remove(lastMove.getIndex());
          board[lastMove.getIndex()]= oldGame.currentPlayer==Player.one?'X':'O';
+    }
+    
+    public char [] getBoard() {
+        return board;
     }
 
     @Override
@@ -61,7 +65,7 @@ public class GameStateImp implements GameState<XOGameMove> {
              
              public XOGameMove next() {
                int index =  it.next();
-                return new XOGameMove(index);
+                return new XOGameMove(index, currentPlayer);
              } 
          } ;
         
@@ -69,11 +73,11 @@ public class GameStateImp implements GameState<XOGameMove> {
     }
 
     @Override
-    public GameState play(XOGameMove move) throws IllegalStateException {
+    public XOGameState play(XOGameMove move) throws IllegalStateException {
         if(!isValidMove(move)){
         throw  new IllegalStateException ("invalid move ");
         }
-         return new GameStateImp(this,move);
+         return new XOGameState(this,move);
         
     }
 //board[0] and board[4] and board[8]== X 

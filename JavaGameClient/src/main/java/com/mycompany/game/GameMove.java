@@ -8,7 +8,6 @@ public interface GameMove {
      * @param other  of the equality check.
      * @return `true` if equal, `false` otherwise.
      */
-    int getPosition();
     boolean equals(GameMove other);
 
     /**

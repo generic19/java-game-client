@@ -1,15 +1,18 @@
 package com.mycompany.game;
 
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class EasyAgent implements GameAgent<GameMove, GameState<GameMove>> {
 
     @Override
     public GameMove getNextMove(GameState<GameMove> state) {
-        List<GameState> availableMoves = state.getVaildMoves();
+        List<GameMove> availableMoves = new ArrayList<>();
+        Iterator<GameMove> it = state.getValidMoves();
+        
+        while (it.hasNext()) {
+            availableMoves.add(it.next());
+        }
+        
         return availableMoves.get(new Random().nextInt(availableMoves.size()));
     }
-}/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+}

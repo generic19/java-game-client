@@ -6,7 +6,7 @@ package com.mycompany.game;
 
 import java.util.Iterator;
 
-public class MeduimAgent implements GameAgent<GameMove, GameState<GameMove>> {
+public class MediumAgent implements GameAgent<GameMove, GameState<GameMove>> {
 
     @Override
     public GameMove getNextMove(GameState<GameMove> state) {
