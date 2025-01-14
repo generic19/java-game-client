@@ -82,7 +82,7 @@ public class XoGameController implements Initializable, XOGame.Listener {
     @FXML
     private void onLeave(ActionEvent event) throws IOException {
         game.removeListener(this);
-        App.switchToFXML("HomeController");
+        App.switchToFXML("HomeScreen");
     }
 
     @FXML
