@@ -33,7 +33,7 @@ public class XOGameState implements GameState<XOGameMove> {
         board = oldGame.board.clone(); 
         currentPlayer = oldGame.currentPlayer==Player.one? Player.two : Player.one;
         this.lastMove =lastMove  ;
-         validBoard.remove(lastMove.getIndex());
+         validBoard.removeElement(lastMove.getIndex());
          board[lastMove.getIndex()]= oldGame.currentPlayer==Player.one?'X':'O';
     }
     
