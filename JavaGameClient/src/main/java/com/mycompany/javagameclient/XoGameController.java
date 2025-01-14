@@ -100,10 +100,13 @@ public class XoGameController implements Initializable, XOGame.Listener {
         }
         
         if (found) { 
-            cellGrid.setDisable(true);
+            XOGameState state = game.getState();
+            XOGameMove move = new XOGameMove(index, state.getNextTurnPlayer());
             
-            Player player = game.getState().getNextTurnPlayer();
-            game.play(new XOGameMove(index, player));
+            if (state.isValidMove(move)) {
+                cellGrid.setDisable(true);
+                game.play(move);
+            }
         }
     }
     
