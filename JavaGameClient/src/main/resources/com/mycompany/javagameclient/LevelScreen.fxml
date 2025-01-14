@@ -12,11 +12,11 @@
    <children>
       <ImageView fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../images/GameBackGround.png" />
+            <Image url="@images/GameBackGround.png" />
          </image></ImageView>
       <ImageView fitHeight="332.0" fitWidth="602.0" layoutX="96.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../images/homeScreenBoard.png" />
+            <Image url="@images/homeScreenBoard.png" />
          </image>
       </ImageView>
       <Button layoutX="165.0" layoutY="163.0" mnemonicParsing="false" onAction="#onEasyClicked" prefHeight="37.0" prefWidth="232.0" style="-fx-background-color: none; -fx-font: brawler; -fx-border-radius: 25; -fx-border-width: 3; -fx-border-color: FFE2FF;" text="Easy" textFill="WHITE">
@@ -35,11 +35,6 @@
             <Font name="Brawler Regular" size="15.0" />
          </font>
       </Button>
-      <Label layoutX="236.0" layoutY="99.0" text="Label">
-         <font>
-            <Font name="Franklin Gothic Medium" size="15.0" />
-         </font>
-      </Label>
       <Button layoutX="165.0" layoutY="209.0" mnemonicParsing="false" onAction="#onMediumClicked" prefHeight="37.0" prefWidth="232.0" style="-fx-background-color: none; -fx-border-radius: 25; -fx-border-width: 3; -fx-border-color: FFE2FF;" text="Medium" textFill="WHITE">
          <effect>
             <DropShadow blurType="GAUSSIAN" color="#ffe2ff" />
@@ -48,10 +43,17 @@
             <Font name="Brawler Regular" size="15.0" />
          </font>
       </Button>
-      <Label layoutX="149.0" layoutY="79.0" text="tic.tac.toe" textFill="#f8f8f8">
+      <Label layoutX="128.0" layoutY="79.0" text="tic.tac.toe" textFill="#f8f8f8">
          <font>
-            <Font name="Fredoka Light" size="60.0" />
+            <Font name="Fredoka Expanded Bold" size="47.0" />
          </font>
+         <effect>
+            <DropShadow color="#f942ff76">
+               <input>
+                  <DropShadow blurType="GAUSSIAN" color="#ffe2ff" />
+               </input>
+            </DropShadow>
+         </effect>
       </Label>
    </children>
 </AnchorPane>
