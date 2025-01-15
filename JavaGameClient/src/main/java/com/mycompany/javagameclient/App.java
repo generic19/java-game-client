@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import javafx.scene.text.Font;
 
 /**
  * JavaFX App
@@ -14,6 +15,11 @@ import java.io.IOException;
 public class App extends Application {
 
     private static Scene scene;
+
+    @Override
+    public void init() throws Exception {
+        loadFonts();
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -37,6 +43,25 @@ public class App extends Application {
     static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = getFXMLLoader(fxml);
         return fxmlLoader.load();
+    }
+    
+    private static void loadFonts() {
+        String[] fontFileNames = new String[]{
+            "Borel-Regular.ttf",
+            "Brawler-Regular.ttf",
+            "Brawler-Bold.ttf",
+            "Fredoka_Expanded-Regular.ttf",
+            "Fredoka_Expanded-Bold.ttf",
+            "Fredoka-Bold.ttf",
+            "OpenSans-Regular.ttf",
+            "Aldhabi-Regular.ttf",
+        };
+        
+        for (String fontFileName : fontFileNames) {
+            if (Font.loadFont(App.class.getResource("fonts/" + fontFileName).toExternalForm(), 0) == null) {
+                throw new RuntimeException("Could not load font " + fontFileName + ".");
+            }
+        }
     }
 
     public static void main(String[] args) {

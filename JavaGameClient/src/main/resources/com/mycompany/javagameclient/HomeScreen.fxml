@@ -17,9 +17,9 @@
             <Image url="@images/GameBackGround.png" />
          </image>
          <effect>
-            <GaussianBlur radius="7.75">
+            <GaussianBlur radius="4.0">
                <input>
-                  <ColorAdjust brightness="-0.5" />
+                  <ColorAdjust brightness="-0.14" />
                </input>
             </GaussianBlur>
          </effect></ImageView>
@@ -65,9 +65,9 @@
             <Font name="Brawler Regular" size="15.0" />
          </font>
       </Button>
-      <Label layoutX="182.0" layoutY="83.0" text="tic.tac.toe" textFill="#f8f8f8">
+      <Label layoutX="149.0" layoutY="83.0" text="tic.tac.toe" textFill="#f8f8f8">
          <font>
-            <Font name="Fredoka Expanded Bold" size="47.0" />
+            <Font name="Fredoka Expanded Bold" size="41.0" />
          </font>
          <effect>
             <DropShadow blurType="GAUSSIAN" color="#f842ff75">

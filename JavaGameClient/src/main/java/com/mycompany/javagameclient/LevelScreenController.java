@@ -24,7 +24,7 @@ public class LevelScreenController {
 
     @FXML
     void onMediumClicked(ActionEvent event) throws IOException {
-        startGameWithAgent(new MediumAgent());
+        //startGameWithAgent(new MediumAgent());
     }
     
     private void startGameWithAgent(GameAgent agent) throws IOException {
@@ -35,5 +35,14 @@ public class LevelScreenController {
         controller.initializeGameForLocalWithComputer(agent);
         
         App.setRoot(root);
+    }
+
+    @FXML
+    private void onBackClicked(ActionEvent event) {
+        try {
+            App.switchToFXML("HomeScreen");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 }

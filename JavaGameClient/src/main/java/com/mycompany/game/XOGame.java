@@ -65,4 +65,14 @@ public class XOGame implements Game<XOGameMove, XOGameState>{
         listeners.remove(listener);
     }
     
+    public void resetGame(){
+    
+    this.currentState = new XOGameState(); 
+    for(Listener listener: listeners){
+                listener.onStateChange(currentState);
+    }
 }
+    
+    
+    }
+     
