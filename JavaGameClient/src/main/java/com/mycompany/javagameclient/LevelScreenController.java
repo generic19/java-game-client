@@ -24,7 +24,7 @@ public class LevelScreenController {
 
     @FXML
     void onMediumClicked(ActionEvent event) throws IOException {
-        startGameWithAgent(new MediumAgent());
+        //startGameWithAgent(new MediumAgent());
     }
     
     private void startGameWithAgent(GameAgent agent) throws IOException {
