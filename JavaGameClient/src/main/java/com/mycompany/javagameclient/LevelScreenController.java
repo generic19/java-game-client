@@ -36,4 +36,13 @@ public class LevelScreenController {
         
         App.setRoot(root);
     }
+
+    @FXML
+    private void onBackClicked(ActionEvent event) {
+        try {
+            App.switchToFXML("HomeScreen");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 }

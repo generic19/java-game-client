@@ -145,7 +145,6 @@ public class XoGameController implements Initializable, XOGame.Listener {
             if (winner != null) {
                 String winnerName = (winner == Player.one) ? firstPlayerName : secondPlayerName;
                 lblHeader.setText(winnerName + " wins!");
-
                 if (winner == Player.one) {
                     int score = Integer.parseInt(lblLeftPlayerScore.getText());
                     lblLeftPlayerScore.setText(String.valueOf(score + 1));
@@ -165,7 +164,9 @@ public class XoGameController implements Initializable, XOGame.Listener {
 
             cellGrid.setDisable(false);
         }
-    }    
+    } 
+    
+    
     
     private enum GameMode {
         localWithComputer, localWithFriend;
