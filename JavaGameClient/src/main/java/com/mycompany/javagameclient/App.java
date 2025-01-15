@@ -49,7 +49,9 @@ public class App extends Application {
         String[] fontFileNames = new String[]{
             "Borel-Regular.ttf",
             "Brawler-Regular.ttf",
+            "Brawler-Bold.ttf",
             "Fredoka_Expanded-Regular.ttf",
+            "Fredoka-Bold.ttf",
             "OpenSans-Regular.ttf",
         };
         
