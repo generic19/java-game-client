@@ -53,7 +53,9 @@ public class XoGameController implements Initializable, XOGame.Listener {
         game = new XOGame();
         
         initializeGame();
+        
     }
+    
     
     public void initializeGameForLocalWithComputer(GameAgent agent) {
         gameMode = GameMode.localWithComputer;
@@ -136,14 +138,34 @@ public class XoGameController implements Initializable, XOGame.Listener {
             }
         }
         
-        String nextPlayerName = gameState.getNextTurnPlayer() == Player.one
-            ? firstPlayerName
-            : secondPlayerName;
-        
-        lblHeader.setText(nextPlayerName + "'s turn...");
-        
-        cellGrid.setDisable(false);
-    }
+        if (gameState.isEndState()) {
+            cellGrid.setDisable(true); 
+
+            Player winner = gameState.getWinner();
+            if (winner != null) {
+                String winnerName = (winner == Player.one) ? firstPlayerName : secondPlayerName;
+                lblHeader.setText(winnerName + " wins!");
+
+                if (winner == Player.one) {
+                    int score = Integer.parseInt(lblLeftPlayerScore.getText());
+                    lblLeftPlayerScore.setText(String.valueOf(score + 1));
+                } else {
+                    int score = Integer.parseInt(lblRightPlayerScore.getText());
+                    lblRightPlayerScore.setText(String.valueOf(score + 1));
+                }
+            } else {
+                lblHeader.setText("It's a draw!");
+            }
+        } else {
+           
+            String nextPlayerName = gameState.getNextTurnPlayer() == Player.one
+                ? firstPlayerName
+                : secondPlayerName;
+            lblHeader.setText(nextPlayerName + "'s turn...");
+
+            cellGrid.setDisable(false);
+        }
+    }    
     
     private enum GameMode {
         localWithComputer, localWithFriend;

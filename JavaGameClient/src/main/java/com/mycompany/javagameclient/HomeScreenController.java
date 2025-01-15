@@ -39,7 +39,6 @@ public class HomeScreenController {
         App.switchToFXML("LevelScreen");
     }
 
-    @FXML
     void initialize() {
 
     }
