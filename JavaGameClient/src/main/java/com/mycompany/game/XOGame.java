@@ -37,7 +37,7 @@ public class XOGame implements Game<XOGameMove, XOGameState>{
             }
             Player nextTurnPlayer = currentState.getNextTurnPlayer();
             GameAgent agent = gameAgents[nextTurnPlayer.ordinal()];
-            if(agent != null){
+            if(agent != null&&!currentState.isEndState()){
                 play((XOGameMove) agent.getNextMove(currentState));
             }
         }else{
@@ -65,4 +65,14 @@ public class XOGame implements Game<XOGameMove, XOGameState>{
         listeners.remove(listener);
     }
     
+    public void resetGame(){
+    
+    this.currentState = new XOGameState(); 
+    for(Listener listener: listeners){
+                listener.onStateChange(currentState);
+    }
 }
+    
+    
+    }
+     

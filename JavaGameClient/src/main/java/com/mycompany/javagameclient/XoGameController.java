@@ -7,12 +7,16 @@ package com.mycompany.javagameclient;
 import com.mycompany.game.*;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -115,6 +119,7 @@ public class XoGameController implements Initializable, XOGame.Listener {
     @Override
     public void onStateChange(GameState state) {
         XOGameState gameState = (XOGameState) state;
+       XOGameState newGameState;
         char[] board = gameState.getBoard();
         
         Image xImage = new Image(App.class.getResource("images/Neon X.png").toExternalForm());
@@ -137,25 +142,47 @@ public class XoGameController implements Initializable, XOGame.Listener {
                     break;
             }
         }
-        
+        String alertMsg = null;
         if (gameState.isEndState()) {
             cellGrid.setDisable(true); 
-
+            
             Player winner = gameState.getWinner();
+            
             if (winner != null) {
+                
                 String winnerName = (winner == Player.one) ? firstPlayerName : secondPlayerName;
                 lblHeader.setText(winnerName + " wins!");
-
+                 alertMsg=winnerName+"is the WINNER. What would you like to do?";
+                
                 if (winner == Player.one) {
                     int score = Integer.parseInt(lblLeftPlayerScore.getText());
                     lblLeftPlayerScore.setText(String.valueOf(score + 1));
+                  
                 } else {
                     int score = Integer.parseInt(lblRightPlayerScore.getText());
                     lblRightPlayerScore.setText(String.valueOf(score + 1));
                 }
+                
+                
             } else {
+                alertMsg="It's a draw!. What would you like to do?";
                 lblHeader.setText("It's a draw!");
             }
+             ButtonType goHomeButton = new ButtonType("Go Home");
+               ButtonType keepPlayingButton = new ButtonType("Keep Playing");
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, alertMsg + " ", goHomeButton, keepPlayingButton);
+                Optional<ButtonType> result = alert.showAndWait();
+                if(result.get()==goHomeButton){
+                    try {
+                        App.switchToFXML("HomeScreen");
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }else if(result.get()==keepPlayingButton){
+                    game.resetGame();
+                   
+                }
         } else {
            
             String nextPlayerName = gameState.getNextTurnPlayer() == Player.one

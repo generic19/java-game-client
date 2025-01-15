@@ -64,11 +64,13 @@ public class XOGameState implements GameState<XOGameMove> {
              @Override
              
              public XOGameMove next() {
-               int index =  it.next();
+    
+                     int index =  it.next();
                 return new XOGameMove(index, currentPlayer);
-             } 
+                 
+               
+             }
          } ;
-        
         
     }
 
@@ -154,5 +156,14 @@ public class XOGameState implements GameState<XOGameMove> {
     public XOGameMove getLastMove() {
         return lastMove;
     }
-    
+    public void resetBoard() {
+        validBoard= new Vector<> ();
+        for(int i=0;i<9;i++){
+        validBoard.add(i);}
+        board = new char[9]; 
+        currentPlayer = Player.one;
+        lastMove = null;
+
+}
+
 }
