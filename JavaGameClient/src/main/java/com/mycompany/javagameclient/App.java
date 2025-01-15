@@ -51,6 +51,7 @@ public class App extends Application {
             "Brawler-Regular.ttf",
             "Brawler-Bold.ttf",
             "Fredoka_Expanded-Regular.ttf",
+            "Fredoka_Expanded-Bold.ttf",
             "Fredoka-Bold.ttf",
             "OpenSans-Regular.ttf",
         };
