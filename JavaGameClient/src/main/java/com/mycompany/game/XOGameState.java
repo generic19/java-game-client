@@ -142,7 +142,7 @@ public class XOGameState implements GameState<XOGameMove> {
     public Player getWinner() throws IllegalStateException {
         if(isEndState()){
          if (isXWinner())
-             return Player.one; 
+            return Player.one; 
         else if (isOWinner())
             return Player.two ;
          return null ;

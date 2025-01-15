@@ -192,7 +192,9 @@ public class XoGameController implements Initializable, XOGame.Listener {
 
             cellGrid.setDisable(false);
         }
-    }    
+    } 
+    
+    
     
     private enum GameMode {
         localWithComputer, localWithFriend;
