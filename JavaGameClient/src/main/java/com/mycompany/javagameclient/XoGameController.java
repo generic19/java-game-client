@@ -152,7 +152,7 @@ public class XoGameController implements Initializable, XOGame.Listener {
                 
                 String winnerName = (winner == Player.one) ? firstPlayerName : secondPlayerName;
                 lblHeader.setText(winnerName + " wins!");
-                 alertMsg=winnerName+"is the WINNER. What would you like to do?";
+                 alertMsg=winnerName+" is the WINNER. What would you like to do?";
                 
                 if (winner == Player.one) {
                     int score = Integer.parseInt(lblLeftPlayerScore.getText());
