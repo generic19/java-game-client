@@ -54,6 +54,7 @@ public class App extends Application {
             "Fredoka_Expanded-Bold.ttf",
             "Fredoka-Bold.ttf",
             "OpenSans-Regular.ttf",
+            "Aldhabi-Regular.ttf",
         };
         
         for (String fontFileName : fontFileNames) {
