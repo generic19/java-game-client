@@ -41,6 +41,19 @@ public class XOGameState implements GameState<XOGameMove> {
         return board;
     }
 
+    public Player getCell(int row, int col) {
+        char play = board[row * 3 + col];
+        
+        switch (play) {
+            case 'X':
+                return Player.one;
+            case 'O':
+                return Player.two;
+            default:
+                return null;
+        }
+    }
+    
     @Override
     public Player getNextTurnPlayer() {
       return currentPlayer ;

@@ -14,15 +14,22 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.util.Pair;
 
 /**
  * FXML Controller class
@@ -116,10 +123,133 @@ public class XoGameController implements Initializable, XOGame.Listener {
         }
     }
     
+    private void updateWinningLine() {
+        int[] indices = getWinningLineCellIndices();
+        
+        if (indices == null) {
+            winningLine.setVisible(false);
+        } else {
+            int startRow = indices[0] / 3;
+            int startCol = indices[0] % 3;
+            int endRow = indices[1] / 3;
+            int endCol = indices[1] % 3;
+
+            Bounds startBounds = cellGrid.getCellBounds(startCol, startRow);
+            Bounds endBounds = cellGrid.getCellBounds(endCol, endRow);
+            
+            final int edgeOffset = 10;
+            
+            if (startRow == endRow) {
+                setWinningLinePosition(
+                    (int) startBounds.getMinX() + edgeOffset,
+                    (int) startBounds.getCenterY(),
+                    (int) endBounds.getMaxX() - edgeOffset,
+                    (int) endBounds.getCenterY()
+                );
+            } else if (startCol == endCol) {
+                setWinningLinePosition(
+                    (int) startBounds.getCenterX(),
+                    (int) startBounds.getMinY() + edgeOffset,
+                    (int) endBounds.getCenterX(),
+                    (int) endBounds.getMaxY() - edgeOffset
+                );
+            } else if (startRow == 0 && startCol == 0) {
+                setWinningLinePosition(
+                    (int) startBounds.getMinX() + edgeOffset,
+                    (int) startBounds.getMinY() + edgeOffset,
+                    (int) endBounds.getMaxX() - edgeOffset,
+                    (int) endBounds.getMaxY() - edgeOffset
+                );
+            } else {
+                setWinningLinePosition(
+                    (int) startBounds.getMaxX() - edgeOffset,
+                    (int) startBounds.getMinY() + edgeOffset,
+                    (int) endBounds.getMinX() + edgeOffset,
+                    (int) endBounds.getMaxY() - edgeOffset
+                );
+            }
+            
+            winningLine.setVisible(true);
+        }
+    }
+    
+    private void setWinningLinePosition(int x1, int y1, int x2, int y2) {   
+        winningLine.setStartX(x1);
+        winningLine.setEndX(x2);
+        winningLine.setStartY(y1);
+        winningLine.setEndY(y2);
+        
+        StackPane.setMargin(winningLine, new Insets(Math.min(y1, y2), 0, 0, Math.min(x1, x2)));
+    }
+    
+    private int[] getWinningLineCellIndices() {
+        XOGameState state = game.getState();
+        
+        // 0 1 2
+        // 3 4 5
+        // 6 7 8
+        
+        if (!state.isEndState() || state.getWinner() == null) {
+            return null;
+        }
+        
+        XOGameMove lastMove = state.getLastMove();
+        Player lastMovePlayer = lastMove.getPlayer();
+
+        int row = lastMove.getRow();
+        boolean isRow = true;
+
+        for (int i = 0; i < 3; i++) {
+            if (state.getCell(row, i) != lastMovePlayer) {
+                isRow = false;
+                break;
+            }
+        }
+
+        if (isRow) {
+            int startIndex = row * 3;
+            int endIndex = row * 3 + 2;
+
+            return new int[] {startIndex, endIndex};
+        }
+
+        int col = lastMove.getCol();
+        boolean isCol = true;
+
+        for (int i = 0; i < 3; i++) {
+            if (state.getCell(i, col) != lastMovePlayer) {
+                isCol = false;
+                break;
+            }
+        }
+
+        if (isCol) {
+            int startIndex = col;
+            int endIndex = 2 * 3 + col;
+
+            return new int[]{startIndex, endIndex};
+        }
+
+        // (0) 1  2
+        //  3  4  5
+        //  6  7 (8)
+        
+        /*
+            x o x
+            o x o
+            o x x
+        */
+
+        if (lastMovePlayer == state.getCell(0, 0) && lastMovePlayer == state.getCell(2, 2)) {
+            return new int[]{0, 8};
+        } else {
+            return new int[]{2, 6};
+        }
+    }
+    
     @Override
     public void onStateChange(GameState state) {
         XOGameState gameState = (XOGameState) state;
-       XOGameState newGameState;
         char[] board = gameState.getBoard();
         
         Image xImage = new Image(App.class.getResource("images/Neon X.png").toExternalForm());
@@ -127,7 +257,9 @@ public class XoGameController implements Initializable, XOGame.Listener {
         
         for (int index = 0; index < 9; index++) {
             ImageView cell = (ImageView) cellGrid.getChildren().get(index);
-
+            
+            cell.setEffect(null);
+            
             switch (board[index]) {
                 case 'X':
                     cell.setImage(xImage);
@@ -142,13 +274,27 @@ public class XoGameController implements Initializable, XOGame.Listener {
                     break;
             }
         }
+        
+        updateWinningLine();
+        
         String alertMsg = null;
+        
         if (gameState.isEndState()) {
             cellGrid.setDisable(true); 
             
             Player winner = gameState.getWinner();
             
             if (winner != null) {
+                XOGameMove lastMove = gameState.getLastMove();
+                
+                cellGrid.getChildren()
+                    .get(lastMove.getIndex())
+                    .setEffect(new DropShadow(
+                        20, 
+                        lastMove.getPlayer() == Player.one
+                            ? Color.MAGENTA
+                            : Color.CYAN
+                    ));
                 
                 String winnerName = (winner == Player.one) ? firstPlayerName : secondPlayerName;
                 lblHeader.setText(winnerName + " wins!");
