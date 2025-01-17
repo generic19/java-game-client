@@ -10,26 +10,26 @@ public class HardAgent implements GameAgent<GameMove, GameState<GameMove>> {
 
     @Override
     public GameMove getNextMove(GameState<GameMove> state) {
-        Player currentPlayer = state.getNextTurnPlayer(); // Assuming getNextTurnPlayer is correct
+        Player currentPlayer = state.getNextTurnPlayer();
         return minimax(state, currentPlayer, true).move;
     }
 
     private ScoreMove minimax(GameState<GameMove> state, Player player, boolean isMaximizing) {
-        // Check for terminal states
+     
         if (state.isEndState()) {
             if (state.getWinner() == player) {
-                return new ScoreMove(null, 10); // Winning state for player
+                return new ScoreMove(null, 10); 
             } else if (state.getWinner() == null) {
-                return new ScoreMove(null, 0); // Draw state
+                return new ScoreMove(null, 0);
             } else {
-                return new ScoreMove(null, -10); // Losing state for player
+                return new ScoreMove(null, -10); 
             }
         }
 
-        Iterator<GameMove> availableMoves = state.getValidMoves(); // Assuming valid moves are a List
+        Iterator<GameMove> availableMoves = state.getValidMoves(); 
         ScoreMove bestMove = isMaximizing ? new ScoreMove(null, Integer.MIN_VALUE) : new ScoreMove(null, Integer.MAX_VALUE);
 
-        // Iterate through all possible moves
+      
        for (Iterator<GameMove> iterator = availableMoves; iterator.hasNext(); ) {
     GameMove move = iterator.next();
     GameState<GameMove> simulatedState = simulateMove(state, move);
@@ -51,14 +51,16 @@ public class HardAgent implements GameAgent<GameMove, GameState<GameMove>> {
     }
 
     private GameState<GameMove> simulateMove(GameState<GameMove> state, GameMove move) {
-        GameState<GameMove> simulatedState = state.play(move); // Assuming play() simulates the move
+        GameState<GameMove> simulatedState = state.play(move); 
         return simulatedState;
     }
 
-    // Assuming ScoreMove class is defined as follows:
+    
     public static class ScoreMove {
         GameMove move;
         int score;
+        
+        
 
         public ScoreMove(GameMove move, int score) {
             this.move = move;
