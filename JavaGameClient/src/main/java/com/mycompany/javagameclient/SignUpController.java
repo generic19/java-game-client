@@ -71,6 +71,7 @@ public class SignUpController implements Initializable, AuthManager.Listener {
     @Override
     public void onAuthStateChange(boolean signedIn) {
         if(signedIn){
+            authManager.removeListener(this);
             App.getFXMLLoader("onlineDashboard");
         }
     }

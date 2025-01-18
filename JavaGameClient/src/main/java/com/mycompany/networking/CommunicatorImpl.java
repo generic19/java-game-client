@@ -9,8 +9,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.HashMap;
-//import java.util.logging.Level;
-//import java.util.logging.Logger;
 
 /**
  *
@@ -82,7 +80,6 @@ public class CommunicatorImpl implements Communicator {
                     if (listeners.containsKey(obj.getClass())) {
                         listeners.get(obj.getClass()).onMessage((Message) (obj), false);
                     }
-
                 } catch (IOException ex) {
                     close();
                     break;
