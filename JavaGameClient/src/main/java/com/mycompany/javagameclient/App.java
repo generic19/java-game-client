@@ -27,6 +27,13 @@ public class App extends Application {
         stage.setScene(scene);
         stage.show();
     }
+    
+    static void openWindow(String fxml) throws IOException{
+        Stage stage = new Stage();
+        stage.setScene(new Scene(loadFXML(fxml)));
+        stage.show();
+        
+    }
 
     static void switchToFXML(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));

@@ -5,23 +5,24 @@
 package com.mycompany.javagameclient;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.input.MouseEvent;
+import javafx.fxml.Initializable;
 
-public class HomeScreenController {
+public class HomeScreenController implements Initializable {
 
-
-    @FXML
-    void onLoginClicked(MouseEvent event) {
-
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        
     }
-
+    
+    
+    
     @FXML
-    void onPlayOnlineClicked(ActionEvent event) {
-
+    void onPlayOnlineClicked(ActionEvent event) throws IOException {
+        App.openWindow("Login");
     }
 
     @FXML
@@ -30,17 +31,8 @@ public class HomeScreenController {
     }
 
     @FXML
-    void onSignUpClicked(MouseEvent event) {
-
-    }
-
-    @FXML
     void onplayWithComputer(ActionEvent event) throws IOException {
         App.switchToFXML("LevelScreen");
-    }
-
-    void initialize() {
-
     }
 }
 

@@ -44,14 +44,6 @@
             <Font name="Brawler Regular" size="15.0" />
          </font>
       </Button>
-      <Label layoutX="201.0" layoutY="303.0" onMouseClicked="#onLoginClicked" text="LogIn" textFill="#f8f8f8" underline="true">
-         <effect>
-            <DropShadow color="#ffe2ff" />
-         </effect></Label>
-      <Label layoutX="296.0" layoutY="303.0" onMouseClicked="#onSignUpClicked" text="SignUp" textFill="#f5f5f5" underline="true">
-         <effect>
-            <DropShadow blurType="GAUSSIAN" color="#ffe2ff" />
-         </effect></Label>
       <Label layoutX="236.0" layoutY="99.0" text="Label">
          <font>
             <Font name="Franklin Gothic Medium" size="15.0" />
