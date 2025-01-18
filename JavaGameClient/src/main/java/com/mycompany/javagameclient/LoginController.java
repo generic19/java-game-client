@@ -9,11 +9,11 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.input.MouseEvent;
+
 /**
  * FXML Controller class
  *
@@ -23,11 +23,9 @@ public class LoginController implements Initializable {
 
 
     @FXML
-    private AnchorPane username;
+    private TextField username;
     @FXML
     private TextField password;
-    @FXML
-    private Label ForgetPasswordClick;
     @FXML
     private Button button;
     @FXML
@@ -44,4 +42,8 @@ public class LoginController implements Initializable {
     private void handleLogin(ActionEvent event) {
     }
 
+    @FXML
+    private void goToSignup(MouseEvent event) {
+        
+    }
 }
