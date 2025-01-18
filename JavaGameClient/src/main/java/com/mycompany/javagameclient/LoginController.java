@@ -4,6 +4,9 @@
  */
 package com.mycompany.javagameclient;
 
+import com.mycompany.networking.authentication.AuthManager;
+import com.mycompany.networking.authentication.AuthManagerImpl;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -19,7 +22,7 @@ import javafx.scene.input.MouseEvent;
  *
  * @author ayasa
  */
-public class LoginController implements Initializable {
+public class LoginController implements Initializable, AuthManager.Listener {
 
 
     @FXML
@@ -27,23 +30,68 @@ public class LoginController implements Initializable {
     @FXML
     private TextField password;
     @FXML
-    private Button button;
+    private Label signUpPage;
     @FXML
-    private Label SignUpPage;
+    private Button btnLogin;
+    
+    AuthManager authManager;
+    boolean isListenerAdded = false;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        authManager = new AuthManagerImpl();
         // TODO
+        validateInputFields();
     }    
     
     @FXML
     private void handleLogin(ActionEvent event) {
+        if(!isListenerAdded){
+            authManager.addListener(this);
+            isListenerAdded = true;
+        }
+        authManager.signIn(username.getText().trim(), password.getText().trim());
     }
 
     @FXML
-    private void goToSignup(MouseEvent event) {
+    private void goToSignup(MouseEvent event) throws IOException {
+        App.switchToFXML("SignUp");
+    }
+    
+    private void validateInputFields() {
+        username.textProperty().addListener((observable, oldValue, newValue)->{
+            if(observable.getValue().trim().isEmpty() 
+                    || password.getText().trim().isEmpty()){
+                btnLogin.setDisable(true);
+            }else{
+                btnLogin.setDisable(false);
+            }
+        });
+        password.textProperty().addListener((observable, oldValue, newValue)->{
+            if(observable.getValue().trim().isEmpty() 
+                    || username.getText().trim().isEmpty()){
+                btnLogin.setDisable(true);
+            }else{
+                btnLogin.setDisable(false);
+            }
+        });
         
     }
+
+    @Override
+    public void onAuthStateChange(boolean signedIn) {
+        if(signedIn){
+            authManager.removeListener(this);
+            App.getFXMLLoader("onlineDashboard");
+        }
+    }
+
+    @Override
+    public void onError(String errorMsg) {
+        // TODO : show warning alert msg 
+        System.out.println("Error: " + errorMsg);
+    }
+
 }

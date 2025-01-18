@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane"  prefHeight="625.0" prefWidth="368.0" style="-fx-background-color: #301F3C;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javagameclient.LoginController">
+<AnchorPane id="AnchorPane" prefHeight="625.0" prefWidth="368.0" style="-fx-background-color: #301F3C;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javagameclient.LoginController">
    <children>
       <Label layoutX="131.0" prefHeight="106.0" prefWidth="141.0" text="Log in" textFill="WHITE">
          <font>
@@ -54,7 +54,7 @@
             <DropShadow color="#ff1ac2" spread="0.41" />
          </effect>
       </Label>
-      <Button fx:id="button" layoutX="122.0" layoutY="381.0" mnemonicParsing="false" onAction="#handleLogin" prefHeight="63.0" prefWidth="119.0" style="-fx-background-color: none; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 60;">
+      <Button fx:id="btnLogin" disable="true" layoutX="122.0" layoutY="381.0" mnemonicParsing="false" onAction="#handleLogin" prefHeight="63.0" prefWidth="119.0" style="-fx-background-color: none; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 60;">
          <effect>
             <DropShadow color="#00ccff" spread="0.5" />
          </effect>
@@ -67,7 +67,7 @@
             <DropShadow color="#00e5ff" spread="0.41" />
          </effect>
       </Label>
-      <Label fx:id="SignUpPage" layoutX="237.0" layoutY="499.0" onMouseClicked="#goToSignup" prefHeight="72.0" prefWidth="70.0" text=" Sign up" textFill="WHITE">
+      <Label fx:id="signUpPage" layoutX="237.0" layoutY="499.0" onMouseClicked="#goToSignup" prefHeight="72.0" prefWidth="70.0" text=" Sign up" textFill="WHITE">
          <font>
             <Font name="Aldhabi" size="30.0" />
          </font>

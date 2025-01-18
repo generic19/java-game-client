@@ -17,42 +17,26 @@ import java.util.HashMap;
  * @author ayasa
  */
 public class CommunicatorImpl implements Communicator {
-    HashMap<Class,Listener> listeners=new HashMap<>();
+
+    HashMap<Class, Listener> listeners = new HashMap<>();
+    Socket socket;
     ObjectInputStream inputStream;
     ObjectOutputStream outputStream;
     Thread thread;
-    
-    public CommunicatorImpl(Socket socket) throws IOException {
-        inputStream =new ObjectInputStream(socket.getInputStream());
-        outputStream=new ObjectOutputStream(socket.getOutputStream());
-        thread=new Thread(()->{
-            while(true){
-                try {
-                    Object obj=inputStream.readObject();
-                    if(listeners.containsKey(obj.getClass())){
-                       listeners.get(obj.getClass()).onMessage((Message)(obj), false);
-                   }
-               
-                } catch (IOException ex) {
-                     close();
-                      break;
-                } catch (ClassNotFoundException ex) {
-                    ex.printStackTrace();
-                
-                }
-                  
-               
-                
-            }
-        });
-        thread.start();
+
+    public CommunicatorImpl() {
+        try {
+            initConnection();
+            listenToServer();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
- 
-    
+
     @Override
     public void setListener(Class type, Listener listener) {
         listeners.put(type, listener);
-        
+
     }
 
     @Override
@@ -71,17 +55,43 @@ public class CommunicatorImpl implements Communicator {
 
     @Override
     public void close() {
-        for(Listener listener :listeners.values()){
-                       listener.onMessage(null, true);
-                       
-                   }
-                   listeners.clear();
-                    try {
-                        inputStream.close();
-                    } catch (IOException ex1) {
-                        System.out.println("already closed");
-                    }
-                    thread.stop();
+        for (Listener listener : listeners.values()) {
+            listener.onMessage(null, true);
+
+        }
+        listeners.clear();
+        try {
+            inputStream.close();
+        } catch (IOException ex1) {
+            System.out.println("already closed");
+        }
+        thread.stop();
     }
-    
+
+    private void initConnection() throws IOException {
+        socket = new Socket("127.0.0.1", 5555);
+        inputStream = new ObjectInputStream(socket.getInputStream());
+        outputStream = new ObjectOutputStream(socket.getOutputStream());
+    }
+
+    private void listenToServer() {
+        thread = new Thread(() -> {
+            while (true) {
+                try {
+                    Object obj = inputStream.readObject();
+                    if (listeners.containsKey(obj.getClass())) {
+                        listeners.get(obj.getClass()).onMessage((Message) (obj), false);
+                    }
+
+                } catch (IOException ex) {
+                    close();
+                    break;
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+    }
+
 }

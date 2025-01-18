@@ -18,8 +18,6 @@ public interface Communicator {
 
     
     interface Listener <M extends Message>{
-        
-                void onMessage(M message,boolean hasError);
-        
+        void onMessage(M message,boolean hasError);
     }
 }

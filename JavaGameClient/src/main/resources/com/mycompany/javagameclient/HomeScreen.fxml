@@ -44,11 +44,6 @@
             <Font name="Brawler Regular" size="15.0" />
          </font>
       </Button>
-      <Label layoutX="236.0" layoutY="99.0" text="Label">
-         <font>
-            <Font name="Franklin Gothic Medium" size="15.0" />
-         </font>
-      </Label>
       <Button layoutX="165.0" layoutY="209.0" mnemonicParsing="false" onAction="#onplayWithComputer" prefHeight="37.0" prefWidth="232.0" style="-fx-background-color: none; -fx-border-radius: 25; -fx-border-width: 3; -fx-border-color: FFE2FF;" text="Play With Computer" textFill="WHITE">
          <effect>
             <DropShadow blurType="GAUSSIAN" color="#ffe2ff" />

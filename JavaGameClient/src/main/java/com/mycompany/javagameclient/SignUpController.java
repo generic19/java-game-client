@@ -4,6 +4,8 @@
  */
 package com.mycompany.javagameclient;
 
+import com.mycompany.networking.authentication.AuthManager;
+import com.mycompany.networking.authentication.AuthManagerImpl;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -19,7 +21,7 @@ import javafx.scene.input.MouseEvent;
  *
  * @author ayasa
  */
-public class SignUpController implements Initializable {
+public class SignUpController implements Initializable, AuthManager.Listener {
 
 
     @FXML
@@ -27,25 +29,85 @@ public class SignUpController implements Initializable {
     @FXML
     private TextField password;
     @FXML
-    private TextField confirmpassword;
-    @FXML
-    private Button SignUp;
+    private TextField confirmPassword;
     @FXML
     private Label LoginPage;
+    @FXML
+    private Button signUp;
+    
+    AuthManager authManager;
+    boolean isListenerAdded = false;
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        // TODO : TBR
+        authManager = new AuthManagerImpl();
+        // TODO: decide the init will be here or in constructor
+        validateInputFields();
+        
     }    
     
     @FXML
     private void handleSignUp(ActionEvent event) {
+        if(!password.getText().equals(confirmPassword.getText())){
+            // TODO : show error alert msg 
+            System.out.println("Error: password and confirm password is not tha same");
+        } else {
+            if(!isListenerAdded){
+                authManager.addListener(this);
+                isListenerAdded = true;
+            }
+            authManager.register(username.getText().trim(), password.getText().trim());
+        }
     }
 
     @FXML
     private void goToLoginPage(MouseEvent event) {
     }
 
+    @Override
+    public void onAuthStateChange(boolean signedIn) {
+        if(signedIn){
+            App.getFXMLLoader("onlineDashboard");
+        }
+    }
+
+    @Override
+    public void onError(String errorMsg) {
+        // TODO : show warning alert msg 
+        System.out.println("Error: " + errorMsg);
+    }
+
+    private void validateInputFields() {
+        username.textProperty().addListener((observable, oldValue, newValue)->{
+            if(observable.getValue().trim().isEmpty() 
+                    || password.getText().trim().isEmpty()
+                    || confirmPassword.getText().trim().isEmpty()){
+                signUp.setDisable(true);
+            }else{
+                signUp.setDisable(false);
+            }
+        });
+        password.textProperty().addListener((observable, oldValue, newValue)->{
+            if(observable.getValue().trim().isEmpty() 
+                    || username.getText().trim().isEmpty()
+                    || confirmPassword.getText().trim().isEmpty()){
+                signUp.setDisable(true);
+            }else{
+                signUp.setDisable(false);
+            }
+        });
+        confirmPassword.textProperty().addListener((observable, oldValue, newValue)->{
+            if(observable.getValue().trim().isEmpty() 
+                    || password.getText().trim().isEmpty()
+                    || username.getText().trim().isEmpty()){
+                signUp.setDisable(true);
+            }else{
+                signUp.setDisable(false);
+            }
+        });
+    }
 }
