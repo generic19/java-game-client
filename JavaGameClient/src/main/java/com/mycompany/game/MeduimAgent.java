@@ -22,8 +22,6 @@ public class MeduimAgent implements GameAgent<GameMove, GameState<GameMove>> {
 
         for (GameMove move : availableMoves) {
             GameState<GameMove> simulatedState = state.play(move);
-
-           
             int score = evaluateState(simulatedState) + evaluateFutureOptions(simulatedState);
 
             if (score > bestScore) {
