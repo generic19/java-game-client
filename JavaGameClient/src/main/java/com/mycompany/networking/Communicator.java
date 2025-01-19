@@ -9,17 +9,12 @@ package com.mycompany.networking;
  * @author ayasa
  */
 public interface Communicator {
-    
     void setListener(Class type,Listener listener);
     void unsetListener(Class type,Listener listener);
     void sendMessage(Message message);
     void close();
     
-
-    
-    interface Listener <M extends Message>{
-        
-                void onMessage(M message,boolean hasError);
-        
+    interface Listener <M extends Message> {
+        void onMessage(M message,boolean hasError);   
     }
 }
