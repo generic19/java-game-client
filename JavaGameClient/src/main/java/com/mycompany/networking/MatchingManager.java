@@ -93,7 +93,7 @@ public class MatchingManager {
     
     public void invite(OnlinePlayer player)
     {
-         communicator.setListener(InviteResponse.class, (InviteResponse msg, boolean hasError)->{
+        Communicator.Listener<InviteResponse> commListener = (InviteResponse msg, boolean hasError)->{
             if(listener!=null){
              if(hasError==false){
                 
@@ -103,7 +103,8 @@ public class MatchingManager {
              listener.onErrorMessage("error inviting user");
              }
             }
-        });
+        };
+        communicator.setListener(InviteResponse.class, commListener);
         communicator.sendMessage( new InviteRequest(player.getUsername()));
     }
      public void acceptInvite(OnlinePlayer player)

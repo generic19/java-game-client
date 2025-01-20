@@ -15,6 +15,6 @@ public interface Communicator {
     void close();
     
     interface Listener <M extends Message> {
-        void onMessage(M message,boolean hasError);   
+        void onMessage(M message, boolean hasError);   
     }
 }
