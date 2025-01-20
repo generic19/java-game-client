@@ -9,17 +9,14 @@ import com.mycompany.game.GameMove;
  *
  * @author AhmedAli
  */
-public class GameMoveMessage implements GameMessage{
-    
-    private GameMove move;
+public class GameMoveMessage<M extends GameMove> implements GameMessage {
+    private final M move;
 
-    public GameMoveMessage(GameMove move) {
+    public GameMoveMessage(M move) {
         this.move = move;
     }
 
-    public GameMove getMove() {
+    public M getMove() {
         return move;
-    }
-    
-    
+    } 
 }
