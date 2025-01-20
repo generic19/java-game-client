@@ -27,7 +27,7 @@
             <DropShadow color="#ff1ac2" height="52.1" radius="27.105" spread="0.41" width="58.32" />
          </effect>
       </TextField>
-      <TextField fx:id="confirmpassword" layoutX="38.0" layoutY="360.0" prefHeight="55.0" prefWidth="305.0" style="-fx-background-color: none; -fx-border-color: FFFF; -fx-border-width: 3; -fx-border-radius: 60;">
+      <TextField fx:id="confirmPassword" layoutX="38.0" layoutY="360.0" prefHeight="55.0" prefWidth="305.0" style="-fx-background-color: none; -fx-border-color: FFFF; -fx-border-width: 3; -fx-border-radius: 60;">
          <effect>
             <DropShadow color="#ff1ac2" height="52.1" radius="27.105" spread="0.41" width="58.32" />
          </effect>
@@ -64,11 +64,6 @@
             <DropShadow color="#ff1ac2" spread="0.41" />
          </effect>
       </Label>
-      <Button fx:id="SignUp" layoutX="132.0" layoutY="453.0" mnemonicParsing="false" onAction="#handleSignUp" prefHeight="63.0" prefWidth="119.0" style="-fx-background-color: none; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 60;">
-         <effect>
-            <DropShadow color="#00ccff" spread="0.5" />
-         </effect>
-      </Button>
       <Label layoutX="142.0" layoutY="432.0" prefHeight="106.0" prefWidth="100.0" text=" Sign up" textFill="WHITE">
          <font>
             <Font name="Aldhabi" size="43.0" />
@@ -77,6 +72,11 @@
             <DropShadow color="#00e5ff" spread="0.41" />
          </effect>
       </Label>
+      <Button fx:id="signUp" disable="true" layoutX="132.0" layoutY="453.0" mnemonicParsing="false" onAction="#handleSignUp" prefHeight="63.0" prefWidth="119.0" style="-fx-background-color: none; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 60;">
+         <effect>
+            <DropShadow color="#00ccff" spread="0.5" />
+         </effect>
+      </Button>
       <Label fx:id="LoginPage" layoutX="275.0" layoutY="530.0" onMouseClicked="#goToLoginPage" prefHeight="72.0" prefWidth="64.0" text="Log in" textFill="WHITE">
          <font>
             <Font name="Aldhabi" size="30.0" />

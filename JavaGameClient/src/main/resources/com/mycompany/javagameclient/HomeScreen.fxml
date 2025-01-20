@@ -29,12 +29,31 @@
             <Image url="@images/homeScreenBoard.png" />
          </image>
       </ImageView>
-      <Label layoutX="236.0" layoutY="99.0" text="Label">
+      <Button layoutX="165.0" layoutY="163.0" mnemonicParsing="false" onAction="#onPlayOnlineClicked" prefHeight="37.0" prefWidth="232.0" style="-fx-background-color: none; -fx-font: brawler; -fx-border-radius: 25; -fx-border-width: 3; -fx-border-color: FFE2FF;" text="Play Online" textFill="WHITE">
+         <effect>
+            <DropShadow blurType="GAUSSIAN" color="#ffe2ff" />
+         </effect>
          <font>
-            <Font name="Franklin Gothic Medium" size="15.0" />
+            <Font name="Brawler Regular" size="15.0" />
          </font>
-      </Label>
-      <Label layoutX="153.0" layoutY="83.0" text="tic.tac.toe" textFill="#f8f8f8">
+      </Button>
+      <Button layoutX="163.0" layoutY="257.0" mnemonicParsing="false" onAction="#onPlayWithFriend" prefHeight="37.0" prefWidth="232.0" style="-fx-background-color: none; -fx-border-radius: 25; -fx-border-width: 3; -fx-border-color: FFE2FF;" text="Play With Friend" textFill="WHITE">
+         <effect>
+            <DropShadow blurType="GAUSSIAN" color="#ffe2ff" />
+         </effect>
+         <font>
+            <Font name="Brawler Regular" size="15.0" />
+         </font>
+      </Button>
+      <Button layoutX="165.0" layoutY="209.0" mnemonicParsing="false" onAction="#onplayWithComputer" prefHeight="37.0" prefWidth="232.0" style="-fx-background-color: none; -fx-border-radius: 25; -fx-border-width: 3; -fx-border-color: FFE2FF;" text="Play With Computer" textFill="WHITE">
+         <effect>
+            <DropShadow blurType="GAUSSIAN" color="#ffe2ff" />
+         </effect>
+         <font>
+            <Font name="Brawler Regular" size="15.0" />
+         </font>
+      </Button>
+      <Label layoutX="149.0" layoutY="83.0" text="tic.tac.toe" textFill="#f8f8f8">
          <font>
             <Font name="Fredoka Expanded Bold" size="41.0" />
          </font>
