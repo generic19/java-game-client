@@ -9,6 +9,15 @@ package com.mycompany.networking.matching;
  * @author AhmedAli
  */
 public class InviteResponse implements MatchingMessage {
+    private Result result ;
+
+    public InviteResponse(Result result) {
+        this.result = result;
+    }
+
+    public Result getResult() {
+        return result;
+    }
     
     public enum Result{
         ACCEPTED, REJECTED, TIMEOUT;

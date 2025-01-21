@@ -4,6 +4,7 @@
  */
 package com.mycompany.javagameclient;
 
+import com.mycompany.networking.MatchingManager;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -18,7 +19,7 @@ import javafx.scene.layout.VBox;
  *
  * @author AhmedAli
  */
-public class OnlineDashboardController implements Initializable {
+public class OnlineDashboardController implements Initializable  {
 
 
     @FXML
@@ -46,5 +47,9 @@ public class OnlineDashboardController implements Initializable {
     @FXML
     private void onLogoutClicked(ActionEvent event) {
     }
+
+    
+    
+ 
 
 }

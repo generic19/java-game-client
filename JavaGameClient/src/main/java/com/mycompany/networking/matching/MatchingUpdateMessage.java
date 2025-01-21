@@ -4,7 +4,7 @@
  */
 package com.mycompany.networking.matching;
 
-import com.mycompany.networking.Message;
+import com.mycompany.networking.OnlinePlayer;
 
 /**
  * A class representing a matching update message.
@@ -12,7 +12,7 @@ import com.mycompany.networking.Message;
  */
 public class MatchingUpdateMessage implements MatchingMessage {
 
-    private String username;
+    private OnlinePlayer player;
     private UpdateType updateType;
     private Target target;
 
@@ -26,9 +26,21 @@ public class MatchingUpdateMessage implements MatchingMessage {
         AVAILABLE, IN_GAME
     }
 
+    public OnlinePlayer getPlayer() {
+        return player;
+    }
+
+    public UpdateType getUpdateType() {
+        return updateType;
+    }
+
+    public Target getTarget() {
+        return target;
+    }
+
    
-    public MatchingUpdateMessage(String username, UpdateType updateType, Target target) {
-        this.username = username;
+    public MatchingUpdateMessage(OnlinePlayer player, UpdateType updateType, Target target) {
+        this.player = player;
         this.updateType = updateType;
         this.target = target;
     }

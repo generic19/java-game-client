@@ -4,6 +4,7 @@
  */
 package com.mycompany.networking.matching;
 
+import com.mycompany.networking.OnlinePlayer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,19 +14,19 @@ import java.util.List;
  * @author basel
  */
 public class MatchingInitialStateMessage implements MatchingMessage {
-    private final ArrayList<String> available;
-    private final ArrayList<String> inGame;
+    private final ArrayList<OnlinePlayer> available;
+    private final ArrayList<OnlinePlayer> inGame;
 
-    public MatchingInitialStateMessage(ArrayList<String> available, ArrayList<String> inGame) {
+    public MatchingInitialStateMessage(ArrayList<OnlinePlayer> available, ArrayList<OnlinePlayer> inGame) {
         this.available = available;
         this.inGame = inGame;
     }
 
-    public List<String> getAvailable() {
+    public List<OnlinePlayer> getAvailable() {
         return Collections.unmodifiableList(available);
     }
 
-    public List<String> getInGame() {
+    public List<OnlinePlayer> getInGame() {
         return Collections.unmodifiableList(inGame);
     }    
 }

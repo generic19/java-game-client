@@ -17,16 +17,16 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="695.0" style="-fx-background-color: linear-gradient(from 0% -10% to 10% 100%, #1D1E2D, #44234D);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javagameclient.XoGameController">
+<VBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="764.0" style="-fx-background-color: linear-gradient(from 0% -10% to 10% 100%, #1D1E2D, #44234D);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javagameclient.XoGameController">
    <children>
-      <HBox alignment="BOTTOM_CENTER" prefHeight="100.0">
+      <HBox alignment="CENTER" prefHeight="100.0" VBox.vgrow="ALWAYS">
          <children>
             <Label fx:id="lblHeader" text="Player 1's turn..." textAlignment="CENTER" textFill="WHITE">
                <font>
-                  <Font name="Open Sans Regular" size="24.0" />
+                  <Font name="Brawler Regular" size="24.0" />
                </font>
                <HBox.margin>
-                  <Insets bottom="10.0" />
+                  <Insets />
                </HBox.margin>
                <effect>
                   <DropShadow height="15.0" radius="7.0" width="15.0">
@@ -38,7 +38,7 @@
             </Label>
          </children>
       </HBox>
-      <GridPane prefHeight="250.0" VBox.vgrow="ALWAYS">
+      <GridPane fx:id="horizontalGrid" prefHeight="250.0" VBox.vgrow="ALWAYS">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -50,9 +50,9 @@
          <children>
             <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <ImageView fitHeight="100.0" fitWidth="100.0">
+                  <ImageView fitHeight="110.0" fitWidth="110.0" preserveRatio="true">
                      <image>
-                        <Image url="@images/Neon%20X.png" />
+                        <Image url="@images/Neon%20X%20Large.png" />
                      </image>
                   </ImageView>
                   <Label fx:id="lblLeftPlayer" alignment="CENTER" contentDisplay="TEXT_ONLY" graphicTextGap="0.0" text="Player 1" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
@@ -89,9 +89,9 @@
             </VBox>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                <children>
-                  <ImageView fitHeight="100.0" fitWidth="100.0">
+                  <ImageView fitHeight="110.0" fitWidth="110.0" preserveRatio="true">
                      <image>
-                        <Image url="@images/Neon%20O.png" />
+                        <Image url="@images/Neon%20O%20Large.png" />
                      </image>
                   </ImageView>
                   <Label fx:id="lblRightPlayer" text="Player 2" textFill="WHITE">
@@ -203,9 +203,9 @@
             <Insets />
          </VBox.margin>
       </GridPane>
-      <AnchorPane prefHeight="100.0">
+      <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" VBox.vgrow="ALWAYS">
          <children>
-            <Button mnemonicParsing="false" onAction="#onLeave" style="-fx-background-color: none; -fx-border-color: FFE2FF; -fx-border-radius: 50; -fx-border-width: 2;" text="Leave" textFill="WHITE" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0">
+            <Button fx:id="btnLeave" mnemonicParsing="false" onAction="#onLeave" style="-fx-background-color: none; -fx-border-color: FFE2FF; -fx-border-radius: 50; -fx-border-width: 2;" text="Leave" textFill="WHITE">
                <graphic>
                   <ImageView fitHeight="13.0" preserveRatio="true">
                      <image>
@@ -226,8 +226,14 @@
                      </color>
                   </DropShadow>
                </effect>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
             </Button>
          </children>
-      </AnchorPane>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </HBox>
    </children>
 </VBox>

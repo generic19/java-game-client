@@ -9,35 +9,27 @@ import com.mycompany.networking.Message;
 
 public class GameEndMessage implements GameMessage {
 
-    private boolean isWinner;
-    private boolean isLoser;
+    private boolean winner;
+    private boolean loser;
     private int score;
 
  
     public GameEndMessage(boolean isWinner, boolean isLoser, int score) {
-        this.isWinner = isWinner;
-        this.isLoser = isLoser;
+        this.winner = isWinner;
+        this.loser = isLoser;
         this.score = score;
     }
 
-   
-    public boolean getWinner() {
-        return isWinner;
+    public boolean isWinner() {
+        return winner;
     }
 
-   
-
-    public boolean getLoser() {
-        return isLoser;
+    public boolean isLoser() {
+        return loser;
     }
-
-   
 
     public int getScore() {
         return score;
     }
-
-   
-
 }
 
