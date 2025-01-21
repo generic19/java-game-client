@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 
 import javafx.event.ActionEvent;
@@ -50,7 +51,14 @@ public class XoGameController implements Initializable, XOGame.Listener {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        DoubleBinding scaleFactor = root.widthProperty().divide(1500).add(0.8);
+        DoubleBinding scaleFactor = Bindings.createDoubleBinding(
+            () -> {
+                double side = Math.min(root.getWidth(), root.getHeight());
+                return side / 500 + 0.33;
+            },
+            root.widthProperty(),
+            root.heightProperty()
+        );
         
         lblHeader.scaleXProperty().bind(scaleFactor);
         lblHeader.scaleYProperty().bind(scaleFactor);

@@ -7,6 +7,7 @@ package com.mycompany.javagameclient;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.binding.DoubleBinding;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,13 +28,15 @@ public class HomeScreenController implements Initializable {
                 new Image(App.class.getResource("images/GameBackGround.png").toExternalForm()),
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.DEFAULT,
+                BackgroundPosition.CENTER,
                 new BackgroundSize(1, 1, true, true, false, true)
             )
         ));
         
-        innerBox.scaleXProperty().bind(root.widthProperty().divide(2500).add(1));
-        innerBox.scaleYProperty().bind(root.widthProperty().divide(2500).add(1));
+        DoubleBinding scaleFactor = root.heightProperty().divide(1000).add(0.65);
+        
+        innerBox.scaleXProperty().bind(scaleFactor);
+        innerBox.scaleYProperty().bind(scaleFactor);
     }
     
     @FXML

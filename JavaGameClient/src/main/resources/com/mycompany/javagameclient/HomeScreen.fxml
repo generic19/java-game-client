@@ -9,7 +9,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="root" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javagameclient.HomeScreenController">
+<StackPane fx:id="root" prefHeight="412.0" prefWidth="656.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javagameclient.HomeScreenController">
    <children>
       <VBox alignment="CENTER" fillWidth="false" StackPane.alignment="CENTER">
          <children>
@@ -68,7 +68,7 @@
                   </VBox>
                </children>
                <padding>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                  <Insets bottom="25.0" left="20.0" right="20.0" top="25.0" />
                </padding>
                <effect>
                   <DropShadow blurType="GAUSSIAN" height="32.0" radius="15.5" width="32.0">
