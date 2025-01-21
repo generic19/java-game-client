@@ -4,6 +4,7 @@
  */
 package com.mycompany.javagameclient;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -13,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -39,11 +41,14 @@ public class LoginController implements Initializable {
     }    
     
     @FXML
-    private void handleLogin(ActionEvent event) {
+    private void handleLogin(ActionEvent event) throws IOException {
+        
     }
 
     @FXML
-    private void goToSignup(MouseEvent event) {
-        
+    private void goToSignup(MouseEvent event) throws IOException  {
+        Stage stage=(Stage) SignUpPage.getScene().getWindow();
+        stage.close();
+        App.openWindow("SignUp");
     }
 }

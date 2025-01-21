@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
 
 /**
  * JavaFX App
@@ -29,10 +30,14 @@ public class App extends Application {
     }
     
     static void openWindow(String fxml) throws IOException{
-        Stage stage = new Stage();
-        stage.setScene(new Scene(loadFXML(fxml)));
-        stage.show();
-        
+
+    FXMLLoader loader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+    Parent root = loader.load();
+
+    Stage stage = new Stage();
+    stage.setScene(new Scene(root));
+    stage.setResizable(false); 
+    stage.show();
     }
 
     static void switchToFXML(String fxml) throws IOException {
@@ -69,6 +74,9 @@ public class App extends Application {
                 throw new RuntimeException("Could not load font " + fontFileName + ".");
             }
         }
+        
+  
+
     }
 
     public static void main(String[] args) {

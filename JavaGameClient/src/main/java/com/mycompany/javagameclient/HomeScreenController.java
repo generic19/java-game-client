@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.stage.Stage;
 
 public class HomeScreenController implements Initializable {
 
@@ -23,6 +24,8 @@ public class HomeScreenController implements Initializable {
     @FXML
     void onPlayOnlineClicked(ActionEvent event) throws IOException {
         App.openWindow("Login");
+        
+         
     }
 
     @FXML

@@ -2,16 +2,24 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane"  prefHeight="625.0" prefWidth="368.0" style="-fx-background-color: #301F3C;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javagameclient.LoginController">
+<AnchorPane id="AnchorPane" prefHeight="616.0" prefWidth="347.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javagameclient.LoginController">
    <children>
-      <Label layoutX="131.0" prefHeight="106.0" prefWidth="141.0" text="Log in" textFill="WHITE">
+      <ImageView fitHeight="620.0" fitWidth="385.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/logInBackGround.png" />
+         </image>
+      </ImageView>
+      <Label alignment="CENTER" layoutX="78.0" prefHeight="112.0" prefWidth="210.0" text="Log in" textFill="WHITE">
          <font>
-            <Font name="Aldhabi" size="61.0" />
+            <Font name="Borel Regular" size="40.0" />
          </font>
          <effect>
             <DropShadow blurType="GAUSSIAN" color="#00e5ff" height="0.0" radius="0.08499999999999996" spread="0.72" width="2.34">
@@ -20,56 +28,57 @@
                </input></DropShadow>
          </effect>
       </Label>
-      <TextField fx:id="username" layoutX="38.0" layoutY="146.0" prefHeight="55.0" prefWidth="305.0" style="-fx-background-color: none; -fx-border-color: FFFF; -fx-border-width: 3; -fx-border-radius: 60;">
+      <TextField fx:id="username" layoutX="38.0" layoutY="146.0" prefHeight="55.0" prefWidth="305.0" style="-fx-background-color: none; -fx-border-color: FFFF; -fx-border-width: 3; -fx-border-radius: 60; -fx-text-fill: white;">
          <effect>
             <DropShadow color="#ff1ac2" height="52.1" radius="27.105" spread="0.41" width="58.32" />
          </effect>
-      </TextField>
-      <TextField fx:id="password" layoutX="38.0" layoutY="266.0" prefHeight="55.0" prefWidth="305.0" style="-fx-background-color: none; -fx-border-color: FFFF; -fx-border-width: 3; -fx-border-radius: 60;">
-         <effect>
-            <DropShadow color="#ff1ac2" height="52.1" radius="27.105" spread="0.41" width="58.32" />
-         </effect>
-      </TextField>
-      <Label layoutX="46.0" layoutY="99.0" prefHeight="21.0" prefWidth="119.0" text="Username" textFill="WHITE">
          <font>
-            <Font name="Aldhabi" size="35.0" />
+            <Font name="Brawler Regular" size="16.0" />
+         </font>
+      </TextField>
+      <PasswordField fx:id="password" layoutX="38.0" layoutY="266.0" prefHeight="55.0" prefWidth="305.0" style="-fx-background-color: none; -fx-border-color: FFFF; -fx-border-width: 3; -fx-border-radius: 60; -fx-text-fill: white;">
+         <effect>
+            <DropShadow color="#ff1ac2" height="52.1" radius="27.105" spread="0.41" width="58.32" />
+         </effect>
+         <font>
+            <Font name="Brawler Regular" size="14.0" />
+         </font>
+      </PasswordField>
+      <Label layoutX="64.0" layoutY="93.0" prefHeight="68.0" prefWidth="176.0" text="Username" textFill="WHITE">
+         <font>
+            <Font name="Borel Regular" size="20.0" />
          </font>
          <effect>
             <DropShadow color="#ff1ac2" height="23.34" radius="11.3625" spread="0.42" width="24.11" />
          </effect>
       </Label>
-      <Label layoutX="46.0" layoutY="217.0" prefHeight="21.0" prefWidth="119.0" text="Password" textFill="WHITE">
+      <Label layoutX="64.0" layoutY="219.0" prefHeight="21.0" prefWidth="119.0" text="Password" textFill="WHITE">
          <font>
-            <Font name="Aldhabi" size="37.0" />
+            <Font name="Borel Regular" size="20.0" />
          </font>
          <effect>
             <DropShadow color="#ff1ac2" spread="0.41" />
          </effect>
       </Label>
-      <Label layoutX="50.0" layoutY="499.0" prefHeight="72.0" prefWidth="188.0" text="Don't have an account ?" textFill="WHITE">
+      <Label layoutX="35.0" layoutY="499.0" prefHeight="72.0" prefWidth="218.0" text="Don't have an account ?" textFill="WHITE">
          <font>
-            <Font name="Aldhabi" size="30.0" />
+            <Font name="Borel Regular" size="16.0" />
          </font>
          <effect>
             <DropShadow color="#ff1ac2" spread="0.41" />
          </effect>
       </Label>
-      <Button fx:id="button" layoutX="122.0" layoutY="381.0" mnemonicParsing="false" onAction="#handleLogin" prefHeight="63.0" prefWidth="119.0" style="-fx-background-color: none; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 60;">
+      <Button fx:id="button" layoutX="121.0" layoutY="380.0" mnemonicParsing="false" onAction="#handleLogin" prefHeight="63.0" prefWidth="129.0" style="-fx-background-color: none; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 60; -fx-font-color: white;" text="log in " textFill="WHITE">
          <effect>
             <DropShadow color="#00ccff" spread="0.5" />
          </effect>
-      </Button>
-      <Label layoutX="141.0" layoutY="360.0" prefHeight="106.0" prefWidth="100.0" text="Log in" textFill="WHITE">
          <font>
-            <Font name="Aldhabi" size="43.0" />
+            <Font name="Borel Regular" size="16.0" />
          </font>
-         <effect>
-            <DropShadow color="#00e5ff" spread="0.41" />
-         </effect>
-      </Label>
-      <Label fx:id="SignUpPage" layoutX="237.0" layoutY="499.0" onMouseClicked="#goToSignup" prefHeight="72.0" prefWidth="70.0" text=" Sign up" textFill="WHITE">
+      </Button>
+      <Label fx:id="SignUpPage" layoutX="238.0" layoutY="499.0" onMouseClicked="#goToSignup" prefHeight="72.0" prefWidth="90.0" text="Sign Up " textFill="WHITE" underline="true">
          <font>
-            <Font name="Aldhabi" size="30.0" />
+            <Font name="Borel Regular" size="16.0" />
          </font>
          <effect>
             <DropShadow color="#ff1ac2" spread="0.41" />
