@@ -20,18 +20,15 @@ public class GameManagerImpl<M extends GameMove, S extends GameState<M>> impleme
 
     private final Communicator.Listener<GameStartMessage> gameStartListener;
     private final Communicator.Listener<GameEndMessage> gameEndListener;
-    private final Communicator.Listener<GameStateMessage<S>> gameStateListener;
+    //private final Communicator.Listener<GameStateMessage<S>> gameStateListener;
     
     private boolean isListening = false;
     
-    public GameManagerImpl(Communicator communicator) {
-        this.communicator = communicator;
+    public GameManagerImpl() {
+        this.communicator = Communicator.getInstance();
         
-        gameStartListener = (GameStartMessage message, boolean hasError) -> {
-            if (hasError) {
-                onError();
-                return;
-            }
+        gameStartListener = (GameStartMessage message) -> {
+            
             
             OnlinePlayer opponent = new OnlinePlayer(message.getOpponentUserName(), message.getOpponentScore());
             
@@ -40,44 +37,34 @@ public class GameManagerImpl<M extends GameMove, S extends GameState<M>> impleme
             });
         };
         
-        gameEndListener = (GameEndMessage message, boolean hasError) -> {
-            if (hasError) {
-                onError();
-                return;
-            }
-            
+        gameEndListener = (GameEndMessage message) -> {
             listeners.forEach(l -> {
                 l.onGameEnd(message.isWinner(), message.isLoser(), message.getScore());
             });
         };
         
-        gameStateListener = (GameStateMessage<S> message, boolean hasError) -> {
-            if (hasError) {
-                onError();
-                return;
-            }
-            
-            listeners.forEach(l -> {
-                l.onGameState(message.getState());
-            });
-        };
+//        gameStateListener = (GameStateMessage<S> message) -> {
+//            listeners.forEach(l -> {
+//                l.onGameState(message.getState());
+//            });
+//        };
     }
     
     private void startListening() {
-        communicator.setListener(GameStartMessage.class, gameStartListener);
-        communicator.setListener(GameEndMessage.class, gameEndListener);
-        communicator.setListener(GameStateMessage.class, gameStateListener);
+        communicator.setMessageListener(GameStartMessage.class, gameStartListener);
+        communicator.setMessageListener(GameEndMessage.class, gameEndListener);
+        //communicator.setMessageListener(GameStateMessage.class, gameStateListener);
         isListening = true;
     }
     
     private void stopListening() {
-        communicator.unsetListener(GameStartMessage.class, gameStartListener);
-        communicator.unsetListener(GameEndMessage.class, gameEndListener);
-        communicator.unsetListener(GameStateMessage.class, gameStateListener);
+        communicator.unsetMessageListener(GameStartMessage.class);
+        communicator.unsetMessageListener(GameEndMessage.class);
+        communicator.unsetMessageListener(GameStateMessage.class);
         isListening = false;
     }
     
-    private void onError() {
+    private void onConnectionError() {
         stopListening();
         
         listeners.forEach(l -> l.onError("Could not connect to the game."));

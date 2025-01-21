@@ -4,6 +4,7 @@
  */
 package com.mycompany.javagameclient;
 
+import com.mycompany.networking.OnlinePlayer;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -26,7 +27,13 @@ public class ItemAvailablePlayersController implements Initializable {
     /**
      * Initializes the controller class.
      */
+    public void setPlayer(OnlinePlayer onlinePlayer){
+        playerName.setText(onlinePlayer.getUsername());
+        playerScore.setText(String.valueOf(onlinePlayer.getScore()));
+       
+    }
     @Override
+    
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    

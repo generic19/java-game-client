@@ -12,14 +12,14 @@ import com.mycompany.networking.Message;
  *
  * @author AhmedAli
  */
-public class AuthManagerImpl implements AuthManager, Communicator.Listener{
+public class AuthManagerImpl implements AuthManager, Communicator.Listener {
     
     Listener listener;
     Communicator communicator;
     String username;
 
     public AuthManagerImpl() {
-        communicator = new CommunicatorImpl();
+        communicator = Communicator.getInstance();
     }
    
     @Override
@@ -36,7 +36,7 @@ public class AuthManagerImpl implements AuthManager, Communicator.Listener{
     public void register(String username, String password) {
         if(isValidData(username, password)){
             this.username = username;
-            communicator.setListener(RegisterRespose.class, this);
+            communicator.setMessageListener(RegisterRespose.class, this);
             communicator.sendMessage(new RegisterRequest(username, password));
         }
     }
@@ -60,7 +60,7 @@ public class AuthManagerImpl implements AuthManager, Communicator.Listener{
     @Override
     public void signIn(String username, String password) {
         if(isValidData(username, password)){
-            communicator.setListener(SignInResponse.class, this);
+            communicator.setMessageListener(SignInResponse.class, this);
             communicator.sendMessage(new SignInRequest(username, password));
         }
     }
@@ -90,8 +90,8 @@ public class AuthManagerImpl implements AuthManager, Communicator.Listener{
     }
 
     @Override
-    public void onMessage(Message message, boolean hasError) {
-        if(hasError){
+    public void onMessage(Message message) {
+        if(message == null){
             listener.onError("server disconnected");
         } else if(message instanceof RegisterRespose){
            
@@ -134,7 +134,8 @@ public class AuthManagerImpl implements AuthManager, Communicator.Listener{
     }
 
     private void handleSuccessResponse(Class type) {
-        communicator.unsetListener(type, this);
+        // TODO: handle saving token with user name in file
+        communicator.unsetMessageListener(type);
         listener.onAuthStateChange(true);
     }
 

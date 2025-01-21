@@ -5,6 +5,7 @@
 package com.mycompany.javagameclient;
 
 import com.mycompany.game.*;
+import com.mycompany.networking.game.GameManager;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -72,6 +73,10 @@ public class XoGameController implements Initializable, XOGame.Listener {
             child.scaleXProperty().bind(scaleFactor);
             child.scaleYProperty().bind(scaleFactor);
         }
+    }
+    
+    public void initializeGameForOnline() {
+        
     }
     
     public void initializeGameForLocalwithFriend(String player1, String player2) {
