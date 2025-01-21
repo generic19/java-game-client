@@ -50,9 +50,9 @@
          <children>
             <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <ImageView fitHeight="100.0" fitWidth="100.0">
+                  <ImageView fitHeight="110.0" fitWidth="110.0" preserveRatio="true">
                      <image>
-                        <Image url="@images/Neon%20X.png" />
+                        <Image url="@images/Neon%20X%20Large.png" />
                      </image>
                   </ImageView>
                   <Label fx:id="lblLeftPlayer" alignment="CENTER" contentDisplay="TEXT_ONLY" graphicTextGap="0.0" text="Player 1" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
@@ -89,9 +89,9 @@
             </VBox>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                <children>
-                  <ImageView fitHeight="100.0" fitWidth="100.0">
+                  <ImageView fitHeight="110.0" fitWidth="110.0" preserveRatio="true">
                      <image>
-                        <Image url="@images/Neon%20O.png" />
+                        <Image url="@images/Neon%20O%20Large.png" />
                      </image>
                   </ImageView>
                   <Label fx:id="lblRightPlayer" text="Player 2" textFill="WHITE">
