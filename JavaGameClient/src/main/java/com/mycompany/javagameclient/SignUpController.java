@@ -33,12 +33,12 @@ public class SignUpController implements Initializable, AuthManager.Listener {
     @FXML
     private TextField confirmPassword;
     @FXML
-    private Label LoginPage;
-    @FXML
     private Button signUp;
     
     AuthManager authManager;
     boolean isListenerAdded = false;
+    @FXML
+    private Label loginPage;
     
     /**
      * Initializes the controller class.
@@ -68,9 +68,9 @@ public class SignUpController implements Initializable, AuthManager.Listener {
 
     @FXML
     private void goToLoginPage(MouseEvent event) throws IOException {
-       Stage stagee=(Stage) LoginPage.getScene().getWindow();
+       Stage stagee=(Stage) loginPage.getScene().getWindow();
         stagee.close();
-        App.openWindow("Login");
+        App.openModal("Login");
     }
 
     @Override

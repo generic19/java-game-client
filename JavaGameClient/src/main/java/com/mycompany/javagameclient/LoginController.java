@@ -60,7 +60,7 @@ public class LoginController implements Initializable, AuthManager.Listener {
     private void goToSignup(MouseEvent event) throws IOException {
         Stage stage=(Stage) signUpPage.getScene().getWindow();
         stage.close();
-        App.openWindow("SignUp");
+        App.openModal("SignUp");
     }
     
     private void validateInputFields() {

@@ -42,7 +42,7 @@ public class HomeScreenController implements Initializable {
     
     @FXML
     void onPlayOnlineClicked(ActionEvent event) throws IOException {
-        App.openWindow("Login");
+        App.openModal("Login");
         
          
     }

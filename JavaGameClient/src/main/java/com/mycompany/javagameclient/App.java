@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
+import javafx.stage.StageStyle;
 
 /**
  * JavaFX App
@@ -29,15 +30,15 @@ public class App extends Application {
         stage.show();
     }
     
-    static void openWindow(String fxml) throws IOException{
-
-    FXMLLoader loader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-    Parent root = loader.load();
-
-    Stage stage = new Stage();
-    stage.setScene(new Scene(root));
-    stage.setResizable(false); 
-    stage.show();
+    static void openModal(String fxml) throws IOException{
+        FXMLLoader loader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+        Parent root = loader.load();
+        
+        Stage stage = new Stage(StageStyle.UTILITY);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(new Scene(root));
+        stage.setResizable(false);
+        stage.show();
     }
 
     static void switchToFXML(String fxml) throws IOException {
