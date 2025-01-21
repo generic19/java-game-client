@@ -31,13 +31,13 @@ public class MatchingManager {
       
         this.listener= listener;
         communicator.sendMessage(new MatchingSubscriptionRequest(true));
-        Communicator.Listener<MatchingInitialStateMessage> commuiactorListener =(MatchingInitialStateMessage msg , boolean hasError)->{
+        Communicator.Listener<MatchingInitialStateMessage> commuiactorListener =(MatchingInitialStateMessage msg)->{
             
              availablePlayers.addAll(msg.getAvailable());
              inGamePlayers.addAll(msg.getInGame());
              listener.onMatchingUpdate();
         };
-         Communicator.Listener<MatchingUpdateMessage> commuiactorUpdateListener=(MatchingUpdateMessage msg , boolean hasError)->{
+         Communicator.Listener<MatchingUpdateMessage> commuiactorUpdateListener=(MatchingUpdateMessage msg)->{
              if (msg.getTarget()==MatchingUpdateMessage.Target.AVAILABLE){
                  if(msg.getUpdateType()==MatchingUpdateMessage.UpdateType.ADD){
                  
@@ -56,16 +56,16 @@ public class MatchingManager {
              
             listener.onMatchingUpdate();
         };
-        communicator.setListener(MatchingInitialStateMessage.class, commuiactorListener);
-        communicator.setListener(MatchingUpdateMessage.class, commuiactorUpdateListener);
+        communicator.setMessageListener(MatchingInitialStateMessage.class, commuiactorListener);
+        communicator.setMessageListener(MatchingUpdateMessage.class, commuiactorUpdateListener);
         
         
-        Communicator.Listener<IncomingInviteRequest> incomingInviteRequest = ( IncomingInviteRequest msg , boolean haserror )->{
+        Communicator.Listener<IncomingInviteRequest> incomingInviteRequest = ( IncomingInviteRequest msg)->{
         
            listener.onIncomingInvite(msg.getUserName());
         
         };
-        communicator.setListener(IncomingInviteRequest.class, incomingInviteRequest);
+        communicator.setMessageListener(IncomingInviteRequest.class, incomingInviteRequest);
 
     }
 
@@ -88,9 +88,9 @@ public class MatchingManager {
     
     public void invite(OnlinePlayer player)
     {
-        Communicator.Listener<InviteResponse> commListener = (InviteResponse msg, boolean hasError)->{
+        Communicator.Listener<InviteResponse> commListener = (InviteResponse msg)->{
             if(listener!=null){
-             if(hasError==false){
+             if(msg != null){
                 
                 listener.onIncomingResponse(msg.getResult()==InviteResponse.Result.ACCEPTED ,msg.getResult()==InviteResponse.Result.TIMEOUT);
             }else{
@@ -99,7 +99,7 @@ public class MatchingManager {
              }
             }
         };
-        communicator.setListener(InviteResponse.class, commListener);
+        communicator.setMessageListener(InviteResponse.class, commListener);
         communicator.sendMessage( new InviteRequest(player.getUsername()));
     }
      public void acceptInvite(OnlinePlayer player)
