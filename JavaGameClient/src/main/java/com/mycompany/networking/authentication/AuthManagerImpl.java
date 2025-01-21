@@ -4,12 +4,10 @@
  */
 package com.mycompany.networking.authentication;
 
+import com.mycompany.javagameclient.UIHelper;
 import com.mycompany.networking.Communicator;
 import com.mycompany.networking.CommunicatorImpl;
 import com.mycompany.networking.Message;
-import java.io.IOException;
-import java.net.Socket;
-
 /**
  *
  * @author AhmedAli
@@ -18,6 +16,7 @@ public class AuthManagerImpl implements AuthManager, Communicator.Listener{
     
     Listener listener;
     Communicator communicator;
+    String username;
 
     public AuthManagerImpl() {
         communicator = new CommunicatorImpl();
@@ -30,12 +29,13 @@ public class AuthManagerImpl implements AuthManager, Communicator.Listener{
 
     @Override
     public void removeListener(Listener listener) {
-        
+        this.listener = null;
     }
 
     @Override
     public void register(String username, String password) {
         if(isValidData(username, password)){
+            this.username = username;
             communicator.setListener(RegisterRespose.class, this);
             communicator.sendMessage(new RegisterRequest(username, password));
         }
@@ -43,7 +43,18 @@ public class AuthManagerImpl implements AuthManager, Communicator.Listener{
 
     @Override
     public void signInWithToken() {
-        
+        /*
+        read token & username from the file
+        if the token exist ... request to server
+        else navigate to login screen
+         */
+        String token = UIHelper.getToken();
+        if(token == null){
+            listener.onError("NOT_FOUND");
+        } else {
+           communicator.setListener(SignInWithTokenResponse.class, this);
+           communicator.sendMessage(new SignInWithTokenRequest(token)); 
+        }
     }
 
     @Override
@@ -55,8 +66,9 @@ public class AuthManagerImpl implements AuthManager, Communicator.Listener{
     }
 
     @Override
-    public void signOut() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void signOut(String username) {
+        communicator.setListener(SignOutRespons.class, this);
+        communicator.sendMessage(new SignOutRequest(username));
     }
     
     private boolean isValidData(String username, String password){
@@ -82,30 +94,46 @@ public class AuthManagerImpl implements AuthManager, Communicator.Listener{
         if(hasError){
             listener.onError("server disconnected");
         } else if(message instanceof RegisterRespose){
-            
+           
             RegisterRespose response = (RegisterRespose) message;
             if(response.isSuccess()){
+                // token to be saved in file
+                saveTokenLocally(response.getToken());
                 handleSuccessResponse(RegisterRespose.class);
             } else {
                 handleErrorRespons(response.getErrorMessage());
-                
             }
-            
         } else if(message instanceof SignInResponse){
             
             SignInResponse response = (SignInResponse) message;
             if(response.isSuccess()){
+                // token to be saved in file
+                saveTokenLocally(response.getToken());
                 handleSuccessResponse(SignInResponse.class);
-                
             } else {
                 handleErrorRespons(response.getErrorMessage());
             }
+        } else if(message instanceof SignInWithTokenResponse ){
             
+            SignInWithTokenResponse response = (SignInWithTokenResponse) message;
+            
+            if(response.isSuccess()){
+                handleSuccessResponse(SignInWithTokenResponse.class);
+            } else{
+                listener.onAuthStateChange(false);
+            }
+        } else if (message instanceof SignOutRespons){
+            SignOutRespons response = (SignOutRespons) message;
+            
+            if(response.isSuccess()){
+                listener.onAuthStateChange(true);
+            } else {
+                listener.onError("Logout Failed");
+            }
         }
     }
 
     private void handleSuccessResponse(Class type) {
-        // TODO: handle saving token with user name in file
         communicator.unsetListener(type, this);
         listener.onAuthStateChange(true);
     }
@@ -114,5 +142,8 @@ public class AuthManagerImpl implements AuthManager, Communicator.Listener{
         listener.onError(errorMessage);
         listener.onAuthStateChange(false);
     }
-    
+
+    private void saveTokenLocally(String token) {
+        UIHelper.saveTokenIntoFile(username, token);
+    }    
 }

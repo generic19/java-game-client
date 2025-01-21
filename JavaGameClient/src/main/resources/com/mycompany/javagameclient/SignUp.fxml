@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="625.0" prefWidth="362.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javagameclient.SignUpController">
+<AnchorPane id="AnchorPane" prefHeight="625.0" prefWidth="362.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javagameclient.SignUpController">
     <children>
         <ImageView fitHeight="666.0" fitWidth="379.0" pickOnBounds="true" preserveRatio="true">
             <image>
@@ -90,7 +90,7 @@
             </effect>
         </Label>
 
-        <Button fx:id="signUp" alignment="CENTER" layoutX="117.0" layoutY="452.0" mnemonicParsing="false" onAction="#handleSignUp" prefHeight="63.0" prefWidth="129.0" style="-fx-background-color: none; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 60;" text="Sign Up" textFill="WHITE">
+        <Button fx:id="signUp" alignment="CENTER" disable="true" layoutX="117.0" layoutY="452.0" mnemonicParsing="false" onAction="#handleSignUp" prefHeight="63.0" prefWidth="129.0" style="-fx-background-color: none; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 60;" text="Sign Up" textFill="WHITE">
             <effect>
                 <DropShadow color="#00ccff" spread="0.5" />
             </effect>

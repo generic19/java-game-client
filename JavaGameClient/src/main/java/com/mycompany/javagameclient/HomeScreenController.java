@@ -4,23 +4,24 @@
  */
 package com.mycompany.javagameclient;
 
+import com.mycompany.networking.authentication.AuthManager;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.binding.DoubleBinding;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.stage.Stage;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
-public class HomeScreenController implements Initializable {
+public class HomeScreenController implements Initializable, AuthManager.Listener {
 
     @FXML public StackPane root;
     @FXML public VBox innerBox;
+    
+    AuthManager authManager;
+    boolean isListenerAdded = false;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -42,9 +43,16 @@ public class HomeScreenController implements Initializable {
     
     @FXML
     void onPlayOnlineClicked(ActionEvent event) throws IOException {
-        App.openModal("Login");
-        
-         
+        // check if we have a stored token into file 
+        if(UIHelper.getToken() == null){
+            App.getFXMLLoader("Login");
+        } else {
+            if(!isListenerAdded){
+                authManager.addListener(this);
+                isListenerAdded = true;
+            }
+            authManager.signInWithToken();
+        }
     }
 
     @FXML
@@ -55,6 +63,24 @@ public class HomeScreenController implements Initializable {
     @FXML
     void onplayWithComputer(ActionEvent event) throws IOException {
         App.switchToFXML("LevelScreen");
+    }
+
+    @Override
+    public void onAuthStateChange(boolean signedIn) {
+        if(signedIn){
+            App.getFXMLLoader("onlineDashboard");
+        } else{
+            onError("Inavalid Token");
+        }
+    }
+
+    @Override
+    public void onError(String errorMsg) {
+        try {
+            App.switchToFXML("Login");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 }
 

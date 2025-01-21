@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -27,36 +27,31 @@ public class SignUpController implements Initializable, AuthManager.Listener {
 
     @FXML
     private TextField username;
-    
     @FXML
     private TextField password;
     @FXML
     private TextField confirmPassword;
     @FXML
     private Button signUp;
+    @FXML
+    private Label loginPage;
     
     AuthManager authManager;
     boolean isListenerAdded = false;
-    @FXML
-    private Label loginPage;
     
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO : TBR
         authManager = new AuthManagerImpl();
-        // TODO: decide the init will be here or in constructor
         validateInputFields();
-        
     }    
     
     @FXML
     private void handleSignUp(ActionEvent event) {
         if(!password.getText().equals(confirmPassword.getText())){
-            // TODO : show error alert msg 
-            System.out.println("Error: password and confirm password is not tha same");
+            UIHelper.showAlert("Warning", "password and confirm password is not tha same", Alert.AlertType.WARNING);
         } else {
             if(!isListenerAdded){
                 authManager.addListener(this);
@@ -82,9 +77,8 @@ public class SignUpController implements Initializable, AuthManager.Listener {
     }
 
     @Override
-    public void onError(String errorMsg) {
-        // TODO : show warning alert msg 
-        System.out.println("Error: " + errorMsg);
+    public void onError(String errorMsg) { 
+        UIHelper.showAlert("Error", errorMsg, Alert.AlertType.ERROR);
     }
 
     private void validateInputFields() {

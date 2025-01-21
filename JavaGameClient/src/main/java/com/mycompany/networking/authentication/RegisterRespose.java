@@ -9,7 +9,7 @@ package com.mycompany.networking.authentication;
  * @author ayasa
  */
 public class RegisterRespose {
-       private boolean success;
+    private boolean success;
     private String token;
     private String errorMessage;
 

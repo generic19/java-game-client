@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -24,7 +25,6 @@ import javafx.stage.Stage;
  * @author ayasa
  */
 public class LoginController implements Initializable, AuthManager.Listener {
-
 
     @FXML
     private TextField username;
@@ -43,7 +43,6 @@ public class LoginController implements Initializable, AuthManager.Listener {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         authManager = new AuthManagerImpl();
-        // TODO
         validateInputFields();
     }    
     
@@ -93,8 +92,7 @@ public class LoginController implements Initializable, AuthManager.Listener {
 
     @Override
     public void onError(String errorMsg) {
-        // TODO : show warning alert msg 
-        System.out.println("Error: " + errorMsg);
+        UIHelper.showAlert("Error", errorMsg, Alert.AlertType.ERROR);
     }
 
 }

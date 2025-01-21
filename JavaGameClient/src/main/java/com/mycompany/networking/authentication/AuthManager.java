@@ -15,7 +15,7 @@ public interface AuthManager {
     void register(String username, String password);
     void signInWithToken();
     void signIn(String username, String password);
-    void signOut();
+    void signOut(String username);
     
     interface Listener{
         void onAuthStateChange(boolean signedIn);
