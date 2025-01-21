@@ -32,13 +32,12 @@ public class App extends Application {
     }
     
     static void openModal(String fxml) throws IOException{
-        FXMLLoader loader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-        Parent root = loader.load();
-        
         Stage stage = new Stage(StageStyle.UTILITY);
+
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setScene(new Scene(root));
         stage.setResizable(false);
+
+        stage.setScene(new Scene(loadFXML(fxml)));
         stage.show();
     }
 
@@ -76,9 +75,6 @@ public class App extends Application {
                 throw new RuntimeException("Could not load font " + fontFileName + ".");
             }
         }
-        
-  
-
     }
 
     public static void main(String[] args) {
