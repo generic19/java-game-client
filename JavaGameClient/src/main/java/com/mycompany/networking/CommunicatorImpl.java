@@ -36,7 +36,7 @@ public class CommunicatorImpl implements Communicator {
         return instance;
     }
     
-    private CommunicatorImpl() {}
+    public CommunicatorImpl() {}
     
     @Override
     public <M extends Message> void setMessageListener(Class<M> messageClass, Listener<M> listener) {

@@ -20,7 +20,7 @@ public class GameManagerImpl<M extends GameMove, S extends GameState<M>> impleme
 
     private final Communicator.Listener<GameStartMessage> gameStartListener;
     private final Communicator.Listener<GameEndMessage> gameEndListener;
-    private final Communicator.Listener<GameStateMessage<S>> gameStateListener;
+    //private final Communicator.Listener<GameStateMessage<S>> gameStateListener;
     
     private boolean isListening = false;
     
@@ -43,17 +43,17 @@ public class GameManagerImpl<M extends GameMove, S extends GameState<M>> impleme
             });
         };
         
-        gameStateListener = (GameStateMessage<S> message) -> {
-            listeners.forEach(l -> {
-                l.onGameState(message.getState());
-            });
-        };
+//        gameStateListener = (GameStateMessage<S> message) -> {
+//            listeners.forEach(l -> {
+//                l.onGameState(message.getState());
+//            });
+//        };
     }
     
     private void startListening() {
         communicator.setMessageListener(GameStartMessage.class, gameStartListener);
         communicator.setMessageListener(GameEndMessage.class, gameEndListener);
-        communicator.setMessageListener(GameStateMessage.class, gameStateListener);
+        //communicator.setMessageListener(GameStateMessage.class, gameStateListener);
         isListening = true;
     }
     

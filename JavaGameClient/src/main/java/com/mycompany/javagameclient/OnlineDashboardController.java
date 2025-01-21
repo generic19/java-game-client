@@ -10,6 +10,7 @@ import com.mycompany.networking.OnlinePlayer;
 import com.mycompany.networking.matching.MatchingManager;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -29,7 +30,7 @@ import javafx.scene.layout.VBox;
  */
 public class OnlineDashboardController implements Initializable,MatchingManager.Listener  {
     MatchingManager matchingManager;
-     Communicator communicator=new CommunicatorImpl();
+     Communicator communicator=Communicator.getInstance();
      List<OnlinePlayer>onlinePlayers,availables;
      
 
@@ -50,8 +51,8 @@ public class OnlineDashboardController implements Initializable,MatchingManager.
     public void initialize(URL url, ResourceBundle rb) {
        
         matchingManager=new MatchingManager(communicator);
-        onlinePlayers=(List<OnlinePlayer>) matchingManager.getAvailable();
-        availables= (List<OnlinePlayer>) matchingManager.getAvailable();
+        onlinePlayers=new ArrayList<> (matchingManager.getAvailable());
+        availables= new ArrayList<>(matchingManager.getInGame());
         matchingManager.addListener(this);
        for (OnlinePlayer player : onlinePlayers) { 
            FXMLLoader loader =App.getFXMLLoader("itemAvailablePlayers");
