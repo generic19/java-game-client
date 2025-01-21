@@ -2,15 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.networking;
+package com.mycompany.networking.matching;
 
-import com.mycompany.networking.matching.IncomingInviteRequest;
-import com.mycompany.networking.matching.IncomingInviteRespose;
-import com.mycompany.networking.matching.InviteRequest;
-import com.mycompany.networking.matching.InviteResponse;
-import com.mycompany.networking.matching.MatchingInitialStateMessage;
-import com.mycompany.networking.matching.MatchingSubscriptionRequest;
-import com.mycompany.networking.matching.MatchingUpdateMessage;
+import com.mycompany.networking.Communicator;
+import com.mycompany.networking.OnlinePlayer;
 import java.util.HashSet;
 import java.util.Set;
 

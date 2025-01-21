@@ -58,7 +58,7 @@ public class LoginController implements Initializable, AuthManager.Listener {
 
     @FXML
     private void goToSignup(MouseEvent event) throws IOException {
-        Stage stage=(Stage) SignUpPage.getScene().getWindow();
+        Stage stage=(Stage) signUpPage.getScene().getWindow();
         stage.close();
         App.openWindow("SignUp");
     }

@@ -4,7 +4,7 @@
  */
 package com.mycompany.javagameclient;
 
-import com.mycompany.networking.MatchingManager;
+import com.mycompany.networking.matching.MatchingManager;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;

@@ -25,7 +25,9 @@ import javafx.stage.Stage;
  */
 public class SignUpController implements Initializable, AuthManager.Listener {
 
-
+    @FXML
+    private TextField username;
+    
     @FXML
     private TextField password;
     @FXML
