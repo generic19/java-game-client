@@ -52,6 +52,8 @@ public class CommunicatorImpl implements Communicator {
         try {
             if (isConnected()) {
                 outputStream.writeObject(message);
+            } else {
+                broadcastError("Not connected to server.");
             }
         } catch (IOException ex) {
             broadcastError("Connection lost with server.");
@@ -68,9 +70,8 @@ public class CommunicatorImpl implements Communicator {
                         socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
                         
                         try {
-                            inputStream = new ObjectInputStream(socket.getInputStream());
                             outputStream = new ObjectOutputStream(socket.getOutputStream());
-                            
+                            inputStream = new ObjectInputStream(socket.getInputStream());
                             startListenerThread();
                         } catch (IOException ex) {
                             if (socket.isConnected()) {
@@ -80,6 +81,8 @@ public class CommunicatorImpl implements Communicator {
                             socket = null;
                             inputStream = null;
                             outputStream = null;
+                            
+                            broadcastError("Error opening I/O streams with server.");
                         }
                     } catch (IOException ex) {
                         socket = null;
@@ -111,19 +114,17 @@ public class CommunicatorImpl implements Communicator {
         inputStream = null;
         outputStream = null;
         
-        if (thread != null && thread.isAlive()) {
-            thread.stop();
-            thread = null;
-        }
+        thread = null;
     }
     
     private void broadcastError(String errorMessage) {
+        System.out.println("Communicator: Broadcasting error message: " + errorMessage);
         errorListeners.forEach(l -> l.onCommunicatorError(errorMessage));
     }
     
     private void startListenerThread() {
-        if (thread != null && thread.isAlive()) {
-            thread.stop();
+        if (thread != null && thread.isAlive() & socket.isConnected()) {
+            return;
         }
         
         thread = new Thread(() -> {

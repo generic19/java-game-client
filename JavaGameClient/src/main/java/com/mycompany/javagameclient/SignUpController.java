@@ -44,7 +44,7 @@ public class SignUpController implements Initializable, AuthManager.Listener {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        authManager = new AuthManagerImpl();
+        authManager = AuthManager.getInstance();
         validateInputFields();
     }    
     
@@ -72,7 +72,12 @@ public class SignUpController implements Initializable, AuthManager.Listener {
     public void onAuthStateChange(boolean signedIn) {
         if(signedIn){
             authManager.removeListener(this);
-            App.getFXMLLoader("onlineDashboard");
+            try {
+                ((Stage) loginPage.getScene().getWindow()).close();
+                App.switchToFXML("onlineDashboard");
+            } catch (IOException ex) {
+                UIHelper.showAlert("Error", "Error navigating to online dashboard.", Alert.AlertType.ERROR);
+            }
         }
     }
 

@@ -1,7 +1,7 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+* Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+* Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+*/
 package com.mycompany.javagameclient;
 
 import java.io.BufferedReader;
@@ -34,13 +34,13 @@ public class UIHelper {
     public static void showAlertWithButton(String header, String message, Runnable onAccept, Runnable onReject){
         
         Platform.runLater(() -> {
-           ButtonType accept = new ButtonType("Accept");
-        ButtonType reject = new ButtonType("reject");
+            ButtonType accept = new ButtonType("Accept");
+            ButtonType reject = new ButtonType("reject");
             Alert alert = new Alert(Alert.AlertType.INFORMATION, message + " ", accept, reject);
             alert.setHeaderText(header);
             Optional<ButtonType> result = alert.showAndWait();
             if(result.get()==accept){
-                    onAccept.run();
+                onAccept.run();
             }else if(result.get()==reject){
                 
                 onReject.run();
@@ -76,12 +76,12 @@ public class UIHelper {
             token = null;
         } else{
             StringTokenizer tokenizer = new StringTokenizer(data, ";");
-
+            
             // Extract username and token
             if (tokenizer.countTokens() == 2) {
                 String username = tokenizer.nextToken();
                 token = tokenizer.nextToken();
-
+                
                 // Output the extracted credentials
                 System.out.println("Username: " + username);
                 System.out.println("Token: " + token);
@@ -102,11 +102,11 @@ public class UIHelper {
             userName = null;
         } else{
             StringTokenizer tokenizer = new StringTokenizer(data, ";");
-
+            
             // Extract username and token
             if (tokenizer.countTokens() == 2) {
                 userName = tokenizer.nextToken();
-
+                
                 System.out.println("Username: " + userName);
             } else {
                 userName = null;
@@ -130,7 +130,7 @@ public class UIHelper {
                 result = line;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            return null;
         }
         
         return result;

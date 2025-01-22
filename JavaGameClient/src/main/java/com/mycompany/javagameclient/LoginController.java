@@ -42,7 +42,7 @@ public class LoginController implements Initializable, AuthManager.Listener {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        authManager = new AuthManagerImpl();
+        authManager = AuthManager.getInstance();
         validateInputFields();
     }    
     

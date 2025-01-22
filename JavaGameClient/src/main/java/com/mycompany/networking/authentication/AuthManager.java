@@ -10,6 +10,10 @@ package com.mycompany.networking.authentication;
  */
 public interface AuthManager {
     
+    static AuthManager getInstance() {
+        return AuthManagerImpl.getInstance();
+    }
+    
     void addListener(Listener listener);
     void removeListener(Listener listener);
     void register(String username, String password);

@@ -4,7 +4,9 @@
  */
 package com.mycompany.javagameclient;
 
+import com.mycompany.networking.Communicator;
 import com.mycompany.networking.authentication.AuthManager;
+import com.mycompany.networking.authentication.AuthManagerImpl;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -12,6 +14,7 @@ import javafx.beans.binding.DoubleBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 
@@ -19,8 +22,6 @@ public class HomeScreenController implements Initializable, AuthManager.Listener
 
     @FXML public StackPane root;
     @FXML public VBox innerBox;
-    
-    AuthManager authManager;
     boolean isListenerAdded = false;
     
     @Override
@@ -43,15 +44,21 @@ public class HomeScreenController implements Initializable, AuthManager.Listener
     
     @FXML
     void onPlayOnlineClicked(ActionEvent event) throws IOException {
-        // check if we have a stored token into file 
-        if(UIHelper.getToken() == null){
-            App.getFXMLLoader("Login");
-        } else {
-            if(!isListenerAdded){
-                authManager.addListener(this);
-                isListenerAdded = true;
+        Communicator.getInstance().openConnection();
+        
+        if (Communicator.getInstance().isConnected()) {
+            // check if we have a stored token into file
+            if (UIHelper.getToken() == null) {
+                App.openModal("Login");
+            } else {
+                if (!isListenerAdded) {
+                    AuthManager.getInstance().addListener(this);
+                    isListenerAdded = true;
+                }
+                AuthManager.getInstance().signInWithToken();
             }
-            authManager.signInWithToken();
+        } else {
+            UIHelper.showAlert("Error", "Error connecting to server.", Alert.AlertType.ERROR);
         }
     }
 
