@@ -20,6 +20,9 @@ public class MatchingManager {
     public MatchingManager(Communicator communicator) {
         this.communicator = communicator;
         
+        if (!communicator.isConnected()) {
+            communicator.openConnection();
+        }
     }
   
     private Listener listener = null;

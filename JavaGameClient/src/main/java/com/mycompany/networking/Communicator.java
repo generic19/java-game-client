@@ -9,6 +9,9 @@ package com.mycompany.networking;
  * @author ayasa
  */
 public interface Communicator {
+    static final String SERVER_ADDRESS = "127.0.0.1";
+    static final int SERVER_PORT = 5005;
+    
     static Communicator getInstance() {
         return CommunicatorImpl.getInstance();
     }

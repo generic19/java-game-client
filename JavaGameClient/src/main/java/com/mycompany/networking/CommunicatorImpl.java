@@ -12,7 +12,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author ayasa
  */
 public class CommunicatorImpl implements Communicator {
-    
     private static volatile CommunicatorImpl instance;
     
     private final Map<Class<? extends Message>, Listener> listeners = new ConcurrentHashMap<>();
@@ -51,7 +50,9 @@ public class CommunicatorImpl implements Communicator {
     @Override
     public void sendMessage(Message message) {
         try {
-            outputStream.writeObject(message);
+            if (isConnected()) {
+                outputStream.writeObject(message);
+            }
         } catch (IOException ex) {
             broadcastError("Connection lost with server.");
             closeConnection();
@@ -60,14 +61,35 @@ public class CommunicatorImpl implements Communicator {
     
     @Override
     public void openConnection() {
-        try {
-            socket = new Socket("127.0.0.1", 5555);
-            inputStream = new ObjectInputStream(socket.getInputStream());
-            outputStream = new ObjectOutputStream(socket.getOutputStream());
-            
-            startListenerThread();
-        } catch (IOException ex) {
-            broadcastError("Could not open connection to server.");
+        if (socket == null) {
+            synchronized (this) {
+                if (socket == null) {
+                    try {
+                        socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
+                        
+                        try {
+                            inputStream = new ObjectInputStream(socket.getInputStream());
+                            outputStream = new ObjectOutputStream(socket.getOutputStream());
+                            
+                            startListenerThread();
+                        } catch (IOException ex) {
+                            if (socket.isConnected()) {
+                                socket.close();
+                            }
+                            
+                            socket = null;
+                            inputStream = null;
+                            outputStream = null;
+                        }
+                    } catch (IOException ex) {
+                        socket = null;
+                        inputStream = null;
+                        outputStream = null;
+                        
+                        broadcastError("Could not open connection to server.");
+                    }
+                }
+            }
         }
     }
     
@@ -82,11 +104,17 @@ public class CommunicatorImpl implements Communicator {
         try {
             socket.close();
         } catch (IOException ex) {
-            System.out.println("Could not close stream.");
+            System.err.println("Could not close socket.");
         }
         
-        thread.stop();
-        thread = null;
+        socket = null;
+        inputStream = null;
+        outputStream = null;
+        
+        if (thread != null && thread.isAlive()) {
+            thread.stop();
+            thread = null;
+        }
     }
     
     private void broadcastError(String errorMessage) {
@@ -94,6 +122,10 @@ public class CommunicatorImpl implements Communicator {
     }
     
     private void startListenerThread() {
+        if (thread != null && thread.isAlive()) {
+            thread.stop();
+        }
+        
         thread = new Thread(() -> {
             try {
                 while (true) {
