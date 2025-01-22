@@ -52,7 +52,7 @@ public class AuthManagerImpl implements AuthManager, Communicator.Listener {
         if(token == null){
             listener.onError("NOT_FOUND");
         } else {
-           communicator.setListener(SignInWithTokenResponse.class, this);
+           communicator.setMessageListener(SignInWithTokenResponse.class, this);
            communicator.sendMessage(new SignInWithTokenRequest(token)); 
         }
     }
@@ -67,7 +67,7 @@ public class AuthManagerImpl implements AuthManager, Communicator.Listener {
 
     @Override
     public void signOut(String username) {
-        communicator.setListener(SignOutRespons.class, this);
+        communicator.setMessageListener(SignOutRespons.class, this);
         communicator.sendMessage(new SignOutRequest(username));
     }
     
@@ -134,7 +134,6 @@ public class AuthManagerImpl implements AuthManager, Communicator.Listener {
     }
 
     private void handleSuccessResponse(Class type) {
-        // TODO: handle saving token with user name in file
         communicator.unsetMessageListener(type);
         listener.onAuthStateChange(true);
     }
