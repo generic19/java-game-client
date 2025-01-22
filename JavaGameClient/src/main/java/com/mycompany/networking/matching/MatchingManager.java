@@ -18,8 +18,11 @@ public class MatchingManager {
   private final Communicator communicator ;
 
     public MatchingManager(Communicator communicator) {
-        this.communicator = communicator;
         
+        this.communicator = communicator;
+        if(!this.communicator.isConnected()){
+            communicator.openConnection();
+        }
     }
   
     private Listener listener = null;
@@ -62,7 +65,7 @@ public class MatchingManager {
         
         Communicator.Listener<IncomingInviteRequest> incomingInviteRequest = ( IncomingInviteRequest msg)->{
         
-           listener.onIncomingInvite(msg.getUserName());
+           listener.onIncomingInviteRequest(msg.getUserName());
         
         };
         communicator.setMessageListener(IncomingInviteRequest.class, incomingInviteRequest);
@@ -79,11 +82,11 @@ public class MatchingManager {
 
     
     public Set<OnlinePlayer> getAvailable() {
-        return availablePlayers;
+        return new HashSet<>(availablePlayers);
     }
 
     public Set<OnlinePlayer> getInGame() {
-        return inGamePlayers ;
+        return new HashSet<>(inGamePlayers);
     }
     
     public void invite(OnlinePlayer player)
@@ -92,7 +95,7 @@ public class MatchingManager {
             if(listener!=null){
              if(msg != null){
                 
-                listener.onIncomingResponse(msg.getResult()==InviteResponse.Result.ACCEPTED ,msg.getResult()==InviteResponse.Result.TIMEOUT);
+                listener.onInviteResponse(msg.getResult()==InviteResponse.Result.ACCEPTED ,msg.getResult()==InviteResponse.Result.TIMEOUT);
             }else{
                  
              listener.onErrorMessage("error inviting user");
@@ -120,8 +123,8 @@ public class MatchingManager {
     
     public interface Listener {
     public void onMatchingUpdate(); // done
-    public void onIncomingInvite(String userName);//
-    public void onIncomingResponse(boolean accept,boolean timeOut);//done
+    public void onIncomingInviteRequest(String userName);//
+    public void onInviteResponse(boolean accept,boolean timeOut);//done
     public void onErrorMessage(String errorMsg);//done
     
 }

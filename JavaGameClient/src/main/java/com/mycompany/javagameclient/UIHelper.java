@@ -9,9 +9,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.StringTokenizer;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 /**
  *
@@ -26,6 +28,23 @@ public class UIHelper {
             alert.setHeaderText(header);
             alert.setContentText(message);
             alert.show();
+        });
+    }
+    
+    public static void showAlertWithButton(String header, String message, Runnable onAccept, Runnable onReject){
+        
+        Platform.runLater(() -> {
+           ButtonType accept = new ButtonType("Accept");
+        ButtonType reject = new ButtonType("reject");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, message + " ", accept, reject);
+            alert.setHeaderText(header);
+            Optional<ButtonType> result = alert.showAndWait();
+            if(result.get()==accept){
+                    onAccept.run();
+            }else if(result.get()==reject){
+                
+                onReject.run();
+            }
         });
     }
     

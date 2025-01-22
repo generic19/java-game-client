@@ -4,6 +4,7 @@
  */
 package com.mycompany.javagameclient;
 
+import com.mycompany.networking.OnlinePlayer;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -29,5 +30,9 @@ public class PlayersInGameController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
+    void setPlayer(OnlinePlayer player){
+        inGamePlayerName.setText(player.getUsername());
+        inGamePlayerScore.setText(String.valueOf(player.getScore()));
+    }
     
 }

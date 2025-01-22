@@ -3,8 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
 package com.mycompany.javagameclient;
-
 import com.mycompany.networking.OnlinePlayer;
+import com.mycompany.networking.matching.InviteRequest;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -18,7 +18,7 @@ import javafx.scene.control.Label;
  * @author AhmedAli
  */
 public class ItemAvailablePlayersController implements Initializable {
-
+    private OnlinePlayer onlinePlayer;
 
     @FXML
     private Label playerName;
@@ -28,6 +28,7 @@ public class ItemAvailablePlayersController implements Initializable {
      * Initializes the controller class.
      */
     public void setPlayer(OnlinePlayer onlinePlayer){
+        this.onlinePlayer = onlinePlayer;
         playerName.setText(onlinePlayer.getUsername());
         playerScore.setText(String.valueOf(onlinePlayer.getScore()));
        
@@ -39,7 +40,9 @@ public class ItemAvailablePlayersController implements Initializable {
     }    
     
     @FXML
-    private void onInviteClicked(ActionEvent event) {
+    private void onInviteClicked(ActionEvent event){
+        // need validation 
+       InviteRequest inviteRequest = new InviteRequest(onlinePlayer.getUsername());
+       
     }
-
 }

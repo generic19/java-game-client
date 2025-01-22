@@ -51,7 +51,11 @@ public class CommunicatorImpl implements Communicator {
     @Override
     public void sendMessage(Message message) {
         try {
+            if(isConnected()){
             outputStream.writeObject(message);
+            
+            
+            }
         } catch (IOException ex) {
             broadcastError("Connection lost with server.");
             closeConnection();

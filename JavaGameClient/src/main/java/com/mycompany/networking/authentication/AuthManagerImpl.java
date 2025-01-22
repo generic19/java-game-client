@@ -6,7 +6,6 @@ package com.mycompany.networking.authentication;
 
 import com.mycompany.javagameclient.UIHelper;
 import com.mycompany.networking.Communicator;
-import com.mycompany.networking.CommunicatorImpl;
 import com.mycompany.networking.Message;
 /**
  *
@@ -36,7 +35,7 @@ public class AuthManagerImpl implements AuthManager, Communicator.Listener {
     public void register(String username, String password) {
         if(isValidData(username, password)){
             this.username = username;
-            communicator.setMessageListener(RegisterRespose.class, this);
+          //  communicator.setMessageListener(RegisterRespose.class, this);
             communicator.sendMessage(new RegisterRequest(username, password));
         }
     }
@@ -68,7 +67,7 @@ public class AuthManagerImpl implements AuthManager, Communicator.Listener {
     @Override
     public void signOut(String username) {
         communicator.setMessageListener(SignOutRespons.class, this);
-        communicator.sendMessage(new SignOutRequest(username));
+       // communicator.sendMessage(new SignOutRequest(username));
     }
     
     private boolean isValidData(String username, String password){
