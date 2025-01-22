@@ -14,8 +14,8 @@ import com.mycompany.game.Player;
  * @author basel
  */
 public interface GameManager<M extends GameMove, S extends GameState<M>> {
-    void addListener(Listener<S> listener);
-    void removeListener(Listener<S> listener);
+    void setListener(Listener<S> listener);
+    void unsetListener();
     void move(M gameMove);
     void leave();
     
