@@ -22,7 +22,6 @@ import java.util.List;
  * @author AhmedAli
  */
 public class RecordingManagerImpl implements RecordingManager<GameMove>{
-
     @Override
     public List<File> getRecordings() {
         // getting current directory of the project
@@ -39,7 +38,6 @@ public class RecordingManagerImpl implements RecordingManager<GameMove>{
         List<File> fileList = new ArrayList<>();
         
         fileList.addAll(Arrays.asList(fileArray));
-        
         return fileList;
          
     }

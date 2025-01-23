@@ -151,7 +151,6 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
 
         game.addListener(this);
     }
-
     // TODO: Show lose message here.
     @FXML
     private void onLeave(ActionEvent event) throws IOException {

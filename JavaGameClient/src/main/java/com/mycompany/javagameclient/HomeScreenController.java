@@ -63,6 +63,7 @@ public class HomeScreenController implements Initializable, AuthManager.Listener
     void onPlayWithFriend(ActionEvent event) throws IOException {
         App.switchToFXML("xoGameNameInput");
     }
+    
 
     @FXML
     void onplayWithComputer(ActionEvent event) throws IOException {
@@ -87,6 +88,10 @@ public class HomeScreenController implements Initializable, AuthManager.Listener
         } else{
             onError("Inavalid Token");
         }
+    }
+    @FXML
+    void OnGameRecordClicked(ActionEvent event)throws IOException {
+        App.switchToFXML("RecordesScreen");
     }
 
     @Override

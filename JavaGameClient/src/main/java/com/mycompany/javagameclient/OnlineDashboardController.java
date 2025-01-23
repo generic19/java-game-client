@@ -7,35 +7,24 @@ package com.mycompany.javagameclient;
 import static com.mycompany.javagameclient.App.switchToFXML;
 import com.mycompany.networking.authentication.AuthManager;
 import com.mycompany.networking.Communicator;
-import com.mycompany.networking.CommunicatorImpl;
 import com.mycompany.networking.Message;
 import com.mycompany.networking.OnlinePlayer;
-import com.mycompany.networking.matching.IncomingInviteRequest;
 import com.mycompany.networking.matching.IncomingInviteRespose;
-import com.mycompany.networking.matching.InviteRequest;
-import com.mycompany.networking.matching.InviteResponse;
 import com.mycompany.networking.matching.MatchingManager;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import javafx.event.ActionEvent;
-import javafx.event.EventTarget;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
