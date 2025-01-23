@@ -14,7 +14,6 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -29,6 +28,16 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+
+
+import java.io.File;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
+import javafx.util.Duration;
 
 /**
  * FXML Controller class
@@ -68,6 +77,8 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
 
     private OnlinePlayer onlinePlayer;
     private OnlinePlayer opponentOnlinePlayer;
+    @FXML
+    private MediaView mediaView;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -314,6 +325,50 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
                 String winnerName = (winner == Player.one) ? firstPlayerName : secondPlayerName;
                 lblHeader.setText(winnerName + " wins!");
                 alertMsg = winnerName + " is the WINNER. What would you like to do?";
+                String videoPath;
+                if(winner == Player.one){
+                    videoPath = "/com/mycompany/videos/winner.mp4";
+                } else {
+                    videoPath = "/com/mycompany/videos/loser.mp4";
+                }
+                
+                Media media = new Media(getClass().getResource(videoPath).toExternalForm());
+                MediaPlayer mediaPlayer = new MediaPlayer(media);
+                
+                mediaView.setMediaPlayer(mediaPlayer);
+                
+                mediaView.setVisible(true);
+                Platform.runLater(()->{
+                    mediaPlayer.play();
+                });
+                
+                PauseTransition pause = new PauseTransition(Duration.seconds(7));
+                pause.setOnFinished((actionEvent)->{
+                    mediaPlayer.stop();
+                    mediaView.setVisible(false);
+
+                    Platform.runLater(() -> {
+                        ButtonType goHomeButton = new ButtonType("Go Home");
+                        ButtonType keepPlayingButton = new ButtonType("Keep Playing");
+
+                        String alertMsg2 = "It's a draw! What would you like to do?";
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION, alertMsg2 + " ", goHomeButton, keepPlayingButton);
+                        Optional<ButtonType> result = alert.showAndWait();
+                        if (result.get() == goHomeButton) {
+                            try {
+                                App.switchToFXML("HomeScreen");
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        } else if (result.get() == keepPlayingButton) {
+                            game.resetGame();
+                        }
+                    });
+                });
+                
+                pause.play();
+                
+                
 
                 if (winner == Player.one) {
                     firstPlayerScore++;
@@ -325,23 +380,43 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
                 }
 
             } else {
-                alertMsg = "It's a draw!. What would you like to do?";
                 lblHeader.setText("It's a draw!");
-            }
-            ButtonType goHomeButton = new ButtonType("Go Home");
-            ButtonType keepPlayingButton = new ButtonType("Keep Playing");
+                
+                Media media = new Media(getClass().getResource("/com/mycompany/videos/draw.mp4").toExternalForm());
+                MediaPlayer mediaPlayer = new MediaPlayer(media);
+                
+                mediaView.setMediaPlayer(mediaPlayer);
+                
+                mediaView.setVisible(true);
+                Platform.runLater(()->{
+                    mediaPlayer.play();
+                });
+                
+                PauseTransition pause = new PauseTransition(Duration.seconds(7));
+                pause.setOnFinished((actionEvent)->{
+                    mediaPlayer.stop();
+                    mediaView.setVisible(false);
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, alertMsg + " ", goHomeButton, keepPlayingButton);
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == goHomeButton) {
-                try {
-                    App.switchToFXML("HomeScreen");
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            } else if (result.get() == keepPlayingButton) {
-                game.resetGame();
+                    Platform.runLater(() -> {
+                        ButtonType goHomeButton = new ButtonType("Go Home");
+                        ButtonType keepPlayingButton = new ButtonType("Keep Playing");
 
+                        String alertMsg2 = "It's a draw! What would you like to do?";
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION, alertMsg2 + " ", goHomeButton, keepPlayingButton);
+                        Optional<ButtonType> result = alert.showAndWait();
+                        if (result.get() == goHomeButton) {
+                            try {
+                                App.switchToFXML("HomeScreen");
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        } else if (result.get() == keepPlayingButton) {
+                            game.resetGame();
+                        }
+                    });
+                });
+                
+                pause.play();
             }
         } else {
 

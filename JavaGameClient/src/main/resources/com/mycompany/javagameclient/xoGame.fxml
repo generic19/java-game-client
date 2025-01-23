@@ -13,11 +13,12 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.media.MediaView?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="764.0" style="-fx-background-color: linear-gradient(from 0% -10% to 10% 100%, #1D1E2D, #44234D);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javagameclient.XoGameController">
+<VBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="764.0" style="-fx-background-color: linear-gradient(from 0% -10% to 10% 100%, #1D1E2D, #44234D);" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javagameclient.XoGameController">
    <children>
       <HBox alignment="CENTER" prefHeight="100.0" VBox.vgrow="ALWAYS">
          <children>
@@ -31,7 +32,7 @@
                <effect>
                   <DropShadow height="15.0" radius="7.0" width="15.0">
                      <color>
-                        <Color red="1.0" green="1.0" blue="1.0" opacity="0.7973231077194214" />
+                        <Color blue="1.0" green="1.0" opacity="0.7973231077194214" red="1.0" />
                      </color>
                   </DropShadow>
                </effect>
@@ -62,7 +63,7 @@
                      <effect>
                         <DropShadow blurType="GAUSSIAN" height="19.0" radius="9.0" width="19.0">
                            <color>
-                              <Color red="0.9960784316062927" green="0.8039215803146362" blue="0.45490196347236633" />
+                              <Color blue="0.45490196347236633" green="0.8039215803146362" red="0.9960784316062927" />
                            </color>
                         </DropShadow>
                      </effect>
@@ -80,7 +81,7 @@
                      <effect>
                         <DropShadow blurType="GAUSSIAN" height="19.0" radius="9.0" width="19.0">
                            <color>
-                              <Color red="1.0" green="1.0" blue="1.0" opacity="0.6692160367965698" />
+                              <Color blue="1.0" green="1.0" opacity="0.6692160367965698" red="1.0" />
                            </color>
                         </DropShadow>
                      </effect>
@@ -101,7 +102,7 @@
                      <effect>
                         <DropShadow blurType="GAUSSIAN" height="19.0" radius="9.0" width="19.0">
                            <color>
-                              <Color red="0.9960784316062927" green="0.8039215803146362" blue="0.45490196347236633" />
+                              <Color blue="0.45490196347236633" green="0.8039215803146362" red="0.9960784316062927" />
                            </color>
                         </DropShadow>
                      </effect>
@@ -116,7 +117,7 @@
                      <effect>
                         <DropShadow blurType="GAUSSIAN" height="19.0" radius="9.0" width="19.0">
                            <color>
-                              <Color red="1.0" green="1.0" blue="1.0" opacity="0.6692160367965698" />
+                              <Color blue="1.0" green="1.0" opacity="0.6692160367965698" red="1.0" />
                            </color>
                         </DropShadow>
                      </effect>
@@ -127,17 +128,17 @@
                <effect>
                   <DropShadow blurType="GAUSSIAN">
                      <color>
-                        <Color red="0.8131200075149536" green="0.4415999948978424" blue="0.9599999785423279" opacity="0.8489483594894409" />
+                        <Color blue="0.9599999785423279" green="0.4415999948978424" opacity="0.8489483594894409" red="0.8131200075149536" />
                      </color>
                      <input>
                         <DropShadow blurType="GAUSSIAN" height="32.0" radius="15.5" width="32.0">
                            <color>
-                              <Color red="0.7774999737739563" green="0.10999999940395355" blue="1.0" opacity="0.3199999928474426" />
+                              <Color blue="1.0" green="0.10999999940395355" opacity="0.3199999928474426" red="0.7774999737739563" />
                            </color>
                            <input>
                               <DropShadow blurType="GAUSSIAN" height="47.0" radius="23.0" width="47.0">
                                  <color>
-                                    <Color red="0.7333333492279053" blue="1.0" opacity="0.19502867758274078" />
+                                    <Color blue="1.0" opacity="0.19502867758274078" red="0.7333333492279053" />
                                  </color>
                               </DropShadow>
                            </input>
@@ -186,7 +187,7 @@
                            <effect>
                               <DropShadow blurType="GAUSSIAN">
                                  <color>
-                                    <Color red="1.0" green="0.2638888955116272" blue="0.2638888955116272" />
+                                    <Color blue="0.2638888955116272" green="0.2638888955116272" red="1.0" />
                                  </color>
                               </DropShadow>
                            </effect>
@@ -194,6 +195,7 @@
                               <Insets left="97.0" top="3.0" />
                            </StackPane.margin>
                         </Line>
+                        <MediaView fx:id="mediaView" fitHeight="200.0" fitWidth="200.0" visible="false" />
                      </children>
                   </StackPane>
                </children>
@@ -222,7 +224,7 @@
                <effect>
                   <DropShadow blurType="GAUSSIAN" height="30.0" radius="14.5" width="30.0">
                      <color>
-                        <Color red="0.8941176533699036" green="0.5529412031173706" blue="1.0" />
+                        <Color blue="1.0" green="0.5529412031173706" red="0.8941176533699036" />
                      </color>
                   </DropShadow>
                </effect>
