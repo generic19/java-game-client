@@ -9,6 +9,7 @@ import com.mycompany.networking.authentication.AuthManager;
 import com.mycompany.networking.authentication.AuthManagerImpl;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -72,12 +73,16 @@ public class SignUpController implements Initializable, AuthManager.Listener {
     public void onAuthStateChange(boolean signedIn) {
         if(signedIn){
             authManager.removeListener(this);
-            try {
-                ((Stage) loginPage.getScene().getWindow()).close();
-                App.switchToFXML("onlineDashboard");
-            } catch (IOException ex) {
-                UIHelper.showAlert("Error", "Error navigating to online dashboard.", Alert.AlertType.ERROR);
-            }
+            
+                Platform.runLater(() -> {
+                    try {
+                        ((Stage) loginPage.getScene().getWindow()).close();
+                        App.switchToFXML("onlineDashboard");
+                    } catch (IOException ex) {
+                        UIHelper.showAlert("Error", "Error navigating to online dashboard.", Alert.AlertType.ERROR);
+                    }
+                });
+            
         }
     }
 
