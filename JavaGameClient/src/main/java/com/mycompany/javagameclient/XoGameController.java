@@ -355,11 +355,7 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
                         Alert alert = new Alert(Alert.AlertType.INFORMATION, alertMsg2 + " ", goHomeButton, keepPlayingButton);
                         Optional<ButtonType> result = alert.showAndWait();
                         if (result.get() == goHomeButton) {
-                            try {
-                                App.switchToFXML("HomeScreen");
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
+                            App.switchToFXML("HomeScreen");
                         } else if (result.get() == keepPlayingButton) {
                             game.resetGame();
                         }
@@ -405,11 +401,7 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
                         Alert alert = new Alert(Alert.AlertType.INFORMATION, alertMsg2 + " ", goHomeButton, keepPlayingButton);
                         Optional<ButtonType> result = alert.showAndWait();
                         if (result.get() == goHomeButton) {
-                            try {
-                                App.switchToFXML("HomeScreen");
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
+                            App.switchToFXML("HomeScreen");
                         } else if (result.get() == keepPlayingButton) {
                             game.resetGame();
                         }

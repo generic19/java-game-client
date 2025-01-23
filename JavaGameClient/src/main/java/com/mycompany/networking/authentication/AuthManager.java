@@ -14,12 +14,12 @@ public interface AuthManager {
         return AuthManagerImpl.getInstance();
     }
     
-    void addListener(Listener listener);
-    void removeListener(Listener listener);
+    void setListener(Listener listener);
+    void unsetListener();
     void register(String username, String password);
     void signInWithToken();
     void signIn(String username, String password);
-    void signOut(String username);
+    void signOut();
     
     interface Listener{
         void onAuthStateChange(boolean signedIn);

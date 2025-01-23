@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ListView;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.StageStyle;
@@ -37,18 +38,28 @@ public class App extends Application {
         stage.show();
     }
     
-    static void openModal(String fxml) throws IOException{
-        Stage stage = new Stage(StageStyle.UTILITY);
+    static void openModal(String fxml) {
+        try {
+            Stage stage = new Stage(StageStyle.UTILITY);
+            
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            
+            stage.setScene(new Scene(loadFXML(fxml)));
+            stage.show();
+        } catch (IOException ex) {
+            throw new IllegalArgumentException("FXML file" + fxml + "not found.");
+        }
         
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setResizable(false);
         
-        stage.setScene(new Scene(loadFXML(fxml)));
-        stage.show();
     }
     
-    static void switchToFXML(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
+    static void switchToFXML(String fxml) {
+        try {
+            scene.setRoot(loadFXML(fxml));
+        } catch (IOException ex) {
+            throw new IllegalArgumentException("FXML file " + fxml + " not found.");
+        }
     }
     
     static void setRoot(Parent root) throws IOException {

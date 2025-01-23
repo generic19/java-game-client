@@ -24,7 +24,7 @@ import javafx.stage.Stage;
  *
  * @author ayasa
  */
-public class SignUpController implements Initializable, AuthManager.Listener {
+public class SignUpController implements Initializable {
 
     @FXML
     private TextField username;
@@ -37,15 +37,11 @@ public class SignUpController implements Initializable, AuthManager.Listener {
     @FXML
     private Label loginPage;
     
-    AuthManager authManager;
-    boolean isListenerAdded = false;
-    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        authManager = AuthManager.getInstance();
         validateInputFields();
     }    
     
@@ -54,11 +50,7 @@ public class SignUpController implements Initializable, AuthManager.Listener {
         if(!password.getText().equals(confirmPassword.getText())){
             UIHelper.showAlert("Warning", "password and confirm password is not tha same", Alert.AlertType.WARNING);
         } else {
-            if(!isListenerAdded){
-                authManager.addListener(this);
-                isListenerAdded = true;
-            }
-            authManager.register(username.getText().trim(), password.getText().trim());
+            AuthManager.getInstance().register(username.getText().trim(), password.getText().trim());
         }
     }
 
@@ -67,28 +59,6 @@ public class SignUpController implements Initializable, AuthManager.Listener {
        Stage stagee=(Stage) loginPage.getScene().getWindow();
         stagee.close();
         App.openModal("Login");
-    }
-
-    @Override
-    public void onAuthStateChange(boolean signedIn) {
-        if(signedIn){
-            authManager.removeListener(this);
-            
-                Platform.runLater(() -> {
-                    try {
-                        ((Stage) loginPage.getScene().getWindow()).close();
-                        App.switchToFXML("onlineDashboard");
-                    } catch (IOException ex) {
-                        UIHelper.showAlert("Error", "Error navigating to online dashboard.", Alert.AlertType.ERROR);
-                    }
-                });
-            
-        }
-    }
-
-    @Override
-    public void onError(String errorMsg) { 
-        UIHelper.showAlert("Error", errorMsg, Alert.AlertType.ERROR);
     }
 
     private void validateInputFields() {

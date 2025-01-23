@@ -39,10 +39,6 @@ public class LevelScreenController {
 
     @FXML
     private void onBackClicked(ActionEvent event) {
-        try {
-            App.switchToFXML("HomeScreen");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        App.switchToFXML("HomeScreen");
     }
 }

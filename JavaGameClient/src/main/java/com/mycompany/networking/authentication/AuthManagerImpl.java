@@ -37,12 +37,12 @@ public class AuthManagerImpl implements AuthManager {
     }
 
     @Override
-    public void addListener(Listener listener) {
+    public void setListener(Listener listener) {
         this.listener = listener;
     }
 
     @Override
-    public void removeListener(Listener listener) {
+    public void unsetListener() {
         this.listener = null;
     }
 
@@ -77,8 +77,9 @@ public class AuthManagerImpl implements AuthManager {
         else navigate to login screen
          */
         String token = UIHelper.getToken();
+        
         if (token == null) {
-            listener.onError("NOT_FOUND");
+            listener.onError("Session token not found.");
         } else {
             communicator.setMessageListener(SignInWithTokenResponse.class, (response) -> {
                 if (response != null) {
@@ -91,6 +92,7 @@ public class AuthManagerImpl implements AuthManager {
 
                 communicator.unsetMessageListener(SignInWithTokenResponse.class);
             });
+            
             communicator.sendMessage(new SignInWithTokenRequest(token));
         }
     }
@@ -117,10 +119,10 @@ public class AuthManagerImpl implements AuthManager {
     }
 
     @Override
-    public void signOut(String username) {
+    public void signOut() {
         communicator.setMessageListener(SignOutRespons.class, (response) -> {
             if (response.isSuccess()) {
-                listener.onAuthStateChange(true);
+                listener.onAuthStateChange(false);
             } else {
                 listener.onError("Logout Failed");
             }
@@ -128,7 +130,7 @@ public class AuthManagerImpl implements AuthManager {
             communicator.unsetMessageListener(SignOutRespons.class);
         });
         
-        communicator.sendMessage(new SignOutRequest(username));
+        communicator.sendMessage(new SignOutRequest());
     }
 
     private boolean isValidData(String username, String password) {

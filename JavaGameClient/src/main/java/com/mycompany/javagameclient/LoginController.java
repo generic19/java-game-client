@@ -24,7 +24,7 @@ import javafx.stage.Stage;
  *
  * @author ayasa
  */
-public class LoginController implements Initializable, AuthManager.Listener {
+public class LoginController implements Initializable {
 
     @FXML
     private TextField username;
@@ -35,24 +35,21 @@ public class LoginController implements Initializable, AuthManager.Listener {
     @FXML
     private Button btnLogin;
     
-    AuthManager authManager;
     boolean isListenerAdded = false;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        authManager = AuthManager.getInstance();
         validateInputFields();
     }    
     
     @FXML   
     private void handleLogin(ActionEvent event) {
         if(!isListenerAdded){
-            authManager.addListener(this);
             isListenerAdded = true;
         }
-        authManager.signIn(username.getText().trim(), password.getText().trim());
+        AuthManager.getInstance().signIn(username.getText().trim(), password.getText().trim());
     }
 
     @FXML
@@ -81,18 +78,4 @@ public class LoginController implements Initializable, AuthManager.Listener {
         });
         
     }
-
-    @Override
-    public void onAuthStateChange(boolean signedIn) {
-        if(signedIn){
-            authManager.removeListener(this);
-            App.getFXMLLoader("onlineDashboard");
-        }
-    }
-
-    @Override
-    public void onError(String errorMsg) {
-        UIHelper.showAlert("Error", errorMsg, Alert.AlertType.ERROR);
-    }
-
 }

@@ -9,13 +9,5 @@ package com.mycompany.networking.authentication;
  * @author ArwaKhaled
  */
 public class SignOutRequest implements AuthMessage {
-    private String userName;
 
-    public SignOutRequest(String userName) {
-        this.userName = userName;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
 }

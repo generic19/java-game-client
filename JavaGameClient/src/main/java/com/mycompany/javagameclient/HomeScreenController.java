@@ -19,10 +19,9 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 
 public class HomeScreenController implements Initializable, AuthManager.Listener {
-
     @FXML public StackPane root;
     @FXML public VBox innerBox;
-    boolean isListenerAdded = false;
+    private boolean tryingSignInWithToken;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -45,20 +44,17 @@ public class HomeScreenController implements Initializable, AuthManager.Listener
     @FXML
     void onPlayOnlineClicked(ActionEvent event) throws IOException {
         Communicator.getInstance().openConnection();
+        AuthManager.getInstance().setListener(this);
         
         if (Communicator.getInstance().isConnected()) {
             // check if we have a stored token into file
             if (UIHelper.getToken() == null) {
+                tryingSignInWithToken = false;
                 App.openModal("Login");
             } else {
-                if (!isListenerAdded) {
-                    AuthManager.getInstance().addListener(this);
-                    isListenerAdded = true;
-                }
+                tryingSignInWithToken = true;
                 AuthManager.getInstance().signInWithToken();
             }
-        } else {
-            UIHelper.showAlert("Error", "Error connecting to server.", Alert.AlertType.ERROR);
         }
     }
 
@@ -74,8 +70,15 @@ public class HomeScreenController implements Initializable, AuthManager.Listener
 
     @Override
     public void onAuthStateChange(boolean signedIn) {
+        if (!signedIn && tryingSignInWithToken) {
+            App.openModal("Login");
+        } else if (signedIn) {
+            AuthManager.getInstance().unsetListener();
+            App.switchToFXML("onlineDashboard");
+        }
+        
         if(signedIn){
-            App.getFXMLLoader("onlineDashboard");
+            
         } else{
             onError("Inavalid Token");
         }
@@ -83,11 +86,7 @@ public class HomeScreenController implements Initializable, AuthManager.Listener
 
     @Override
     public void onError(String errorMsg) {
-        try {
-            App.switchToFXML("Login");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        UIHelper.showAlert("Authentication Error", errorMsg, Alert.AlertType.ERROR);
     }
 }
 

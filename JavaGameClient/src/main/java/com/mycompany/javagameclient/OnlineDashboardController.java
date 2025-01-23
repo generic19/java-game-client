@@ -62,9 +62,6 @@ public class OnlineDashboardController implements Initializable, MatchingManager
     @FXML
     private VBox inGamePlayersList;
 
-    AuthManager authManager;
-    boolean isListenerAdded = false;
-
     /**
      * Initializes the controller class.
      */
@@ -78,7 +75,7 @@ public class OnlineDashboardController implements Initializable, MatchingManager
         inGamePlayers = (matchingManager.getAvailable());
 
         availablePlayers.add(new OnlinePlayer("basel", 0));
-        
+
         for (OnlinePlayer player : availablePlayers) {
             addAvailablePlayerItem(player);
         }
@@ -86,23 +83,23 @@ public class OnlineDashboardController implements Initializable, MatchingManager
             addInGamePlayerItem(player);
         }
     }
-    
+
     private void addAvailablePlayerItem(OnlinePlayer player) {
         FXMLLoader loader = App.getFXMLLoader("itemAvailablePlayers");
-            try {
-                Node element = loader.load();
-                ItemAvailablePlayersController controller = loader.getController();
+        try {
+            Node element = loader.load();
+            ItemAvailablePlayersController controller = loader.getController();
 
-                controller.setPlayer(player);
+            controller.setPlayer(player);
 
-                availablePlayersList.getChildren().add(element);
-                availablePlayersNodes.put(player,element);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+            availablePlayersList.getChildren().add(element);
+            availablePlayersNodes.put(player, element);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
-    
-      private void addInGamePlayerItem(OnlinePlayer player) {
+
+    private void addInGamePlayerItem(OnlinePlayer player) {
         FXMLLoader loader = App.getFXMLLoader("playersInGame");
         try {
             Node element = loader.load();
@@ -114,15 +111,16 @@ public class OnlineDashboardController implements Initializable, MatchingManager
             ex.printStackTrace();
         }
     }
+
     private void removeInGamePlayerItem(OnlinePlayer player) {
         Node node = inGamePlayersNodes.remove(player);
         inGamePlayersList.getChildren().remove(node);
     }
+
     private void removeAvailablePlayerItem(OnlinePlayer player) {
         Node node = availablePlayersNodes.remove(player);
         availablePlayersList.getChildren().remove(node);
     }
-
 
     @FXML
     private void onBackClicked(ActionEvent event) throws IOException {
@@ -131,17 +129,14 @@ public class OnlineDashboardController implements Initializable, MatchingManager
 
     @FXML
     private void onLogoutClicked(ActionEvent event) {
-        if (!isListenerAdded) {
-            authManager.addListener(this);
-            isListenerAdded = true;
-        }
-        authManager.signOut(labelPlayerName.getText());
+        AuthManager.getInstance().setListener(this);
+        AuthManager.getInstance().signOut();
     }
 
     @Override
     public void onAuthStateChange(boolean signedIn) {
-        if (signedIn) {
-            App.getFXMLLoader("HomeScreen");
+        if (!signedIn) {
+            App.switchToFXML("HomeScreen");
         }
     }
 
@@ -159,11 +154,11 @@ public class OnlineDashboardController implements Initializable, MatchingManager
                 removeInGamePlayerItem(player);
             }
         }
-        for (OnlinePlayer player : availablePlayersNodes.keySet()) {            
+        for (OnlinePlayer player : availablePlayersNodes.keySet()) {
             boolean inOld = availablePlayers.contains(player);
             boolean inNew = newAvailablePlayers.contains(player);
-            
-            if (inOld && !inNew) {   
+
+            if (inOld && !inNew) {
                 addAvailablePlayerItem(player);
             } else if (!inOld && inNew) {
                 removeAvailablePlayerItem(player);
@@ -174,28 +169,28 @@ public class OnlineDashboardController implements Initializable, MatchingManager
     @Override
     public void onIncomingInviteRequest(String userName) {
         UIHelper.showAlertWithButton(
-                "Invitation",
-                userName + " wants to play with you",
-                () -> {
-                    Message message = new IncomingInviteRespose(IncomingInviteRespose.Response.ACCEPTED);
-                    communicator.sendMessage(message);
-                },
-                () -> {
-                    Message message = new IncomingInviteRespose(IncomingInviteRespose.Response.REJECTED);
-                    communicator.sendMessage(message);
-                }
+            "Invitation",
+            userName + " wants to play with you",
+            () -> {
+                Message message = new IncomingInviteRespose(IncomingInviteRespose.Response.ACCEPTED);
+                communicator.sendMessage(message);
+            },
+            () -> {
+                Message message = new IncomingInviteRespose(IncomingInviteRespose.Response.REJECTED);
+                communicator.sendMessage(message);
+            }
         );
     }
 
     @Override
     public void onInviteResponse(boolean accept, boolean timeOut) {
-        if(accept){
+        if (accept) {
             //start the game 
         } else if (!accept || timeOut) {
             UIHelper.showAlert("Rejected", " the Invitation Has been rejected", Alert.AlertType.NONE);
 
         }
-         }
+    }
 
     @Override
     public void onErrorMessage(String errorMsg) {
