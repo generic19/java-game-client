@@ -10,6 +10,7 @@ import com.mycompany.networking.authentication.AuthManagerImpl;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.beans.binding.DoubleBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -71,10 +72,14 @@ public class HomeScreenController implements Initializable, AuthManager.Listener
     @Override
     public void onAuthStateChange(boolean signedIn) {
         if (!signedIn && tryingSignInWithToken) {
-            App.openModal("Login");
+           Platform.runLater(()->{
+                App.openModal("Login");
+           });
         } else if (signedIn) {
             AuthManager.getInstance().unsetListener();
-            App.switchToFXML("onlineDashboard");
+            Platform.runLater(()->{
+                App.switchToFXML("onlineDashboard");
+           });
         }
         
         if(signedIn){

@@ -80,7 +80,8 @@ public class AuthManagerImpl implements AuthManager {
         
         if (token == null) {
             listener.onError("Session token not found.");
-        } else {
+        } 
+        else {
             communicator.setMessageListener(SignInWithTokenResponse.class, (response) -> {
                 if (response != null) {
                     if (response.isSuccess()) {
