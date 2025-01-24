@@ -90,6 +90,8 @@ public class CommunicatorImpl implements Communicator {
                         outputStream = null;
                         
                         broadcastError("Could not open connection to server.");
+                        
+                        ex.printStackTrace();
                     }
                 }
             }
