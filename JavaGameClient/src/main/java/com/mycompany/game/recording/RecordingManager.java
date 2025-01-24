@@ -16,4 +16,5 @@ public interface RecordingManager<M extends GameMove> {
     List<File> getRecordings();
     void saveRecording(GameRecording recording);
     GameRecording<M> loadRecording(File file);
+    public boolean deldeteFile(File file);
 }
