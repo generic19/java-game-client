@@ -157,6 +157,7 @@ public class CommunicatorImpl implements Communicator {
             catch (IOException ex) {
                 closeConnection();
                 broadcastError("Lost connection to server.");
+                ex.printStackTrace();
             }
         });
         

@@ -4,11 +4,13 @@
  */
 package com.mycompany.networking;
 
+import java.io.Serializable;
+
 /**
  *
  * @author basel
  */
-public class OnlinePlayer {
+public class OnlinePlayer implements Serializable {
     private final String username;
     private final int score;
 
