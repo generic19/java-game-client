@@ -14,10 +14,10 @@ import java.util.List;
  * @author basel
  */
 public class MatchingInitialStateMessage implements MatchingMessage {
-    private final ArrayList<OnlinePlayer> available;
-    private final ArrayList<OnlinePlayer> inGame;
+    private final List<OnlinePlayer> available;
+    private final List<OnlinePlayer> inGame;
 
-    public MatchingInitialStateMessage(ArrayList<OnlinePlayer> available, ArrayList<OnlinePlayer> inGame) {
+    public MatchingInitialStateMessage(List<OnlinePlayer> available, List<OnlinePlayer> inGame) {
         this.available = available;
         this.inGame = inGame;
     }
