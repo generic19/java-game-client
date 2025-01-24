@@ -13,7 +13,7 @@
    <children>
       <VBox alignment="CENTER" fillWidth="false" StackPane.alignment="CENTER">
          <children>
-            <VBox fx:id="innerBox" alignment="CENTER" fillWidth="false" style="-fx-background-color: linear-gradient(to top, #1C1A34 0%, #432B40 100%); -fx-border-color: #FFE2FF; -fx-border-width: 4; -fx-border-radius: 26; -fx-background-radius: 28;" VBox.vgrow="NEVER">
+            <VBox fx:id="innerBox" alignment="CENTER" fillWidth="false" prefHeight="321.0" prefWidth="315.0" style="-fx-background-color: linear-gradient(to top, #1C1A34 0%, #432B40 100%); -fx-border-color: #FFE2FF; -fx-border-width: 4; -fx-border-radius: 26; -fx-background-radius: 28;" VBox.vgrow="NEVER">
                <children>
                   <Label text="tic.tac.toe" textFill="#f8f8f8">
                      <font>
