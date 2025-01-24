@@ -69,48 +69,52 @@ public class UIHelper {
         
         return result;
     }
-
-public static boolean deleteTokenFile() {
-    File file = new File("token.txt");
-
-    if (file.exists()) {
-        if (file.delete()) {
-            System.out.println("Token file deleted successfully.");
-            return true;
+    
+    public static boolean deleteTokenFile() {
+        File file = new File("token.txt");
+        
+        if (file.exists()) {
+            if (file.delete()) {
+                System.out.println("Token file deleted successfully.");
+                return true;
+            } else {
+                System.out.println("Failed to delete token file.");
+                return false;
+            }
         } else {
-            System.out.println("Failed to delete token file.");
+            System.out.println("Token file does not exist.");
             return false;
         }
-    } else {
-        System.out.println("Token file does not exist.");
-        return false;
     }
-}
-
-    public static String getToken(){
+    
+    public static TokenData getToken() {
+        String username;
         String token;
         
         String data = readDataFromFile();
         if(data == null){
             token = null;
+            username = null;
         } else{
             StringTokenizer tokenizer = new StringTokenizer(data, ";");
             
             // Extract username and token
             if (tokenizer.countTokens() == 2) {
-                String username = tokenizer.nextToken();
+                username = tokenizer.nextToken();
                 token = tokenizer.nextToken();
                 
                 // Output the extracted credentials
                 System.out.println("Username: " + username);
                 System.out.println("Token: " + token);
             } else {
+                username = null;
                 token = null;
+                
                 System.out.println("Invalid format in the file.");
             }
         }
         
-        return token;
+        return new TokenData(username, token);
     }
     
     public static String getUserName(){
@@ -153,5 +157,23 @@ public static boolean deleteTokenFile() {
         }
         
         return result;
+    }
+    
+    public static class TokenData {
+        private final String username;
+        private final String token;
+
+        public TokenData(String username, String token) {
+            this.username = username;
+            this.token = token;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public String getToken() {
+            return token;
+        }
     }
 }

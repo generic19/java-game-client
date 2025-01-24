@@ -58,7 +58,7 @@ public class HomeScreenController implements Initializable, AuthManager.Listener
                 App.switchToFXML("onlineDashboard");
             
             }
-            else if (UIHelper.getToken() == null) {
+            else if (UIHelper.getToken().getToken() == null) {
                 tryingSignInWithToken = false;
                 App.openModal("Login");
             } else {
