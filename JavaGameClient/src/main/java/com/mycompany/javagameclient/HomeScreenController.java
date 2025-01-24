@@ -20,33 +20,36 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 
 public class HomeScreenController implements Initializable, AuthManager.Listener {
-    @FXML public StackPane root;
-    @FXML public VBox innerBox;
+
+    @FXML
+    public StackPane root;
+    @FXML
+    public VBox innerBox;
     private boolean tryingSignInWithToken;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         root.setBackground(new Background(
-            new BackgroundImage(
-                new Image(App.class.getResource("images/GameBackGround.png").toExternalForm()),
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.CENTER,
-                new BackgroundSize(1, 1, true, true, false, true)
-            )
+                new BackgroundImage(
+                        new Image(App.class.getResource("images/GameBackGround.png").toExternalForm()),
+                        BackgroundRepeat.NO_REPEAT,
+                        BackgroundRepeat.NO_REPEAT,
+                        BackgroundPosition.CENTER,
+                        new BackgroundSize(1, 1, true, true, false, true)
+                )
         ));
-        
+
         DoubleBinding scaleFactor = root.heightProperty().divide(1000).add(0.65);
-        
+
         innerBox.scaleXProperty().bind(scaleFactor);
         innerBox.scaleYProperty().bind(scaleFactor);
     }
-    
+
     @FXML
     void onPlayOnlineClicked(ActionEvent event) throws IOException {
         Communicator.getInstance().openConnection();
         AuthManager.getInstance().setListener(this);
-        
+
         if (Communicator.getInstance().isConnected()) {
             // check if we have a stored token into file
             if (UIHelper.getToken() == null) {
@@ -63,7 +66,6 @@ public class HomeScreenController implements Initializable, AuthManager.Listener
     void onPlayWithFriend(ActionEvent event) throws IOException {
         App.switchToFXML("xoGameNameInput");
     }
-    
 
     @FXML
     void onplayWithComputer(ActionEvent event) throws IOException {
@@ -72,25 +74,33 @@ public class HomeScreenController implements Initializable, AuthManager.Listener
 
     @Override
     public void onAuthStateChange(boolean signedIn) {
-        if (!signedIn && tryingSignInWithToken) {
-           Platform.runLater(()->{
+        // to be !tryingSignInWithToken  later but only for the debugging i guess
+        // when its tryingSignInWithToken the app will navigate to onlineDashboard succ 
+        // when its !tryingSignInWithToken the will not navigate to anything
+        if (!signedIn && !tryingSignInWithToken) {
+            Platform.runLater(() -> {
                 App.openModal("Login");
-           });
+            });
         } else if (signedIn) {
             AuthManager.getInstance().unsetListener();
-            Platform.runLater(()->{
+            Platform.runLater(() -> {
                 App.switchToFXML("onlineDashboard");
-           });
+            });
         }
-        
-        if(signedIn){
-            
-        } else{
-            onError("Inavalid Token");
+        // condation was signedIn 
+        // to be tryingSignInWithToken
+        // it made like that to show the login&signup window i guess 
+        if (tryingSignInWithToken) {
+            App.switchToFXML("onlineDashboard");
+        } else {
+            App.openModal("Login");
+            onError("Something went wrong please SignUp ");
+
         }
     }
+
     @FXML
-    void OnGameRecordClicked(ActionEvent event)throws IOException {
+    void OnGameRecordClicked(ActionEvent event) throws IOException {
         App.switchToFXML("RecordesScreen");
     }
 
@@ -99,4 +109,3 @@ public class HomeScreenController implements Initializable, AuthManager.Listener
         UIHelper.showAlert("Authentication Error", errorMsg, Alert.AlertType.ERROR);
     }
 }
-

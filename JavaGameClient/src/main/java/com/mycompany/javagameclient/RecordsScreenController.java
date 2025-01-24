@@ -48,19 +48,19 @@ public class RecordsScreenController {
     for (int i = 0; i < recordsFiles.size(); i++) {
         File file = recordsFiles.get(i);
     }
-    
-        
+    CreateNode("arwa",1);
+    CreateNode("arwa",2);  
     }
 
-    void CreateNode(File recordFile, int index) {
+    void CreateNode(String recordFile, int index) {
     try {
         FXMLLoader loader = App.getFXMLLoader("RecordItem");
         Node element = loader.load();
         RecordItemController controller = loader.getController();
-        controller.setLabel(recordFile.getName());
-      // controller.setLabel(recordFile);
+       // controller.setLabel(recordFile.getName());
+       controller.setLabel(recordFile);
         controller.setIndex(index);
-        controller.setRecordFile(recordFile);
+        //controller.setRecordFile(recordFile);
         recordesList.getChildren().add(element);
     } catch (IOException e) {
         e.printStackTrace();

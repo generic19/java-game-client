@@ -118,8 +118,11 @@ public class OnlineDashboardController implements Initializable, MatchingManager
 
     @FXML
     private void onLogoutClicked(ActionEvent event) {
+          //////////// just bu screen , the token is not deleted yet
         AuthManager.getInstance().setListener(this);
         AuthManager.getInstance().signOut();
+        App.switchToFXML("HomeScreen");
+        
     }
 
     @Override

@@ -6,6 +6,8 @@ package com.mycompany.javagameclient;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.File;
+
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -67,7 +69,24 @@ public class UIHelper {
         
         return result;
     }
-    
+
+public static boolean deleteTokenFile() {
+    File file = new File("token.txt");
+
+    if (file.exists()) {
+        if (file.delete()) {
+            System.out.println("Token file deleted successfully.");
+            return true;
+        } else {
+            System.out.println("Failed to delete token file.");
+            return false;
+        }
+    } else {
+        System.out.println("Token file does not exist.");
+        return false;
+    }
+}
+
     public static String getToken(){
         String token;
         

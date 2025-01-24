@@ -19,7 +19,7 @@ public class AuthManagerImpl implements AuthManager {
     String username;
 
     private static AuthManagerImpl instance;
-    
+
     public static AuthManagerImpl getInstance() {
         if (instance == null) {
             synchronized (AuthManagerImpl.class) {
@@ -28,10 +28,10 @@ public class AuthManagerImpl implements AuthManager {
                 }
             }
         }
-        
+
         return instance;
     }
-    
+
     private AuthManagerImpl() {
         communicator = Communicator.getInstance();
     }
@@ -39,6 +39,7 @@ public class AuthManagerImpl implements AuthManager {
     @Override
     public void setListener(Listener listener) {
         this.listener = listener;
+        System.out.println("this listener");
     }
 
     @Override
@@ -77,15 +78,17 @@ public class AuthManagerImpl implements AuthManager {
         else navigate to login screen
          */
         String token = UIHelper.getToken();
-        
+
         if (token == null) {
             listener.onError("Session token not found.");
-        } 
-        else {
+        } else {
             communicator.setMessageListener(SignInWithTokenResponse.class, (response) -> {
                 if (response != null) {
                     if (response.isSuccess()) {
                         handleSuccessResponse(SignInWithTokenResponse.class);
+                      //  listener.onAuthStateChange(true);
+                      
+                        ///////////////////////////////////////////////
                     } else {
                         listener.onAuthStateChange(false);
                     }
@@ -93,7 +96,7 @@ public class AuthManagerImpl implements AuthManager {
 
                 communicator.unsetMessageListener(SignInWithTokenResponse.class);
             });
-            
+
             communicator.sendMessage(new SignInWithTokenRequest(token));
         }
     }
@@ -105,6 +108,7 @@ public class AuthManagerImpl implements AuthManager {
                 if (response != null) {
                     if (response.isSuccess()) {
                         // token to be saved in file
+
                         saveTokenLocally(response.getToken());
                         handleSuccessResponse(SignInResponse.class);
                     } else {
@@ -121,16 +125,17 @@ public class AuthManagerImpl implements AuthManager {
 
     @Override
     public void signOut() {
+        // not being called ever 
         communicator.setMessageListener(SignOutRespons.class, (response) -> {
             if (response.isSuccess()) {
+                UIHelper.deleteTokenFile();
                 listener.onAuthStateChange(false);
             } else {
                 listener.onError("Logout Failed");
             }
-
             communicator.unsetMessageListener(SignOutRespons.class);
         });
-        
+               
         communicator.sendMessage(new SignOutRequest());
     }
 
