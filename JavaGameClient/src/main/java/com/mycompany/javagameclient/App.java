@@ -38,7 +38,7 @@ public class App extends Application {
         stage.show();
     }
     
-    static void openModal(String fxml) {
+    static Stage openModal(String fxml) {
         try {
             Stage stage = new Stage(StageStyle.UTILITY);
             
@@ -47,11 +47,23 @@ public class App extends Application {
             
             stage.setScene(new Scene(loadFXML(fxml)));
             stage.show();
+            return stage;
         } catch (IOException ex) {
             throw new IllegalArgumentException("FXML file" + fxml + "not found.");
         }
-        
-        
+          
+    }
+    
+    static void switchModal(String fxml, Stage stage) {
+        try {
+            
+            stage.setScene(new Scene(loadFXML(fxml)));
+            // stage.show();
+            
+        } catch (IOException ex) {
+            throw new IllegalArgumentException("FXML file" + fxml + "not found.");
+        }
+          
     }
     
     static void switchToFXML(String fxml) {

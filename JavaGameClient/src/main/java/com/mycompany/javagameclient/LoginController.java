@@ -48,17 +48,14 @@ public class LoginController implements Initializable {
             isListenerAdded = true;
         }
         AuthManager.getInstance().signIn(username.getText().trim(), password.getText().trim());
-        Stage stage=(Stage) signUpPage.getScene().getWindow();
-        stage.close();
-        App.switchToFXML("onlineDashboard");
+        
         
     }
 
     @FXML
     private void goToSignup(MouseEvent event) throws IOException {
         Stage stage=(Stage) signUpPage.getScene().getWindow();
-        stage.close();
-        App.openModal("SignUp");
+        App.switchModal("SignUp", stage);
     }
     
     private void validateInputFields() {

@@ -6,7 +6,6 @@ package com.mycompany.javagameclient;
 
 import com.mycompany.networking.Communicator;
 import com.mycompany.networking.authentication.AuthManager;
-import com.mycompany.networking.authentication.AuthManagerImpl;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -18,8 +17,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
 
 public class HomeScreenController implements Initializable, AuthManager.Listener {
+    
+    Stage openModal;
 
     @FXML
     public StackPane root;
@@ -78,29 +80,36 @@ public class HomeScreenController implements Initializable, AuthManager.Listener
 
     @Override
     public void onAuthStateChange(boolean signedIn) {
+        
         // to be !tryingSignInWithToken  later but only for the debugging i guess
         // when its tryingSignInWithToken the app will navigate to onlineDashboard succ 
         // when its !tryingSignInWithToken the will not navigate to anything
-        if (!signedIn && !tryingSignInWithToken) {
+        if (!signedIn && tryingSignInWithToken) {
+            UIHelper.deleteTokenFile();
             Platform.runLater(() -> {
-                App.openModal("Login");
+                openModal = App.openModal("Login");
             });
+        } else if(!signedIn && !tryingSignInWithToken){
+            UIHelper.showAlert("Error", "Failed Sign In", Alert.AlertType.ERROR);
         } else if (signedIn) {
             AuthManager.getInstance().unsetListener();
             Platform.runLater(() -> {
+                if(openModal != null){
+                    openModal.close();
+                }
                 App.switchToFXML("onlineDashboard");
             });
         }
         // condation was signedIn 
         // to be tryingSignInWithToken
         // it made like that to show the login&signup window i guess 
-        if (tryingSignInWithToken) {
-            App.switchToFXML("onlineDashboard");
-        } else {
-            App.openModal("Login");
-            onError("Something went wrong please SignUp ");
-
-        }
+//        if (tryingSignInWithToken) {
+//            App.switchToFXML("onlineDashboard");
+//        } else {
+//            App.openModal("Login");
+//            onError("Something went wrong please SignUp ");
+//
+//        }
     }
 
     @FXML

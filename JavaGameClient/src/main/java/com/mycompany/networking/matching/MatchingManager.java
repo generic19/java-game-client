@@ -36,28 +36,31 @@ public class MatchingManager {
         communicator.sendMessage(new MatchingSubscriptionRequest(true));
         Communicator.Listener<MatchingInitialStateMessage> commuiactorListener =(MatchingInitialStateMessage msg)->{
             
-             availablePlayers.addAll(msg.getAvailable());
-             inGamePlayers.addAll(msg.getInGame());
-             listener.onMatchingUpdate();
-        };
-         Communicator.Listener<MatchingUpdateMessage> commuiactorUpdateListener=(MatchingUpdateMessage msg)->{
-             if (msg.getTarget()==MatchingUpdateMessage.Target.AVAILABLE){
-                 if(msg.getUpdateType()==MatchingUpdateMessage.UpdateType.ADD){
-                 
-                 availablePlayers.add(msg.getPlayer());
-                 }
-                 else {
-                    availablePlayers.remove(msg.getPlayer());
-                 }
-             }else{
-                 if(msg.getUpdateType()==MatchingUpdateMessage.UpdateType.ADD){
-                     inGamePlayers.add(msg.getPlayer());
-                 }else {
-                 inGamePlayers.remove(msg.getPlayer());
-                 }
-             }
-             
+            availablePlayers.addAll(msg.getAvailable());
+            inGamePlayers.addAll(msg.getInGame());
             listener.onMatchingUpdate();
+        };
+        Communicator.Listener<MatchingUpdateMessage> commuiactorUpdateListener=(MatchingUpdateMessage msg)->{
+            if(msg == null){
+                return;
+            }
+            if (msg.getTarget()==MatchingUpdateMessage.Target.AVAILABLE){
+                if(msg.getUpdateType()==MatchingUpdateMessage.UpdateType.ADD){
+
+                availablePlayers.add(msg.getPlayer());
+                }
+                else {
+                   availablePlayers.remove(msg.getPlayer());
+                }
+            }else{
+                if(msg.getUpdateType()==MatchingUpdateMessage.UpdateType.ADD){
+                    inGamePlayers.add(msg.getPlayer());
+                }else {
+                inGamePlayers.remove(msg.getPlayer());
+                }
+            }
+
+           listener.onMatchingUpdate();
         };
         communicator.setMessageListener(MatchingInitialStateMessage.class, commuiactorListener);
         communicator.setMessageListener(MatchingUpdateMessage.class, commuiactorUpdateListener);
