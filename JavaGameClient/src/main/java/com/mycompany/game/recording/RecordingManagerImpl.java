@@ -76,5 +76,22 @@ public class RecordingManagerImpl implements RecordingManager<GameMove>{
         }
         return gameRecording;
     }
-    
+
+    @Override
+    public boolean deldeteFile(File file) {
+        boolean deleted = false;
+        if(file.exists() && file.isFile() && file.getName().endsWith(".xo")){
+            deleted = file.delete();
+            if(deleted){
+                System.out.println("The file deleted" + file.getName());
+            } else {
+                System.out.println("can not delete the file" + file.getName());
+            }
+        } else{
+            System.out.println("Invalid recording file" + file.getName());
+            
+        }
+        
+        return deleted;
+    }
 }

@@ -10,7 +10,9 @@ package com.mycompany.javagameclient;
  */
 import com.mycompany.game.GameMove;
 import com.mycompany.game.recording.RecordingManager;
+import com.mycompany.game.recording.RecordingManagerImpl;
 import java.io.File;
+import java.io.FilenameFilter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -23,10 +25,30 @@ public class RecordItemController {
     private File recordFile;
     private int index;
     RecordingManager<GameMove> recordManager;
+    
+    public RecordItemController(){
+        recordManager = new RecordingManagerImpl();
+    }
 
     @FXML
     void onDeleteClicked(ActionEvent event) {
-
+        /*
+        // getting current directory of the project
+        File directory = new File(System.getProperty("user.dir"));
+        // filtering txt files
+        FilenameFilter filenameFilter = new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                return name.toLowerCase().contains(recordGame.getText());
+            }
+        };
+        
+        File[] fileArray = directory.listFiles(filenameFilter);
+        
+        recordManager.deldeteFile(fileArray[0]);
+        */
+        
+        recordManager.deldeteFile(recordFile);
         ((VBox) recordGame.getParent().getParent()).getChildren().remove(recordGame.getParent());
     }
 

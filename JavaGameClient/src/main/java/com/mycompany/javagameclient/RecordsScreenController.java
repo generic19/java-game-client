@@ -29,10 +29,9 @@ public class RecordsScreenController {
 
 //    @FXML // URL location of the FXML file that was given to the FXMLLoader
 //    private URL location;
-
     @FXML // fx:id="recordesList"
     private VBox recordesList; // Value injected by FXMLLoader
-    RecordingManager<GameMove> recordManager= new RecordingManagerImpl();
+    RecordingManager<GameMove> recordManager = new RecordingManagerImpl();
     List<File> recordesFilles = recordManager.getRecordings();
 
     @FXML
@@ -42,28 +41,26 @@ public class RecordsScreenController {
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
-        
-    List<File> recordsFiles = recordManager.getRecordings();
 
-    for (int i = 0; i < recordsFiles.size(); i++) {
-        File file = recordsFiles.get(i);
-    }
-    CreateNode("arwa",1);
-    CreateNode("arwa",2);  
+        List<File> recordsFiles = recordManager.getRecordings();
+
+        for (int i = 0; i < recordsFiles.size(); i++) {
+            File file = recordsFiles.get(i);
+        }
     }
 
-    void CreateNode(String recordFile, int index) {
-    try {
-        FXMLLoader loader = App.getFXMLLoader("RecordItem");
-        Node element = loader.load();
-        RecordItemController controller = loader.getController();
-       // controller.setLabel(recordFile.getName());
-       controller.setLabel(recordFile);
-        controller.setIndex(index);
-        //controller.setRecordFile(recordFile);
-        recordesList.getChildren().add(element);
-    } catch (IOException e) {
-        e.printStackTrace();
+    void createNode(File recordFile, int index) {
+        try {
+            FXMLLoader loader = App.getFXMLLoader("RecordItem");
+            Node element = loader.load();
+            RecordItemController controller = loader.getController();
+            controller.setLabel(recordFile.getName());
+            // controller.setLabel(recordFile);
+            controller.setIndex(index);
+            controller.setRecordFile(recordFile);
+            recordesList.getChildren().add(element);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-}
 }
