@@ -52,7 +52,11 @@ public class HomeScreenController implements Initializable, AuthManager.Listener
 
         if (Communicator.getInstance().isConnected()) {
             // check if we have a stored token into file
-            if (UIHelper.getToken() == null) {
+            if(AuthManager.getInstance().getUsername()!=null){
+                App.switchToFXML("onlineDashboard");
+            
+            }
+            else if (UIHelper.getToken() == null) {
                 tryingSignInWithToken = false;
                 App.openModal("Login");
             } else {

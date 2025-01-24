@@ -69,7 +69,9 @@ public class AuthManagerImpl implements AuthManager {
             communicator.sendMessage(new RegisterRequest(username, password));
         }
     }
-
+    public String getUsername(){
+        return username;
+    }
     @Override
     public void signInWithToken() {
         /*
@@ -81,7 +83,12 @@ public class AuthManagerImpl implements AuthManager {
 
         if (token == null) {
             listener.onError("Session token not found.");
-        } else {
+        } 
+        else if(username!=null) {
+            listener.onError("user already signin");
+
+        }
+        else {
             communicator.setMessageListener(SignInWithTokenResponse.class, (response) -> {
                 if (response != null) {
                     if (response.isSuccess()) {
