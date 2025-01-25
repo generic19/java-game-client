@@ -57,7 +57,12 @@ public class HomeScreenController implements Initializable, AuthManager.Listener
         if (Communicator.getInstance().isConnected()) {
             // check if we have a stored token into file
             if (AuthManager.getInstance().getUsername() != null) {
+                if (openModal != null) {
+                    openModal.close();
+                    openModal = null;
+                }
                 App.switchToFXML("onlineDashboard");
+                
             } else if (UIHelper.getToken().getToken() == null) {
                 tryingSignInWithToken = false;
                 App.openModal("Login");
@@ -71,6 +76,7 @@ public class HomeScreenController implements Initializable, AuthManager.Listener
     @FXML
     void onPlayWithFriend(ActionEvent event) throws IOException {
         App.switchToFXML("xoGameNameInput");
+        
     }
 
     @FXML
