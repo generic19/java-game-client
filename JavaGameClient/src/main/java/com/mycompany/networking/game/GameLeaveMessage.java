@@ -8,4 +8,10 @@ package com.mycompany.networking.game;
  *
  * @author basel
  */
-public class GameLeaveMessage implements GameMessage {}
+public class GameLeaveMessage implements GameMessage {
+
+    @Override
+    public String toString() {
+        return "GameLeaveMessage{" + '}';
+    }
+}

@@ -10,7 +10,7 @@ package com.mycompany.networking.matching;
  */
 public class IncomingInviteRespose implements MatchingMessage {
     
-    private Response response ;
+    private final Response response ;
 
     public Response getResponse() {
         return response;
@@ -19,6 +19,12 @@ public class IncomingInviteRespose implements MatchingMessage {
     public IncomingInviteRespose(Response response) {
         this.response = response;
     }
+
+    @Override
+    public String toString() {
+        return "IncomingInviteRespose{" + "response=" + response + '}';
+    }
+    
     public enum Response{
         ACCEPTED, REJECTED;
     }

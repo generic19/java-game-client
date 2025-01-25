@@ -30,5 +30,9 @@ public class RegisterRespose implements AuthMessage {
     public String getErrorMessage() {
         return errorMessage;
     }
-    
+
+    @Override
+    public String toString() {
+        return "RegisterRespose{" + "success=" + success + ", token=" + token + ", errorMessage=" + errorMessage + '}';
+    }
 }

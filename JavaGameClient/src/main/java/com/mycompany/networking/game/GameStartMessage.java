@@ -33,4 +33,9 @@ public class GameStartMessage implements GameMessage {
     public Player getPlayerTurn() {
         return playerTurn;
     }
+
+    @Override
+    public String toString() {
+        return "GameStartMessage{" + "player=" + player + ", opponent=" + opponent + ", playerTurn=" + playerTurn + '}';
+    }
 }

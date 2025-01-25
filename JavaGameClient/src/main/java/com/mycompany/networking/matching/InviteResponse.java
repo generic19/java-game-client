@@ -22,4 +22,9 @@ public class InviteResponse implements MatchingMessage {
     public enum Result{
         ACCEPTED, REJECTED, TIMEOUT;
     }
+
+    @Override
+    public String toString() {
+        return "InviteResponse{" + "result=" + result + '}';
+    }
 }

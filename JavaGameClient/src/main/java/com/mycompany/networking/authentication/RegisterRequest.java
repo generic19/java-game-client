@@ -16,4 +16,9 @@ public class RegisterRequest implements AuthMessage {
     public String getPassword() {
         return password;
     }
+
+    @Override
+    public String toString() {
+        return "RegisterRequest{" + "username=" + username + ", password=" + password + '}';
+    }
 }

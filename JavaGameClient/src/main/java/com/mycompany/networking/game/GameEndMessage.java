@@ -29,5 +29,10 @@ public class GameEndMessage implements GameMessage {
     public int getScore() {
         return score;
     }
+
+    @Override
+    public String toString() {
+        return "GameEndMessage{" + "winner=" + winner + ", loser=" + loser + ", score=" + score + '}';
+    }
 }
 

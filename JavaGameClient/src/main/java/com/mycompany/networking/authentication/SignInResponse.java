@@ -31,7 +31,9 @@ public class SignInResponse implements AuthMessage{
     public String getErrorMessage() {
         return errorMessage;
     }
-    
-    
-    
+
+    @Override
+    public String toString() {
+        return "SignInResponse{" + "success=" + success + ", token=" + token + ", errorMessage=" + errorMessage + '}';
+    }
 }

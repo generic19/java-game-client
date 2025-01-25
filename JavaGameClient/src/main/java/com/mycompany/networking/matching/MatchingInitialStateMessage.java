@@ -5,7 +5,6 @@
 package com.mycompany.networking.matching;
 
 import com.mycompany.networking.OnlinePlayer;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -29,4 +28,9 @@ public class MatchingInitialStateMessage implements MatchingMessage {
     public List<OnlinePlayer> getInGame() {
         return Collections.unmodifiableList(inGame);
     }    
+
+    @Override
+    public String toString() {
+        return "MatchingInitialStateMessage{" + "available=" + available + ", inGame=" + inGame + '}';
+    }
 }

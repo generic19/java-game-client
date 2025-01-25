@@ -12,18 +12,14 @@ import com.mycompany.networking.OnlinePlayer;
  */
 public class MatchingUpdateMessage implements MatchingMessage {
 
-    private OnlinePlayer player;
-    private UpdateType updateType;
-    private Target target;
+    private final OnlinePlayer player;
+    private final UpdateType updateType;
+    private final Target target;
 
-    
-    public enum UpdateType {
-        ADD, REMOVE
-    }
-
-    
-    public enum Target {
-        AVAILABLE, IN_GAME
+    public MatchingUpdateMessage(OnlinePlayer player, UpdateType updateType, Target target) {
+        this.player = player;
+        this.updateType = updateType;
+        this.target = target;
     }
 
     public OnlinePlayer getPlayer() {
@@ -37,14 +33,17 @@ public class MatchingUpdateMessage implements MatchingMessage {
     public Target getTarget() {
         return target;
     }
-
-   
-    public MatchingUpdateMessage(OnlinePlayer player, UpdateType updateType, Target target) {
-        this.player = player;
-        this.updateType = updateType;
-        this.target = target;
+    
+    public enum UpdateType {
+        ADD, REMOVE
     }
 
-    
+    public enum Target {
+        AVAILABLE, IN_GAME
+    }
 
+    @Override
+    public String toString() {
+        return "MatchingUpdateMessage{" + "player=" + player + ", updateType=" + updateType + ", target=" + target + '}';
+    }
 }

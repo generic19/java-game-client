@@ -20,4 +20,9 @@ public class GameStateMessage<S extends GameState> implements GameMessage {
     public S getState() {
         return state;
     }
+
+    @Override
+    public String toString() {
+        return "GameStateMessage{" + "state=" + state + '}';
+    }
 }

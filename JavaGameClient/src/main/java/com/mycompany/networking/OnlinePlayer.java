@@ -26,4 +26,9 @@ public class OnlinePlayer implements Serializable {
     public int getScore() {
         return score;
     }
+
+    @Override
+    public String toString() {
+        return "OnlinePlayer{" + "username=" + username + ", score=" + score + '}';
+    }
 }

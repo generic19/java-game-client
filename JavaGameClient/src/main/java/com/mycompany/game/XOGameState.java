@@ -4,14 +4,16 @@
  */
 package com.mycompany.game;
 
+import java.io.Serializable;
 import java.util.Iterator;
+import java.util.StringJoiner;
 import java.util.Vector;
 
 /**
  *
  * @author ArwaKhaled
  */
-public class XOGameState implements GameState<XOGameMove> {
+public class XOGameState implements GameState<XOGameMove>, Serializable {
 
     private char[] board;
 
@@ -189,52 +191,52 @@ public class XOGameState implements GameState<XOGameMove> {
         currentPlayer = Player.one;
         lastMove = null;
     }
-    
-    public int[] getWinningLineLineIndices() {        
+
+    public int[] getWinningLineLineIndices() {
         // 0 1 2
         // 3 4 5
         // 6 7 8
         if (!isEndState() || getWinner() == null) {
             return null;
         }
-        
+
         XOGameMove lastMove = getLastMove();
         Player lastMovePlayer = lastMove.getPlayer();
-        
+
         int row = lastMove.getRow();
         boolean isRow = true;
-        
+
         for (int i = 0; i < 3; i++) {
             if (getCell(row, i) != lastMovePlayer) {
                 isRow = false;
                 break;
             }
         }
-        
+
         if (isRow) {
             int startIndex = row * 3;
             int endIndex = row * 3 + 2;
-            
+
             return new int[]{startIndex, endIndex};
         }
-        
+
         int col = lastMove.getCol();
         boolean isCol = true;
-        
+
         for (int i = 0; i < 3; i++) {
             if (getCell(i, col) != lastMovePlayer) {
                 isCol = false;
                 break;
             }
         }
-        
+
         if (isCol) {
             int startIndex = col;
             int endIndex = 2 * 3 + col;
-            
+
             return new int[]{startIndex, endIndex};
         }
-        
+
         // (0) 1  2
         //  3  4  5
         //  6  7 (8)
@@ -242,7 +244,7 @@ public class XOGameState implements GameState<XOGameMove> {
         x o x
         o x o
         o x x
-        */
+         */
         if (lastMovePlayer == getCell(0, 0) && lastMovePlayer == getCell(2, 2)) {
             return new int[]{0, 8};
         } else {
@@ -250,4 +252,25 @@ public class XOGameState implements GameState<XOGameMove> {
         }
     }
 
+    @Override
+    public String toString() {
+        String boardString = "";
+
+        if (board != null) {
+            StringJoiner rowJoiner = new StringJoiner(" ");
+            StringJoiner colJoiner = new StringJoiner("; ");
+
+            for (int i = 0; i < 8; i++) {
+                char c = board[i] == 0 ? ' ' : board[i];
+                rowJoiner.add("" + c);
+
+                if (i % 3 == 2) {
+                    colJoiner.add(rowJoiner.toString());
+                    rowJoiner = new StringJoiner(" ");
+                }
+            }
+        }
+        
+        return "XOGameState{" + "board=(" + boardString + "), currentPlayer=" + currentPlayer + '}';
+    }
 }
