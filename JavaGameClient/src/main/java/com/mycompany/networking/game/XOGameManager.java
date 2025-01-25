@@ -7,8 +7,6 @@ package com.mycompany.networking.game;
 import com.mycompany.networking.OnlinePlayer;
 import com.mycompany.game.*;
 import com.mycompany.networking.Communicator;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  *
@@ -22,8 +20,6 @@ public class XOGameManager implements GameManager<XOGameMove, XOGameState> {
     private final Communicator.Listener<GameStartMessage> gameStartListener;
     private final Communicator.Listener<GameEndMessage> gameEndListener;
     private final Communicator.Listener<XOGameStateMessage> gameStateListener;
-    
-    private boolean isListening = false;
     
     public static XOGameManager getInstance() {
         if (instance == null) {
@@ -57,8 +53,6 @@ public class XOGameManager implements GameManager<XOGameMove, XOGameState> {
         comm.setMessageListener(GameStartMessage.class, gameStartListener);
         comm.setMessageListener(GameEndMessage.class, gameEndListener);
         comm.setMessageListener(XOGameStateMessage.class, gameStateListener);
-        
-        isListening = true;
     }
     
     private void stopListening() {
@@ -67,33 +61,18 @@ public class XOGameManager implements GameManager<XOGameMove, XOGameState> {
         comm.unsetMessageListener(GameStartMessage.class);
         comm.unsetMessageListener(GameEndMessage.class);
         comm.unsetMessageListener(GameStateMessage.class);
-        
-        isListening = false;
-    }
-    
-    private void onConnectionError() {
-        stopListening();
-        
-        listener.onError("Could not connect to the game.");
-        unsetListener();
     }
     
     @Override
     public void setListener(Listener<XOGameState> listener) {
         this.listener = listener;
-        
-        if (!isListening) {
-            startListening();
-        }
+        startListening();
     }
     
     @Override
     public void unsetListener() {
         listener = null;
-        
-        if (isListening) {
-            stopListening();
-        }
+        stopListening();
     }
     
     @Override

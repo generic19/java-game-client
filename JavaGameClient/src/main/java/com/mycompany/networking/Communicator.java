@@ -19,8 +19,11 @@ public interface Communicator {
     public <M extends Message> void setMessageListener(Class<M> messageClass, Listener<M> listener);
     public void unsetMessageListener(Class<? extends Message> messageClass);
     
-    void addErrorListener(ErrorListener listener);
-    void removeErrorListener(ErrorListener listener);
+    void setErrorListener(ErrorListener listener);
+    void unsetErrorListener();
+    
+    void setDisconnectedListener(DisconnectedListener listener);
+    void unsetDisconnectedListener();
     
     void sendMessage(Message message);
     
@@ -34,5 +37,9 @@ public interface Communicator {
     
     interface ErrorListener {
         void onCommunicatorError(String errorMessage);
+    }
+    
+    interface DisconnectedListener {
+        void onCommunicatorDisconnected();
     }
 }

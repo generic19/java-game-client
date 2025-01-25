@@ -15,7 +15,8 @@ public class CommunicatorImpl implements Communicator {
     private static volatile CommunicatorImpl instance;
     
     private final Map<Class<? extends Message>, Listener> listeners = new ConcurrentHashMap<>();
-    private final List<ErrorListener> errorListeners = new CopyOnWriteArrayList<>();
+    private ErrorListener errorListener;
+    private DisconnectedListener disconnectedListener;
     
     private Socket socket;
     private ObjectInputStream inputStream;
@@ -90,8 +91,6 @@ public class CommunicatorImpl implements Communicator {
                         outputStream = null;
                         
                         broadcastError("Could not open connection to server.");
-                        
-                        ex.printStackTrace();
                     }
                 }
             }
@@ -117,15 +116,17 @@ public class CommunicatorImpl implements Communicator {
         outputStream = null;
         
         thread = null;
+        
+        disconnectedListener.onCommunicatorDisconnected();
     }
     
     private void broadcastError(String errorMessage) {
-        System.out.println("Communicator: Broadcasting error message: " + errorMessage);
-        errorListeners.forEach(l -> l.onCommunicatorError(errorMessage));
+        System.out.println("Communicator error: " + errorMessage);
+        errorListener.onCommunicatorError(errorMessage);
     }
     
     private void startListenerThread() {
-        if (thread != null && thread.isAlive() & socket.isConnected()) {
+        if (thread != null && thread.isAlive()) {
             return;
         }
         
@@ -151,6 +152,8 @@ public class CommunicatorImpl implements Communicator {
                         | OptionalDataException ex) {
                         
                         broadcastError("Could not interpret an incoming message from the server.");
+                        
+                        ex.printStackTrace();
                     }
                 }
             }
@@ -165,17 +168,27 @@ public class CommunicatorImpl implements Communicator {
     }
     
     @Override
-    public void addErrorListener(ErrorListener listener) {
-        errorListeners.add(listener);
+    public void setErrorListener(ErrorListener listener) {
+        errorListener = listener;
     }
     
     @Override
-    public void removeErrorListener(ErrorListener listener) {
-        errorListeners.remove(listener);
+    public void unsetErrorListener() {
+        errorListener = null;
     }
     
     @Override
     public boolean isConnected() {
-        return socket != null && socket.isConnected();
+        return socket != null && socket.isConnected() && thread != null && thread.isAlive();
+    }
+
+    @Override
+    public void setDisconnectedListener(DisconnectedListener listener) {
+        disconnectedListener = listener;
+    }
+
+    @Override
+    public void unsetDisconnectedListener() {
+        disconnectedListener = null;
     }
 }

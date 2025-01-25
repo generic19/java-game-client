@@ -13,18 +13,14 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(from 0% -10% to 10% 100%, #1D1E2D, #44234D);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javagameclient.XoGameNameInputController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(from 0% -10% to 10% 100%, #1D1E2D, #44234D);" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javagameclient.XoGameNameInputController">
    <children>
       <Label text="Enter your Names" textAlignment="CENTER" textFill="WHITE">
          <font>
-            <Font name="Open Sans Regular" size="24.0" />
+            <Font name="Borel Regular" size="22.0" />
          </font>
          <effect>
-            <DropShadow height="15.0" radius="7.0" width="15.0">
-               <color>
-                  <Color red="1.0" green="1.0" blue="1.0" opacity="0.7973231077194214" />
-               </color>
-            </DropShadow>
+            <DropShadow color="#fecd74cc" height="15.0" radius="7.0" width="15.0" />
          </effect>
          <VBox.margin>
             <Insets />
@@ -48,7 +44,7 @@
                            <effect>
                               <DropShadow blurType="GAUSSIAN" height="19.0" radius="9.0" width="19.0">
                                  <color>
-                                    <Color red="0.9960784316062927" green="0.8039215803146362" blue="0.45490196347236633" />
+                                    <Color blue="0.45490196347236633" green="0.8039215803146362" red="0.9960784316062927" />
                                  </color>
                               </DropShadow>
                            </effect>
@@ -66,7 +62,7 @@
                            <effect>
                               <DropShadow blurType="GAUSSIAN" height="19.0" radius="9.0" width="19.0">
                                  <color>
-                                    <Color red="1.0" green="1.0" blue="1.0" opacity="0.8011472225189209" />
+                                    <Color blue="1.0" green="1.0" opacity="0.8011472225189209" red="1.0" />
                                  </color>
                               </DropShadow>
                            </effect>
@@ -91,7 +87,7 @@
                            <effect>
                               <DropShadow blurType="GAUSSIAN" height="19.0" radius="9.0" width="19.0">
                                  <color>
-                                    <Color red="0.9960784316062927" green="0.8039215803146362" blue="0.45490196347236633" />
+                                    <Color blue="0.45490196347236633" green="0.8039215803146362" red="0.9960784316062927" />
                                  </color>
                               </DropShadow>
                            </effect>
@@ -109,7 +105,7 @@
                            <effect>
                               <DropShadow blurType="GAUSSIAN" height="19.0" radius="9.0" width="19.0">
                                  <color>
-                                    <Color red="1.0" green="1.0" blue="1.0" opacity="0.8011472225189209" />
+                                    <Color blue="1.0" green="1.0" opacity="0.8011472225189209" red="1.0" />
                                  </color>
                               </DropShadow>
                            </effect>
@@ -139,12 +135,12 @@
                <effect>
                   <DropShadow blurType="GAUSSIAN" height="30.0" radius="14.5" width="30.0">
                      <color>
-                        <Color red="0.8941176533699036" green="0.5529412031173706" blue="1.0" />
+                        <Color blue="1.0" green="0.5529412031173706" red="0.8941176533699036" />
                      </color>
                   </DropShadow>
                </effect>
             </Button>
-            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#onStartGame" style="-fx-background-color: none; -fx-border-color: FFE2FF; -fx-border-radius: 50; -fx-border-width: 2;" text="Start Game" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#onStartGame" style="-fx-background-color: none; -fx-border-color: FFE2FF; -fx-border-radius: 50; -fx-border-width: 2;" text="Start Game" textFill="#fffaf2e6" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <font>
                   <Font name="Borel Regular" size="17.0" />
                </font>
@@ -154,7 +150,7 @@
                <effect>
                   <DropShadow blurType="GAUSSIAN" height="30.0" radius="14.5" width="30.0">
                      <color>
-                        <Color red="0.8941176533699036" green="0.5529412031173706" blue="1.0" />
+                        <Color blue="1.0" green="0.5529412031173706" red="0.8941176533699036" />
                      </color>
                   </DropShadow>
                </effect>

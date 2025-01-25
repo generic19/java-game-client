@@ -24,16 +24,11 @@ import javafx.stage.Stage;
  */
 public class LoginController implements Initializable {
 
-    @FXML
-    private TextField username;
-    @FXML
-    private TextField password;
-    @FXML
-    private Label signUpPage;
-    @FXML
-    private Button btnLogin;
+    @FXML private TextField username;
+    @FXML private TextField password;
+    @FXML private Label signUpPage;
+    @FXML private Button btnLogin;
     
-    boolean isListenerAdded = false;
     /**
      * Initializes the controller class.
      */
@@ -44,17 +39,15 @@ public class LoginController implements Initializable {
     
     @FXML   
     private void handleLogin(ActionEvent event) {
-        if(!isListenerAdded){
-            isListenerAdded = true;
-        }
-        AuthManager.getInstance().signIn(username.getText().trim(), password.getText().trim());
-        
-        
+        AuthManager.getInstance().signIn(
+            username.getText().trim(), 
+            password.getText().trim()
+        );
     }
 
     @FXML
     private void goToSignup(MouseEvent event) throws IOException {
-        Stage stage=(Stage) signUpPage.getScene().getWindow();
+        Stage stage = (Stage) signUpPage.getScene().getWindow();
         App.switchModal("SignUp", stage);
     }
     
