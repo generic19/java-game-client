@@ -47,19 +47,6 @@ public class HomeScreenController implements Initializable, AuthManager.Listener
 
         innerBox.scaleXProperty().bind(scaleFactor);
         innerBox.scaleYProperty().bind(scaleFactor);
-        
-        Communicator.getInstance().setServerAddress(showServerIpDialog());
-    }
-
-    private String showServerIpDialog() {
-        TextInputDialog dialog = new TextInputDialog("127.0.0.1");
-        
-        dialog.setHeaderText("Server IP Address");
-        dialog.setContentText("Enter the IP address of the server you want to connect to.");
-        
-        Optional<String> result = dialog.showAndWait();
-        
-        return result.orElse(null);
     }
 
     @FXML
