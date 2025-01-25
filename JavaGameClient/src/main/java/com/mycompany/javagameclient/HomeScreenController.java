@@ -8,6 +8,7 @@ import com.mycompany.networking.Communicator;
 import com.mycompany.networking.authentication.AuthManager;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.beans.binding.DoubleBinding;
@@ -15,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -45,6 +47,19 @@ public class HomeScreenController implements Initializable, AuthManager.Listener
 
         innerBox.scaleXProperty().bind(scaleFactor);
         innerBox.scaleYProperty().bind(scaleFactor);
+        
+        Communicator.getInstance().setServerAddress(showServerIpDialog());
+    }
+
+    private String showServerIpDialog() {
+        TextInputDialog dialog = new TextInputDialog("127.0.0.1");
+        
+        dialog.setHeaderText("Server IP Address");
+        dialog.setContentText("Enter the IP address of the server you want to connect to.");
+        
+        Optional<String> result = dialog.showAndWait();
+        
+        return result.orElse(null);
     }
 
     @FXML
