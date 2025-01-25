@@ -13,7 +13,6 @@ import com.mycompany.game.recording.RecordingManager;
 import com.mycompany.game.recording.RecordingManagerImpl;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -46,6 +45,7 @@ public class RecordsScreenController {
 
         for (int i = 0; i < recordsFiles.size(); i++) {
             File file = recordsFiles.get(i);
+            createNode(file, i);
         }
     }
 

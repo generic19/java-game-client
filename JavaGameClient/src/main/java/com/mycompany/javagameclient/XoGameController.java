@@ -5,6 +5,10 @@
 package com.mycompany.javagameclient;
 
 import com.mycompany.game.*;
+import com.mycompany.game.recording.GameRecording;
+import com.mycompany.game.recording.GameRecordingImpl;
+import com.mycompany.game.recording.RecordingManager;
+import com.mycompany.game.recording.RecordingManagerImpl;
 import com.mycompany.networking.OnlinePlayer;
 import com.mycompany.networking.game.GameManager;
 import com.mycompany.networking.game.XOGameManager;
@@ -28,12 +32,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-
-
-import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
+import javafx.scene.input.MouseButton;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -79,6 +82,9 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
     private OnlinePlayer opponentOnlinePlayer;
     @FXML
     private MediaView mediaView;
+    String msg;
+    
+    List<GameMove> moves = new ArrayList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -151,6 +157,74 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
 
         game.addListener(this);
     }
+    
+    public void initializeReplayGame(GameRecording<GameMove> gameRecording) {
+        gameMode = GameMode.replay;
+
+        firstPlayerName = gameRecording.getFirstPlayerName();
+        secondPlayerName = gameRecording.getSecondPlayerName();
+        
+        lblLeftPlayer.setText(firstPlayerName);
+        lblRightPlayer.setText(secondPlayerName);
+        
+        lblLeftPlayerScore.setText(String.valueOf(gameRecording.getFirstPlayerScore()));
+        lblRightPlayerScore.setText(String.valueOf(gameRecording.getSecondPlayerScore()));
+        
+        game = new XOGame();
+        game.addListener(this);
+        
+        List<GameMove> gameMoves = gameRecording.getMoves();
+        
+        cellGrid.setDisable(true);
+        
+        new Thread(() -> {
+            for (GameMove gameMove : gameMoves) {
+                try {
+                    // Cast the GameMove to XOGameMove
+                    XOGameMove move = (XOGameMove) gameMove;
+
+                    // Calculate the index from the row and column
+                    /*
+                        0    1   2
+                    0   0    1   2 
+                    1   3    4   5
+                    2   6    7   8
+                    */
+                    int index = move.getRow() * 3 + move.getCol(); // For a 3x3 grid
+
+                    // Simulate a click event on the cell
+                    Platform.runLater(() -> {
+                        Node cell = cellGrid.getChildren().get(index);
+                        
+                        MouseEvent mouseEvent = new MouseEvent(
+                            MouseEvent.MOUSE_CLICKED, // Event type
+                            0, 0, // X and Y coordinates (not used in this case)
+                            0, 0, // Screen coordinates (not used in this case)
+                            MouseButton.PRIMARY, // Mouse button (left click)
+                            1, // Click count
+                            false, false, false, false, // Modifier keys (shift, ctrl, etc.)
+                            true, // Popup trigger (not used in this case)
+                            false, // Still since press (not used in this case)
+                            false, // Primary button down (not used in this case)
+                            false, // Middle button down (not used in this case)
+                            false, // Secondary button down (not used in this case)
+                            true, // Synthesized (indicates this is a simulated event)
+                            false, // Drag event (not used in this case)
+                            false, // Inertia (not used in this case)
+                            null // Pick result (not used in this case)
+                        );
+                        cell.fireEvent(mouseEvent); // Fire the event on the cell
+                    });
+
+                    // Add a 1-second delay between moves
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }).start();
+    }    
+    
     // TODO: Show lose message here.
     @FXML
     private void onLeave(ActionEvent event) throws IOException {
@@ -179,10 +253,12 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
         if (found) {
             XOGameState state = game.getState();
             XOGameMove move = new XOGameMove(index, state.getNextTurnPlayer());
+            
 
             if (state.isValidMove(move)) {
                 cellGrid.setDisable(true);
                 game.play(move);
+                moves.add(move);
             }
         }
     }
@@ -314,6 +390,7 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
         updateBoard(gameState);
 
         String alertMsg = null;
+        
 
         if (gameState.isEndState()) {
             cellGrid.setDisable(true);
@@ -325,10 +402,14 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
                 lblHeader.setText(winnerName + " wins!");
                 alertMsg = winnerName + " is the WINNER. What would you like to do?";
                 String videoPath;
+                
                 if(winner == Player.one){
                     videoPath = "/com/mycompany/videos/winner.mp4";
+                    msg = "You won! What would you like to do?";
+                    
                 } else {
                     videoPath = "/com/mycompany/videos/loser.mp4";
+                    msg = "You Lose! What would you like to do?";
                 }
                 
                 Media media = new Media(getClass().getResource(videoPath).toExternalForm());
@@ -342,29 +423,17 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
                 });
                 
                 PauseTransition pause = new PauseTransition(Duration.seconds(7));
+                
+                
                 pause.setOnFinished((actionEvent)->{
                     mediaPlayer.stop();
                     mediaView.setVisible(false);
-
-                    Platform.runLater(() -> {
-                        ButtonType goHomeButton = new ButtonType("Go Home");
-                        ButtonType keepPlayingButton = new ButtonType("Keep Playing");
-
-                        String alertMsg2 = "It's a draw! What would you like to do?";
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION, alertMsg2 + " ", goHomeButton, keepPlayingButton);
-                        Optional<ButtonType> result = alert.showAndWait();
-                        if (result.get() == goHomeButton) {
-                            App.switchToFXML("HomeScreen");
-                        } else if (result.get() == keepPlayingButton) {
-                            game.resetGame();
-                        }
-                    });
+                    openSaveDialogue();
+                    
                 });
                 
                 pause.play();
-                
-                
-
+               
                 if (winner == Player.one) {
                     firstPlayerScore++;
                     lblLeftPlayerScore.setText("" + firstPlayerScore);
@@ -376,6 +445,8 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
 
             } else {
                 lblHeader.setText("It's a draw!");
+                
+                msg = "It's a draw! What would you like to do?";
                 
                 Media media = new Media(getClass().getResource("/com/mycompany/videos/draw.mp4").toExternalForm());
                 MediaPlayer mediaPlayer = new MediaPlayer(media);
@@ -392,19 +463,7 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
                     mediaPlayer.stop();
                     mediaView.setVisible(false);
 
-                    Platform.runLater(() -> {
-                        ButtonType goHomeButton = new ButtonType("Go Home");
-                        ButtonType keepPlayingButton = new ButtonType("Keep Playing");
-
-                        String alertMsg2 = "It's a draw! What would you like to do?";
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION, alertMsg2 + " ", goHomeButton, keepPlayingButton);
-                        Optional<ButtonType> result = alert.showAndWait();
-                        if (result.get() == goHomeButton) {
-                            App.switchToFXML("HomeScreen");
-                        } else if (result.get() == keepPlayingButton) {
-                            game.resetGame();
-                        }
-                    });
+                    openSaveDialogue();
                 });
                 
                 pause.play();
@@ -498,7 +557,53 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    private void openSaveDialogue() {
+        if (gameMode.equals(GameMode.replay)) {
+            return;
+        }
+        Platform.runLater(() -> {
+       
+            ButtonType btnSave = new ButtonType("Save");
+            ButtonType btnCancel = new ButtonType("Cancel");
+
+            String alertMsg2 = msg;
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, alertMsg2 + " ", btnSave, btnCancel);
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == btnSave) {
+                GameRecording gameRecordingImpl = new GameRecordingImpl(moves, lblLeftPlayer.getText(), lblRightPlayer.getText(), Integer.parseInt(lblLeftPlayerScore.getText()), Integer.parseInt(lblRightPlayerScore.getText()));
+                RecordingManager recordingManagerImpl = new RecordingManagerImpl();
+                recordingManagerImpl.saveRecording(gameRecordingImpl);
+                openSecondDialogue();
+            } else if(result.get() == btnCancel){
+                openSecondDialogue();
+            }
+
+        });
+    }
+    
+    private void openSecondDialogue(){
+        if (gameMode.equals(GameMode.replay)) {
+            return;
+        }
+        Platform.runLater(() -> {
+            ButtonType goHomeButton = new ButtonType("Go Home");
+            ButtonType keepPlayingButton = new ButtonType("Keep Playing");
+
+
+            String alertMsg2 = msg;
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, alertMsg2 + " ", goHomeButton, keepPlayingButton);
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == goHomeButton) {
+                App.switchToFXML("HomeScreen");
+            } else if (result.get() == keepPlayingButton) {
+                game.resetGame();
+            }                         
+        });
+    }
+    
+    
+
     private enum GameMode {
-        localWithComputer, localWithFriend, online;
+        localWithComputer, localWithFriend, online, replay;
     }
 }

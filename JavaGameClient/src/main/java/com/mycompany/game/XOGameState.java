@@ -69,20 +69,19 @@ public class XOGameState implements GameState<XOGameMove> {
     public Iterator getValidMoves() {
         Iterator<Integer>it=validBoard.iterator();
          return new Iterator<XOGameMove>(){
-             @Override
-             public boolean hasNext() {
-                return it.hasNext();  
-             }
+            @Override
+            public boolean hasNext() {
+               return it.hasNext();  
+            }
 
-             @Override
-             
-             public XOGameMove next() {
-    
-                     int index =  it.next();
-                return new XOGameMove(index, currentPlayer);
-                 
-               
-             }
+            @Override
+            public XOGameMove next() {
+
+                    int index =  it.next();
+               return new XOGameMove(index, currentPlayer);
+
+
+            }
          } ;
         
     }
@@ -92,7 +91,7 @@ public class XOGameState implements GameState<XOGameMove> {
         if(!isValidMove(move)){
         throw  new IllegalStateException ("invalid move ");
         }
-         return new XOGameState(this,move);
+        return new XOGameState(this,move);
         
     }
 //board[0] and board[4] and board[8]== X 

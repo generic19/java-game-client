@@ -4,11 +4,13 @@
  */
 package com.mycompany.game;
 
+import java.io.Serializable;
+
 /**
  *
  * @author ArwaKhaled
  */
-public class XOGameMove implements GameMove {
+public class XOGameMove implements GameMove, Serializable {
     private final Player player;
     private final int index ;
 

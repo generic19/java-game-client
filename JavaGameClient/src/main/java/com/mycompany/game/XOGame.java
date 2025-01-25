@@ -11,18 +11,16 @@ import java.util.List;
  *
  * @author AhmedAli
  */
-public class XOGame implements Game<XOGameMove, XOGameState>{
-    
+public class XOGame implements Game<XOGameMove, XOGameState> {
+
     private XOGameState currentState;
     private GameAgent[] gameAgents = new GameAgent[2];
-    private final List <Listener<XOGameMove, XOGameState>> listeners = new ArrayList<>();
-    
-    
+    private final List<Listener<XOGameMove, XOGameState>> listeners = new ArrayList<>();
+
     public XOGame() {
         this.currentState = new XOGameState();
     }
-    
-    
+
     @Override
     public XOGameState getState() {
         return currentState;
@@ -30,29 +28,29 @@ public class XOGame implements Game<XOGameMove, XOGameState>{
 
     @Override
     public synchronized void play(XOGameMove move) throws IllegalStateException {
-        if(currentState.isValidMove(move)){
+        if (currentState.isValidMove(move)) {
             currentState = currentState.play(move);
-            for(Listener listener: listeners){
+            for (Listener listener : listeners) {
                 listener.onStateChange(currentState);
             }
             Player nextTurnPlayer = currentState.getNextTurnPlayer();
             GameAgent agent = gameAgents[nextTurnPlayer.ordinal()];
-            if(agent != null && !currentState.isEndState()){
+            if (agent != null && !currentState.isEndState()) {
                 play((XOGameMove) agent.getNextMove(currentState));
             }
-        }else{
+        } else {
             throw new IllegalStateException("Invalid move: " + move);
         }
     }
 
     @Override
     public void attachAgent(Player player, GameAgent agent) {
-        gameAgents[player.ordinal()] = agent; 
+        gameAgents[player.ordinal()] = agent;
     }
 
     @Override
     public void detachAgent(Player player) {
-        gameAgents[player.ordinal()] = null; 
+        gameAgents[player.ordinal()] = null;
     }
 
     @Override
@@ -64,15 +62,12 @@ public class XOGame implements Game<XOGameMove, XOGameState>{
     public void removeListener(Listener<XOGameMove, XOGameState> listener) {
         listeners.remove(listener);
     }
-    
-    public void resetGame(){
-    
-    this.currentState = new XOGameState(); 
-    for(Listener listener: listeners){
-                listener.onStateChange(currentState);
+
+    public void resetGame() {
+
+        this.currentState = new XOGameState();
+        for (Listener listener : listeners) {
+            listener.onStateChange(currentState);
+        }
     }
 }
-    
-    
-    }
-     

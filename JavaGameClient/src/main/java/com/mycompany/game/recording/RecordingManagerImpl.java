@@ -12,6 +12,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -45,7 +46,8 @@ public class RecordingManagerImpl implements RecordingManager<GameMove>{
     @Override
     public void saveRecording(GameRecording recording) {
         Date date = new Date();
-        String fileName = recording.getFirstPlayerName() + " VS " + recording.getSecondPlayerName() + date.toString() + ".xo";     
+        String dateTime = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(date);
+        String fileName = recording.getFirstPlayerName() + " VS " + recording.getSecondPlayerName() + dateTime + ".xo";     
         try {
             ObjectOutputStream fos = new ObjectOutputStream(new FileOutputStream(fileName));
             fos.writeObject(recording);
