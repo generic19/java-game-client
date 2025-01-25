@@ -43,6 +43,8 @@ public class LoginController implements Initializable {
             username.getText().trim(), 
             password.getText().trim()
         );
+        Stage stage = (Stage) btnLogin.getScene().getWindow();
+        App.switchModal("onlineDashboard", stage);
     }
 
     @FXML
