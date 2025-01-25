@@ -5,7 +5,6 @@
 package com.mycompany.networking;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  *

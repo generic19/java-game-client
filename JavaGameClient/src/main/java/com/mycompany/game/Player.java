@@ -1,5 +1,7 @@
 package com.mycompany.game;
 
-public enum Player {
+import java.io.Serializable;
+
+public enum Player implements Serializable {
     one, two;
 }
