@@ -54,6 +54,8 @@ public class SignUpController implements Initializable {
                 password.getText().trim()
             );
         }
+         Stage stage = (Stage) username.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
