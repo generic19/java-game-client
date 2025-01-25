@@ -26,7 +26,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 /**
@@ -43,14 +43,14 @@ public class OnlineDashboardController implements
     @FXML
     private Label labelPlayerName;
     @FXML
-    private TextField searchField;
-    @FXML
     private Label labelScore;
     @FXML
     private VBox availablePlayersList;
     @FXML
     private VBox inGamePlayersList;
-    
+    @FXML
+    private BorderPane root;
+
     /**
      * Initializes the controller class.
      */
@@ -59,8 +59,10 @@ public class OnlineDashboardController implements
         AuthManager.getInstance().setListener(this);
         MatchingManager.getInstance().setListener(this);
         XOGameManager.getInstance().setListener(this);
-        
+        availablePlayersList.prefWidthProperty().bind(root.widthProperty().multiply(0.6));
+        inGamePlayersList.prefWidthProperty().bind(root.widthProperty().multiply(0.4));
         labelPlayerName.setText(AuthManager.getInstance().getUsername());
+
     }
     
     private void addAvailablePlayerItem(OnlinePlayer player) {
@@ -95,6 +97,7 @@ public class OnlineDashboardController implements
                 controller.setPlayer(player);
                 
                 inGamePlayersList.getChildren().add(item);
+                
             } catch (IOException ex) {
                 throw new RuntimeException("Incorrect FXML file name.", ex);
             }
@@ -131,25 +134,25 @@ public class OnlineDashboardController implements
         Platform.runLater(() -> {
             availablePlayersList.getChildren().clear();
             inGamePlayersList.getChildren().clear();
-            
+
             MatchingManager.getInstance().getAvailable().forEach(player -> addAvailablePlayerItem(player));
             MatchingManager.getInstance().getInGame().forEach(player -> addInGamePlayerItem(player));
         });
     }
-    
+
     @Override
     public void onIncomingInviteRequest(String userName) {
         UIHelper.showQuestion(
-            "Incoming Invitation",
-            "User " + userName + " wants to start a game with you.",
-            Map.of(
-                "Accept",
-                () -> Communicator.getInstance().sendMessage(
-                    new IncomingInviteRespose(IncomingInviteRespose.Response.ACCEPTED)),
-                "Decline",
-                () -> Communicator.getInstance().sendMessage(
-                    new IncomingInviteRespose(IncomingInviteRespose.Response.REJECTED))
-            )
+                "Incoming Invitation",
+                "User " + userName + " wants to start a game with you.",
+                Map.of(
+                        "Accept",
+                        () -> Communicator.getInstance().sendMessage(
+                                new IncomingInviteRespose(IncomingInviteRespose.Response.ACCEPTED)),
+                        "Decline",
+                        () -> Communicator.getInstance().sendMessage(
+                                new IncomingInviteRespose(IncomingInviteRespose.Response.REJECTED))
+                )
         );
     }
     
@@ -162,15 +165,15 @@ public class OnlineDashboardController implements
         } else {
             if (timeOut) {
                 UIHelper.showAlert(
-                    "Invitation",
-                    "Player did not respond to your invitation in time.",
-                    Alert.AlertType.INFORMATION
+                        "Invitation",
+                        "Player did not respond to your invitation in time.",
+                        Alert.AlertType.INFORMATION
                 );
             } else {
                 UIHelper.showAlert(
-                    "Invitation Declined",
-                    "Player did not want to play with you at this moment. Try again another time.",
-                    Alert.AlertType.INFORMATION
+                        "Invitation Declined",
+                        "Player did not want to play with you at this moment. Try again another time.",
+                        Alert.AlertType.INFORMATION
                 );
             }
         }

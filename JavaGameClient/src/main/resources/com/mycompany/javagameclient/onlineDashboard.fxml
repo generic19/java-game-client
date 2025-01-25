@@ -9,11 +9,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #36263D;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javagameclient.OnlineDashboardController">
+<BorderPane fx:id="root" prefHeight="488.0" prefWidth="909.0" style="-fx-background-color: #36263D;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javagameclient.OnlineDashboardController">
    <top>
       <BorderPane BorderPane.alignment="CENTER">
          <left>
-            <Label fx:id="labelPlayerName" prefHeight="101.0" prefWidth="251.0" text="Player Name" textFill="WHITE" BorderPane.alignment="CENTER">
+            <Label fx:id="labelPlayerName" text="Player Name" textFill="WHITE" BorderPane.alignment="CENTER">
                <font>
                   <Font name="Borel Regular" size="36.0" />
                </font>
@@ -44,88 +44,87 @@
       </BorderPane>
    </top>
    <center>
-      <VBox BorderPane.alignment="CENTER">
+      <VBox fx:id="centerVBox" BorderPane.alignment="CENTER">
          <children>
-            <VBox alignment="TOP_CENTER">
-               <children>
-                  <Label text="Available Players" textFill="WHITE">
-                     <font>
-                        <Font name="Borel Regular" size="36.0" />
-                     </font>
+            <Label alignment="CENTER" contentDisplay="CENTER" text="Available Players" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Borel Regular" size="36.0" />
+               </font>
+               <effect>
+                  <DropShadow color="#00e5ff" />
+               </effect>
+            </Label>
+            <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background: none; -fx-border-color: none;" VBox.vgrow="ALWAYS">
+               <content>
+                  <VBox fx:id="availablePlayersList" style="-fx-background-color: none; -fx-border-radius: 50; -fx-border-width: 4; -fx-border-color: E2FEFF;">
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
                      <effect>
-                        <DropShadow color="#00e5ff" />
+                        <DropShadow color="#a2e8e8" />
                      </effect>
-                  </Label>
-                  <ScrollPane prefHeight="329.0" prefWidth="678.0" style="-fx-background: none; -fx-border-color: none;" VBox.vgrow="ALWAYS">
-                     <content>
-                        <VBox fx:id="availablePlayersList" prefHeight="310.0" prefWidth="650.0" style="-fx-background-color: none; -fx-border-radius: 50; -fx-border-width: 4; -fx-border-color: E2FEFF;">
-                           <padding>
-                              <Insets left="10.0" right="10.0" />
-                           </padding>
-                           <effect>
-                              <DropShadow color="#a2e8e8" />
-                           </effect></VBox>
-                     </content>
-                     <VBox.margin>
-                        <Insets left="10.0" />
-                     </VBox.margin>
-                  </ScrollPane>
-               </children>
-            </VBox>
+                  </VBox>
+               </content>
+               <VBox.margin>
+                  <Insets left="10.0" right="15.0" />
+               </VBox.margin>
+            </ScrollPane>
          </children>
       </VBox>
    </center>
    <right>
-      <VBox prefWidth="402.0">
+      <VBox fx:id="rightVBox">
          <children>
-            <VBox alignment="TOP_CENTER">
-               <children>
-                  <Label text="InGame" textFill="WHITE">
-                     <font>
-                        <Font name="Borel Regular" size="36.0" />
-                     </font>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="101.0" prefWidth="313.0" text="InGame" textFill="WHITE">
+               <font>
+                  <Font name="Borel Regular" size="36.0" />
+               </font>
+               <effect>
+                  <DropShadow color="#f942ff" />
+               </effect>
+            </Label>
+            <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background: none; -fx-border-color: none;" VBox.vgrow="ALWAYS">
+               <content>
+                  <VBox fx:id="inGamePlayersList" style="-fx-border-color: #FFE2FF; -fx-border-radius: 50; -fx-border-width: 4;">
                      <effect>
-                        <DropShadow color="#f942ff" />
+                        <DropShadow color="#ffe2ff" />
                      </effect>
-                  </Label>
-                  <ScrollPane prefHeight="500.0" prefWidth="402.0" style="-fx-background: none; -fx-border-color: none;" VBox.vgrow="ALWAYS">
-                     <content>
-                        <VBox fx:id="inGamePlayersList" prefHeight="317.0" prefWidth="396.0" style="-fx-border-color: #FFE2FF; -fx-border-radius: 50; -fx-border-width: 4;">
-                           <effect>
-                              <DropShadow color="#ffe2ff" />
-                           </effect></VBox>
-                     </content>
-                  </ScrollPane>
-               </children>
-            </VBox>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </VBox>
+               </content>
+               <VBox.margin>
+                  <Insets right="10.0" />
+               </VBox.margin>
+            </ScrollPane>
          </children>
       </VBox>
    </right>
    <bottom>
       <BorderPane BorderPane.alignment="CENTER">
          <right>
-            <Button mnemonicParsing="false" onAction="#onLogoutClicked" prefHeight="27.0" prefWidth="134.0" style="-fx-background-color: none; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 60; -fx-text-fill: white;" text="Logout" BorderPane.alignment="CENTER">
-            <effect>
+            <Button mnemonicParsing="false" onAction="#onLogoutClicked" prefHeight="65.0" prefWidth="158.0" style="-fx-background-color: none; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 60; -fx-text-fill: white;" text="Logout" BorderPane.alignment="CENTER">
+               <effect>
                   <DropShadow color="#f942ff" />
                </effect>
                <font>
                   <Font name="Borel Regular" size="17.0" />
                </font>
-               </Button>
+            </Button>
          </right>
          <left>
-             
-                  <Button mnemonicParsing="false" onAction="#onBackClicked" prefHeight="26.0" prefWidth="152.0" style="-fx-background-color: none; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 60; -fx-text-fill: white;" text="Back" BorderPane.alignment="CENTER">
-                <effect>
+            <Button mnemonicParsing="false" onAction="#onBackClicked" prefHeight="65.0" prefWidth="145.0" style="-fx-background-color: none; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 60; -fx-text-fill: white;" text="Back" BorderPane.alignment="CENTER">
+               <effect>
                   <DropShadow color="#f942ff" />
                </effect>
-               <BorderPane.margin>
-                  <Insets />
-               </BorderPane.margin>
                <font>
                   <Font name="Borel Regular" size="17.0" />
                </font>
-               </Button>
+               <BorderPane.margin>
+                  <Insets top="10.0" />
+               </BorderPane.margin>
+            </Button>
          </left>
          <padding>
             <Insets bottom="10.0" left="20.0" right="20.0" />
