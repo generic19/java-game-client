@@ -24,17 +24,13 @@
          <children>
             <Label fx:id="lblHeader" text="Player 1's turn..." textAlignment="CENTER" textFill="WHITE">
                <font>
-                  <Font name="Brawler Regular" size="24.0" />
+                  <Font name="Borel Regular" size="24.0" />
                </font>
                <HBox.margin>
                   <Insets />
                </HBox.margin>
                <effect>
-                  <DropShadow height="15.0" radius="7.0" width="15.0">
-                     <color>
-                        <Color blue="1.0" green="1.0" opacity="0.7973231077194214" red="1.0" />
-                     </color>
-                  </DropShadow>
+                  <DropShadow color="#fecd74cc" height="15.0" radius="7.0" width="15.0" />
                </effect>
             </Label>
          </children>
