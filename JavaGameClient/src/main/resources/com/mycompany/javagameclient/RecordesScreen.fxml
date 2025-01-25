@@ -8,19 +8,19 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane style="-fx-background: #36263D;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javagameclient.RecordsScreenController">
+<BorderPane prefHeight="375.0" prefWidth="572.0" style="-fx-background: #36263D;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javagameclient.RecordsScreenController">
    <center>
-      <VBox maxHeight="Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-border-radius: 40; -fx-border-color: #E2FEFF; -fx-border-width: 5;" BorderPane.alignment="CENTER">
+      <VBox maxHeight="Infinity" style="-fx-border-radius: 40; -fx-border-color: #E2FEFF; -fx-border-width: 5;" BorderPane.alignment="CENTER">
          <effect>
             <DropShadow blurType="GAUSSIAN" color="WHITE" />
          </effect>
          <children>
-            <ScrollPane maxHeight="Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background: none;" fitToWidth="true" vbarPolicy="AS_NEEDED" hbarPolicy="NEVER">
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="Infinity" style="-fx-background: none;" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </VBox.margin>
                <content>
-                  <VBox fx:id="recordesList" maxHeight="Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: none;" spacing="10.0" />
+                  <VBox fx:id="recordesList" maxHeight="Infinity" spacing="10.0" style="-fx-background-color: none;" />
                </content>
             </ScrollPane>
          </children>
@@ -30,16 +30,19 @@
       </VBox>
    </center>
    <bottom>
-      <Button mnemonicParsing="false" onAction="#onBackClicked" prefHeight="57.0" prefWidth="136.0" style="-fx-background-color: none; -fx-border-color: white; -fx-border-radius: 20; -fx-border-width: 3;" text="back" textFill="WHITE" BorderPane.alignment="CENTER_LEFT">
+      <Button mnemonicParsing="false" onAction="#onBackClicked" prefWidth="136.0" style="-fx-background-color: none; -fx-border-color: white; -fx-border-radius: 20; -fx-border-width: 3;" text="back" textFill="WHITE" BorderPane.alignment="CENTER_LEFT">
          <BorderPane.margin>
             <Insets bottom="5.0" left="20.0" />
          </BorderPane.margin>
          <font>
-            <Font name="Borel Regular" size="15.0" />
+            <Font name="Borel Regular" size="18.0" />
          </font>
          <effect>
             <DropShadow blurType="GAUSSIAN" color="#e2feff" spread="0.2" />
          </effect>
+         <padding>
+            <Insets bottom="-7.0" top="-7.0" />
+         </padding>
       </Button>
    </bottom>
 </BorderPane>

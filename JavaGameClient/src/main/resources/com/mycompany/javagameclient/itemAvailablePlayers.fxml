@@ -7,25 +7,25 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" spacing="60.0" style="-fx-background-color: none; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 60;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javagameclient.ItemAvailablePlayersController">
+<HBox alignment="CENTER" fillHeight="false" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="0.0" spacing="40.0" style="-fx-background-color: none; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 60;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javagameclient.ItemAvailablePlayersController">
    <children>
-      <Label fx:id="playerName" maxWidth="1.7976931348623157E308"  prefWidth="100" text="Player Name" textFill="WHITE" HBox.hgrow="ALWAYS">
+      <Label fx:id="playerName" maxWidth="1.7976931348623157E308" minWidth="0.0" text="Player Name" textFill="WHITE" HBox.hgrow="ALWAYS">
          <font>
-            <Font name="Borel Regular" size="26.0" />
+            <Font name="Borel Regular" size="17.0" />
          </font>
          <effect>
             <DropShadow color="#00e5ff" />
          </effect>
       </Label>
-      <Label fx:id="playerScore" maxWidth="1.7976931348623157E308" text="100" textFill="WHITE" HBox.hgrow="ALWAYS" >
+      <Label fx:id="playerScore" alignment="CENTER" maxWidth="1.7976931348623157E308" text="100" textFill="WHITE" HBox.hgrow="NEVER">
          <font>
-            <Font name="Borel Regular" size="26.0" />
+            <Font name="Borel Regular" size="17.0" />
          </font>
          <effect>
             <DropShadow color="#00e5ff" />
          </effect>
       </Label>
-      <Button mnemonicParsing="false"  onAction="#onInviteClicked" style="-fx-background-color: none; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 40; -fx-text-fill: white;" text="Invite">
+      <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#onInviteClicked" style="-fx-background-color: none; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 40; -fx-text-fill: white;" text="Invite" HBox.hgrow="NEVER">
          <effect>
             <DropShadow color="#00e5ff" />
          </effect>
@@ -33,7 +33,7 @@
             <Insets />
          </opaqueInsets>
          <font>
-            <Font name="Borel Regular" size="26.0" />
+            <Font name="Borel Regular" size="17.0" />
          </font>
          <padding>
             <Insets bottom="-5.0" left="15.0" right="15.0" top="-5.0" />
@@ -47,6 +47,6 @@
       <Insets />
    </opaqueInsets>
    <padding>
-      <Insets left="30.0" right="30.0" top="8.0" />
+      <Insets bottom="4.0" left="25.0" right="7.0" top="4.0" />
    </padding>
 </HBox>

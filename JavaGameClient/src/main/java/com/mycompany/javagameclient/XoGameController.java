@@ -287,7 +287,6 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
                 if (state.isValidMove(move)) {
                     cellGrid.setDisable(true);
                     game.play(move);
-                    moves.add(move);
                 }
             }
         }
@@ -356,6 +355,8 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
     public void onStateChange(GameState state) {
         XOGameState gameState = (XOGameState) state;
         updateBoard(gameState);
+        
+        moves.add(state.getLastMove());
 
         if (gameState.isEndState()) {
             Player winner = gameState.getWinner();
