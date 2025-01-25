@@ -1,7 +1,7 @@
 /*
 * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
 * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
+*/
 package com.mycompany.javagameclient;
 
 import com.mycompany.game.Player;
@@ -24,6 +24,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -38,7 +39,7 @@ public class OnlineDashboardController implements
     AuthManager.Listener,
     MatchingManager.Listener,
     GameManager.Listener<XOGameState> {
-
+    
     @FXML
     private Label labelPlayerName;
     @FXML
@@ -49,7 +50,7 @@ public class OnlineDashboardController implements
     private VBox availablePlayersList;
     @FXML
     private VBox inGamePlayersList;
-
+    
     /**
      * Initializes the controller class.
      */
@@ -58,73 +59,73 @@ public class OnlineDashboardController implements
         AuthManager.getInstance().setListener(this);
         MatchingManager.getInstance().setListener(this);
         XOGameManager.getInstance().setListener(this);
-
+        
         labelPlayerName.setText(AuthManager.getInstance().getUsername());
     }
-
+    
     private void addAvailablePlayerItem(OnlinePlayer player) {
         if (player.getUsername().equals(AuthManager.getInstance().getUsername())) {
             labelScore.setText("Score: " + player.getScore());
         } else {
             FXMLLoader loader = App.getFXMLLoader("itemAvailablePlayers");
-
+            
             try {
                 Node item = loader.load();
                 ItemAvailablePlayersController controller = loader.getController();
-
+                
                 controller.setPlayer(player);
-
+                
                 availablePlayersList.getChildren().add(item);
             } catch (IOException ex) {
                 throw new RuntimeException("Incorrect FXML file name.", ex);
             }
         }
     }
-
+    
     private void addInGamePlayerItem(OnlinePlayer player) {
         if (player.getUsername().equals(AuthManager.getInstance().getUsername())) {
             labelScore.setText("Score: " + player.getScore());
         } else {
             FXMLLoader loader = App.getFXMLLoader("playersInGame");
-
+            
             try {
                 Node item = loader.load();
                 ItemAvailablePlayersController controller = loader.getController();
-
+                
                 controller.setPlayer(player);
-
+                
                 inGamePlayersList.getChildren().add(item);
             } catch (IOException ex) {
                 throw new RuntimeException("Incorrect FXML file name.", ex);
             }
         }
     }
-
+    
     @FXML
     private void onBackClicked(ActionEvent event) throws IOException {
         AuthManager.getInstance().unsetListener();
         MatchingManager.getInstance().unsetListener();
-
+        
         App.switchToFXML("HomeScreen");
     }
-
+    
     @FXML
     private void onLogoutClicked(ActionEvent event) {
         AuthManager.getInstance().signOut();
     }
-
+    
     @Override
     public void onAuthStateChange(boolean signedIn) {
         if (!signedIn) {
             AuthManager.getInstance().unsetListener();
             MatchingManager.getInstance().unsetListener();
-
+            
             Platform.runLater(() -> {
                 App.switchToFXML("HomeScreen");
             });
         }
     }
-
+    
     @Override
     public void onPlayersCollectionsUpdated() {
         Platform.runLater(() -> {
@@ -151,7 +152,7 @@ public class OnlineDashboardController implements
             )
         );
     }
-
+    
     @Override
     public void onInviteResponse(boolean accept, boolean timeOut) {
         if (!accept) {
@@ -174,43 +175,53 @@ public class OnlineDashboardController implements
             }
         }
     }
-
+    
     @Override
     public void onMatchingError(String errorMsg) {
         UIHelper.showAlert("Matching Error", errorMsg, Alert.AlertType.ERROR);
     }
-
+    
     @Override
     public void onAuthError(String errorMsg) {
     }
-
+    
     @Override
-    public void onGameStart(Player player, OnlinePlayer opponent) {
-
+    public void onGameStart(OnlinePlayer player, OnlinePlayer opponent, Player playerTurn) {
+        try {
+            FXMLLoader loader = App.getFXMLLoader("xoGame");
+            Parent root = loader.load();
+            
+            XoGameController controller = loader.getController();
+            controller.initializeGameForOnline(player, opponent, playerTurn);
+            
+            App.setRoot(root);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
-
+    
     @Override
     public void onGameState(XOGameState newState) {
     }
-
+    
     @Override
     public void onGameEnd(boolean isWinner, boolean isLoser, int score) {
     }
-
+    
     @Override
     public void onGameError(String errorMessage) {
     }
-
+    
     private static <T> Set<T> intersection(Set<T> lhs, Set<T> rhs) {
         Set<T> result = new HashSet<T>(lhs);
         result.retainAll(rhs);
         return result;
     }
-
+    
     private static <T> Set<T> difference(Set<T> lhs, Set<T> rhs) {
         Set<T> result = new HashSet<T>(lhs);
         result.removeAll(rhs);
         return result;
     }
-
+    
 }

@@ -68,14 +68,16 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
     private int firstPlayerScore;
     private int secondPlayerScore;
     
+    private Player onlinePlayerTurn;
     private OnlinePlayer onlinePlayer;
     private OnlinePlayer opponentOnlinePlayer;
+    
     @FXML
     private MediaView mediaView;
     String msg;
     
     List<GameMove> moves = new ArrayList<>();
-
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         DoubleBinding scaleFactor = Bindings.createDoubleBinding(
@@ -101,14 +103,31 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
         }
     }
     
-    public void initializeGameForOnline(OnlinePlayer onlinePlayer, OnlinePlayer opponent) {
+    public void initializeGameForOnline(OnlinePlayer onlinePlayer, OnlinePlayer opponent, Player playerTurn) {
         gameMode = GameMode.online;
         
+        this.onlinePlayerTurn = playerTurn;
         this.onlinePlayer = onlinePlayer;
         this.opponentOnlinePlayer = opponent;
         
         firstPlayerName = onlinePlayer.getUsername();
         secondPlayerName = opponent.getUsername();
+        
+        switch (playerTurn) {
+            case one:
+                lblLeftPlayer.setText(onlinePlayer.getUsername());
+                lblLeftPlayerScore.setText("" + onlinePlayer.getScore());
+                lblRightPlayer.setText(opponent.getUsername());
+                lblRightPlayerScore.setText("" + opponent.getScore());
+                break;
+                
+            case two:
+                lblLeftPlayer.setText(opponent.getUsername());
+                lblLeftPlayerScore.setText("" + opponent.getScore());
+                lblRightPlayer.setText(onlinePlayer.getUsername());
+                lblRightPlayerScore.setText("" + onlinePlayer.getScore());
+                break;
+        }
         
         XOGameManager.getInstance().setListener(this);
     }
@@ -150,7 +169,7 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
     
     public void initializeReplayGame(GameRecording<GameMove> gameRecording) {
         gameMode = GameMode.replay;
-
+        
         firstPlayerName = gameRecording.getFirstPlayerName();
         secondPlayerName = gameRecording.getSecondPlayerName();
         
@@ -172,16 +191,16 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
                 try {
                     // Cast the GameMove to XOGameMove
                     XOGameMove move = (XOGameMove) gameMove;
-
+                    
                     // Calculate the index from the row and column
                     /*
-                        0    1   2
-                    0   0    1   2 
+                    0    1   2
+                    0   0    1   2
                     1   3    4   5
                     2   6    7   8
                     */
                     int index = move.getRow() * 3 + move.getCol(); // For a 3x3 grid
-
+                    
                     // Simulate a click event on the cell
                     Platform.runLater(() -> {
                         Node cell = cellGrid.getChildren().get(index);
@@ -205,7 +224,7 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
                         );
                         cell.fireEvent(mouseEvent); // Fire the event on the cell
                     });
-
+                    
                     // Add a 1-second delay between moves
                     Thread.sleep(1000);
                 } catch (InterruptedException ex) {
@@ -213,7 +232,7 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
                 }
             }
         }).start();
-    }    
+    }
     
     // TODO: Show lose message here.
     @FXML
@@ -241,13 +260,17 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
         }
         
         if (found) {
-            XOGameState state = game.getState();
-            XOGameMove move = new XOGameMove(index, state.getNextTurnPlayer());
-            
-            if (state.isValidMove(move)) {
-                cellGrid.setDisable(true);
-                game.play(move);
-                moves.add(move);
+            if (gameMode == GameMode.online) {
+                XOGameManager.getInstance().move(new XOGameMove(index, onlinePlayerTurn));
+            } else {
+                XOGameState state = game.getState();
+                XOGameMove move = new XOGameMove(index, state.getNextTurnPlayer());
+                
+                if (state.isValidMove(move)) {
+                    cellGrid.setDisable(true);
+                    game.play(move);
+                    moves.add(move);
+                }
             }
         }
     }
@@ -359,7 +382,7 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
                 });
                 
                 pause.play();
-               
+                
                 if (winner == Player.one) {
                     firstPlayerScore++;
                     lblLeftPlayerScore.setText("" + firstPlayerScore);
@@ -388,7 +411,7 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
                 pause.setOnFinished((actionEvent)->{
                     mediaPlayer.stop();
                     mediaView.setVisible(false);
-
+                    
                     openSaveDialogue();
                 });
                 
@@ -448,24 +471,7 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
     }
     
     @Override
-    public void onGameStart(Player player, OnlinePlayer opponent) {
-        opponentOnlinePlayer = opponent;
-        
-        switch (player) {
-            case one:
-                lblLeftPlayer.setText(onlinePlayer.getUsername());
-                lblLeftPlayerScore.setText("" + onlinePlayer.getScore());
-                lblRightPlayer.setText(opponent.getUsername());
-                lblRightPlayerScore.setText("" + opponent.getScore());
-                break;
-                
-            case two:
-                lblLeftPlayer.setText(opponent.getUsername());
-                lblLeftPlayerScore.setText("" + opponent.getScore());
-                lblRightPlayer.setText(onlinePlayer.getUsername());
-                lblRightPlayerScore.setText("" + onlinePlayer.getScore());
-                break;
-        }
+    public void onGameStart(OnlinePlayer player, OnlinePlayer opponent, Player playerTurn) {
     }
     
     @Override
@@ -475,23 +481,23 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
     
     @Override
     public void onGameEnd(boolean isWinner, boolean isLoser, int score) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
     }
     
     @Override
     public void onGameError(String errorMessage) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
     }
-
+    
     private void openSaveDialogue() {
         if (gameMode.equals(GameMode.replay)) {
             return;
         }
         Platform.runLater(() -> {
-       
+            
             ButtonType btnSave = new ButtonType("Save");
             ButtonType btnCancel = new ButtonType("Cancel");
-
+            
             String alertMsg2 = msg;
             Alert alert = new Alert(Alert.AlertType.INFORMATION, alertMsg2 + " ", btnSave, btnCancel);
             Optional<ButtonType> result = alert.showAndWait();
@@ -503,7 +509,7 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
             } else if(result.get() == btnCancel){
                 openSecondDialogue();
             }
-
+            
         });
     }
     
@@ -514,8 +520,8 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
         Platform.runLater(() -> {
             ButtonType goHomeButton = new ButtonType("Go Home");
             ButtonType keepPlayingButton = new ButtonType("Keep Playing");
-
-
+            
+            
             String alertMsg2 = msg;
             Alert alert = new Alert(Alert.AlertType.INFORMATION, alertMsg2 + " ", goHomeButton, keepPlayingButton);
             Optional<ButtonType> result = alert.showAndWait();
@@ -523,12 +529,10 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
                 App.switchToFXML("HomeScreen");
             } else if (result.get() == keepPlayingButton) {
                 game.resetGame();
-            }                         
+            }
         });
     }
     
-    
-
     private enum GameMode {
         localWithComputer, localWithFriend, online, replay;
     }

@@ -257,18 +257,20 @@ public class XOGameState implements GameState<XOGameMove>, Serializable {
         String boardString = "";
 
         if (board != null) {
-            StringJoiner rowJoiner = new StringJoiner(" ");
-            StringJoiner colJoiner = new StringJoiner("; ");
+            StringJoiner colJoiner = new StringJoiner(" ");
+            StringJoiner rowJoiner = new StringJoiner("; ");
 
             for (int i = 0; i < 8; i++) {
                 char c = board[i] == 0 ? ' ' : board[i];
-                rowJoiner.add("" + c);
+                colJoiner.add("" + c);
 
                 if (i % 3 == 2) {
-                    colJoiner.add(rowJoiner.toString());
-                    rowJoiner = new StringJoiner(" ");
+                    rowJoiner.add(colJoiner.toString());
+                    colJoiner = new StringJoiner(" ");
                 }
             }
+            
+            boardString = rowJoiner.toString();
         }
         
         return "XOGameState{" + "board=(" + boardString + "), currentPlayer=" + currentPlayer + '}';

@@ -53,7 +53,11 @@ public class CommunicatorImpl implements Communicator {
     public void sendMessage(Message message) {
         try {
             if (isConnected()) {
+                System.out.println("sending " + message + "..");
+                
                 outputStream.writeObject(message);
+                
+                System.out.println("sent.");
             } else {
                 broadcastError("Not connected to server.");
             }
@@ -143,6 +147,8 @@ public class CommunicatorImpl implements Communicator {
                 while (true) {
                     try {
                         Object object = inputStream.readObject();
+                        
+                        System.out.println("received " + object + ".");
                         
                         if (object instanceof Message) {
                             Message message = (Message) object;

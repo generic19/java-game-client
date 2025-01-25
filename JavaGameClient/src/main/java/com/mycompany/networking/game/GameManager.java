@@ -20,7 +20,7 @@ public interface GameManager<M extends GameMove, S extends GameState<M>> {
     void leave();
     
     interface Listener<S extends GameState> {
-        void onGameStart(Player player, OnlinePlayer opponent);
+        void onGameStart(OnlinePlayer player, OnlinePlayer opponent, Player playerTurn);
         void onGameState(S newState);
         void onGameEnd(boolean isWinner, boolean isLoser, int score);
         void onGameError(String errorMessage);
