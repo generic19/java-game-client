@@ -15,8 +15,7 @@ import com.mycompany.networking.game.GameManager;
 import com.mycompany.networking.game.XOGameManager;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.event.ActionEvent;
@@ -33,8 +32,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import java.util.ArrayList;
-import java.util.List;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.scene.input.MouseButton;
@@ -51,7 +48,7 @@ import javafx.util.Duration;
 public class XoGameController implements Initializable, XOGame.Listener, GameManager.Listener<XOGameState> {
 
     @FXML
-    private VBox root;
+    private StackPane root;
     @FXML
     private GridPane horizontalGrid;
     @FXML
@@ -70,6 +67,8 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
     private GridPane cellGrid;
     @FXML
     private Button btnLeave;
+    @FXML
+    private MediaView mediaView;
 
     private GameMode gameMode;
     private XOGame game;
@@ -82,10 +81,6 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
     private Player onlinePlayerTurn;
     private OnlinePlayer onlinePlayer;
     private OnlinePlayer opponentOnlinePlayer;
-
-    @FXML
-    private MediaView mediaView;
-    String msg;
 
     List<GameMove> moves = new ArrayList<>();
 
@@ -129,7 +124,7 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
                 lblLeftPlayer.setText(onlinePlayer.getUsername());
                 firstPlayerScore = onlinePlayer.getScore();
                 lblLeftPlayerScore.setText("" + firstPlayerScore);
-                
+
                 lblRightPlayer.setText(opponent.getUsername());
                 secondPlayerScore = opponentOnlinePlayer.getScore();
                 lblRightPlayerScore.setText("" + secondPlayerScore);
@@ -139,13 +134,13 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
                 lblLeftPlayer.setText(opponentOnlinePlayer.getUsername());
                 firstPlayerScore = opponentOnlinePlayer.getScore();
                 lblLeftPlayerScore.setText("" + firstPlayerScore);
-                
+
                 lblRightPlayer.setText(onlinePlayer.getUsername());
                 secondPlayerScore = onlinePlayer.getScore();
                 lblRightPlayerScore.setText("" + secondPlayerScore);
                 break;
         }
-        
+
         if (onlinePlayerTurn == Player.one) {
             lblHeader.setText("Your turn..");
         } else {
@@ -362,92 +357,102 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
         XOGameState gameState = (XOGameState) state;
         updateBoard(gameState);
 
-        String alertMsg = null;
-
         if (gameState.isEndState()) {
-            cellGrid.setDisable(true);
-
             Player winner = gameState.getWinner();
 
-            if (winner != null) {
-                String winnerName = (winner == Player.one) ? firstPlayerName : secondPlayerName;
-                lblHeader.setText(winnerName + " wins!");
-                alertMsg = winnerName + " is the WINNER. What would you like to do?";
-                String videoPath;
+            if (winner == Player.one) {
+                firstPlayerScore++;
+                lblLeftPlayerScore.setText("" + firstPlayerScore);
 
-                if (winner == Player.one) {
-                    videoPath = "/com/mycompany/videos/winner.mp4";
-                    msg = "You won! What would you like to do?";
-
-                } else {
-                    videoPath = "/com/mycompany/videos/loser.mp4";
-                    msg = "You Lose! What would you like to do?";
-                }
-
-                Media media = new Media(getClass().getResource(videoPath).toExternalForm());
-                MediaPlayer mediaPlayer = new MediaPlayer(media);
-
-                mediaView.setMediaPlayer(mediaPlayer);
-
-                mediaView.setVisible(true);
-                Platform.runLater(() -> {
-                    mediaPlayer.play();
-                });
-
-                PauseTransition pause = new PauseTransition(Duration.seconds(7));
-
-                pause.setOnFinished((actionEvent) -> {
-                    mediaPlayer.stop();
-                    mediaView.setVisible(false);
-                    openSaveDialogue();
-
-                });
-
-                pause.play();
-
-                if (winner == Player.one) {
-                    firstPlayerScore++;
-                    lblLeftPlayerScore.setText("" + firstPlayerScore);
-
-                } else {
-                    secondPlayerScore++;
-                    lblRightPlayerScore.setText("" + secondPlayerScore);
-                }
-
-            } else {
-                lblHeader.setText("It's a draw!");
-
-                msg = "It's a draw! What would you like to do?";
-
-                Media media = new Media(getClass().getResource("/com/mycompany/videos/draw.mp4").toExternalForm());
-                MediaPlayer mediaPlayer = new MediaPlayer(media);
-
-                mediaView.setMediaPlayer(mediaPlayer);
-
-                mediaView.setVisible(true);
-                Platform.runLater(() -> {
-                    mediaPlayer.play();
-                });
-
-                PauseTransition pause = new PauseTransition(Duration.seconds(7));
-                pause.setOnFinished((actionEvent) -> {
-                    mediaPlayer.stop();
-                    mediaView.setVisible(false);
-
-                    openSaveDialogue();
-                });
-
-                pause.play();
+            } else if (winner == Player.two) {
+                secondPlayerScore++;
+                lblRightPlayerScore.setText("" + secondPlayerScore);
             }
-        } else {
 
+            GameVideo video;
+            String headerMessage;
+            String endMessage;
+
+            switch (gameMode) {
+                case localWithComputer:
+                    if (winner == Player.one) {
+                        video = GameVideo.winner;
+                        headerMessage = "You win!";
+                        endMessage = "You are the WINNER!";
+                    } else if (winner == Player.two) {
+                        video = GameVideo.loser;
+                        headerMessage = "You lose!";
+                        endMessage = "Computer is the WINNER!";
+                    } else {
+                        video = GameVideo.draw;
+                        headerMessage = "It's a draw!";
+                        endMessage = "It's a draw!";
+                    }
+                    break;
+
+                case localWithFriend:
+                    video = winner != null ? GameVideo.winner : GameVideo.draw;
+
+                    if (winner == Player.one) {
+                        headerMessage = firstPlayerName + " wins!";
+                        endMessage = firstPlayerName + " is the WINNER!";
+                    } else if (winner == Player.two) {
+                        headerMessage = secondPlayerName + " wins!";
+                        endMessage = secondPlayerName + " is the WINNER!";
+                    } else {
+                        headerMessage = "It's a draw!";
+                        endMessage = "It's a draw!";
+                        break;
+                    }
+                    break;
+
+                default:
+                    return;
+            }
+
+            lblHeader.setText(headerMessage);
+
+            showVideo(video, () -> {
+                showSaveDialog(() -> {
+                    showRegameDialog(endMessage, null);
+                });
+            });
+        } else {
             String nextPlayerName = gameState.getNextTurnPlayer() == Player.one
                 ? firstPlayerName
                 : secondPlayerName;
-            lblHeader.setText(nextPlayerName + "'s turn...");
+
+            lblHeader.setText(nextPlayerName + "'s turn..");
 
             cellGrid.setDisable(false);
         }
+    }
+
+    private void showVideo(GameVideo video, Runnable onFinish) {
+        Media media = video.getMedia();
+        MediaPlayer player = new MediaPlayer(video.getMedia());
+
+        player.setCycleCount(1);
+        player.setAutoPlay(false);
+
+        mediaView.setFitWidth(media.getWidth());
+        mediaView.setFitHeight(media.getHeight());
+
+        mediaView.setManaged(true);
+        mediaView.setVisible(true);
+
+        mediaView.setMediaPlayer(player);
+
+        player.setOnEndOfMedia(() -> {
+            mediaView.setManaged(false);
+            mediaView.setVisible(false);
+
+            player.dispose();
+
+            onFinish.run();
+        });
+
+        player.play();
     }
 
     private void updateBoard(XOGameState gameState) {
@@ -498,6 +503,8 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
 
     @Override
     public void onGameState(XOGameState newState) {
+        moves.add(newState.getLastMove());
+        
         Platform.runLater(() -> {
             if (newState.getNextTurnPlayer() == onlinePlayerTurn) {
                 lblHeader.setText("Your turn..");
@@ -512,27 +519,39 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
     @Override
     public void onGameEnd(boolean isWinner, boolean isLoser, int score) {
         Platform.runLater(() -> {
+            GameVideo video;
+
             if (isWinner) {
+                video = GameVideo.winner;
+
                 lblHeader.setText("You win!");
-                
-                if (this.onlinePlayerTurn == Player.one){
+
+                if (this.onlinePlayerTurn == Player.one) {
                     lblLeftPlayerScore.setText("" + score);
                 } else {
                     lblRightPlayerScore.setText("" + score);
                 }
             } else {
                 if (isLoser) {
+                    video = GameVideo.loser;
                     lblHeader.setText("You lose!");
                 } else {
+                    video = GameVideo.draw;
                     lblHeader.setText("It's a draw!");
                 }
-                
-                if (this.onlinePlayerTurn == Player.two){
+
+                if (this.onlinePlayerTurn == Player.two) {
                     lblLeftPlayerScore.setText("" + score);
                 } else {
                     lblRightPlayerScore.setText("" + score);
                 }
             }
+
+            showVideo(video, () -> {
+                showSaveDialog(() -> {
+                    App.switchToFXML("HomeScreen");
+                });
+            });
         });
     }
 
@@ -542,48 +561,64 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
         App.switchToFXML("HomeScreen");
     }
 
-    private void openSaveDialogue() {
+    private void showSaveDialog(Runnable then) {
         if (gameMode.equals(GameMode.replay)) {
             return;
         }
+
         Platform.runLater(() -> {
+            UIHelper.showQuestion("Save game?", "Would you like to save a replay of this game?", Map.
+                <String, Runnable>of(
+                    "Save",
+                    () -> {
+                        GameRecording recording = new GameRecordingImpl(
+                            moves,
+                            lblLeftPlayer.getText(),
+                            lblRightPlayer.getText(),
+                            firstPlayerScore,
+                            secondPlayerScore
+                        );
 
-            ButtonType btnSave = new ButtonType("Save");
-            ButtonType btnCancel = new ButtonType("Cancel");
+                        new RecordingManagerImpl().saveRecording(recording);
 
-            String alertMsg2 = msg;
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, alertMsg2 + " ", btnSave, btnCancel);
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == btnSave) {
-                GameRecording gameRecordingImpl = new GameRecordingImpl(moves, lblLeftPlayer.getText(), lblRightPlayer.
-                    getText(), Integer.parseInt(lblLeftPlayerScore.getText()), Integer.parseInt(lblRightPlayerScore.
-                    getText()));
-                RecordingManager recordingManagerImpl = new RecordingManagerImpl();
-                recordingManagerImpl.saveRecording(gameRecordingImpl);
-                openSecondDialogue();
-            } else if (result.get() == btnCancel) {
-                openSecondDialogue();
-            }
-
+                        if (then != null) {
+                            then.run();
+                        }
+                    },
+                    "Cancel",
+                    () -> {
+                        if (then != null) {
+                            then.run();
+                        }
+                    }
+                ));
         });
     }
 
-    private void openSecondDialogue() {
+    private void showRegameDialog(String header, Runnable then) {
         if (gameMode.equals(GameMode.replay)) {
             return;
         }
-        Platform.runLater(() -> {
-            ButtonType goHomeButton = new ButtonType("Go Home");
-            ButtonType keepPlayingButton = new ButtonType("Keep Playing");
 
-            String alertMsg2 = msg;
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, alertMsg2 + " ", goHomeButton, keepPlayingButton);
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == goHomeButton) {
-                App.switchToFXML("HomeScreen");
-            } else if (result.get() == keepPlayingButton) {
-                game.resetGame();
-            }
+        Platform.runLater(() -> {
+            UIHelper.showQuestion(header, "What would you like to do?", Map.of(
+                "Keep Playing",
+                () -> {
+                    game.resetGame();
+
+                    if (then != null) {
+                        then.run();
+                    }
+                },
+                "Go Home",
+                () -> {
+                    App.switchToFXML("HomeScreen");
+
+                    if (then != null) {
+                        then.run();
+                    }
+                }
+            ));
         });
     }
 
