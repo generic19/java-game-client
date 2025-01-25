@@ -10,6 +10,7 @@ import com.mycompany.game.recording.GameRecordingImpl;
 import com.mycompany.game.recording.RecordingManager;
 import com.mycompany.game.recording.RecordingManagerImpl;
 import com.mycompany.networking.OnlinePlayer;
+import com.mycompany.networking.authentication.AuthManager;
 import com.mycompany.networking.game.GameManager;
 import com.mycompany.networking.game.XOGameManager;
 import java.io.IOException;
@@ -512,12 +513,20 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
     public void onGameEnd(boolean isWinner, boolean isLoser, int score) {
         Platform.runLater(() -> {
             if (isWinner) {
+                lblHeader.setText("You win!");
+                
                 if (this.onlinePlayerTurn == Player.one){
                     lblLeftPlayerScore.setText("" + score);
                 } else {
                     lblRightPlayerScore.setText("" + score);
                 }
             } else {
+                if (isLoser) {
+                    lblHeader.setText("You lose!");
+                } else {
+                    lblHeader.setText("It's a draw!");
+                }
+                
                 if (this.onlinePlayerTurn == Player.two){
                     lblLeftPlayerScore.setText("" + score);
                 } else {
