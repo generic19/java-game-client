@@ -2,3 +2,4 @@
 **/.DS_Store
 JavaGameClient/nb-configuration.xml
 JavaGameClient/token.txt
+*.xo
