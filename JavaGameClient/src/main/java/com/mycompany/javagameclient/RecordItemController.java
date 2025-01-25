@@ -1,5 +1,7 @@
 package com.mycompany.javagameclient;
 
+import com.mycompany.game.GameMove;
+import com.mycompany.game.recording.GameRecording;
 import com.mycompany.game.recording.RecordingManager;
 import com.mycompany.game.recording.RecordingManagerImpl;
 import java.io.File;
@@ -23,22 +25,19 @@ public class RecordItemController {
 
     @FXML
     void onDeleteClicked(ActionEvent event) {
-        UIHelper.showQuestion(
+   UIHelper.showQuestion(
             "Warning",
             "Are you sure you want to delete this file?",
             Map.of(
                 "Yes",
                 () -> {
-                    boolean deleted = recordManager.deldeteFile(recordFile);
-                    if (deleted) {
-                        ((VBox) recordGame.getParent().getParent()).getChildren().remove(recordGame.getParent());
-                       // UIHelper.showMessage("Success", "File deleted successfully!");
-                    } else {
-                      //  UIHelper.showMessage("Error", "Failed to delete the file.");
-                    }
+                    recordManager.deldeteFile(recordFile);
+                    ((VBox) recordGame.getParent().getParent()).getChildren().remove(recordGame.getParent());
                 },
                 "No",
-                () -> {} // Do nothing
+                () -> {
+                    
+                }
             )
         );
     }
@@ -47,9 +46,8 @@ public class RecordItemController {
     void onPlayClicked(ActionEvent event) throws IOException {
         FXMLLoader loader = App.getFXMLLoader("xoGame");
         Parent root = loader.load();
-
         XoGameController controller = loader.getController();
-       // controller.initializeReplayGame(recordManager.loadRecording(recordFile));
+        controller.initializeReplayGame((GameRecording<GameMove>) recordManager.loadRecording(recordFile));
 
         App.setRoot(root);
     }

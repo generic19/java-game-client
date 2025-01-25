@@ -45,7 +45,7 @@ public class RecordsScreenController {
             createNode(file, i);
 
         }
-                            recordesList.prefHeightProperty().bind(recordesList.heightProperty());
+       recordesList.prefHeightProperty().bind(recordesList.heightProperty());
 
     }
 
