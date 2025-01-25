@@ -8,20 +8,19 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane style="-fx-background: #36263D;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"  fx:controller="com.mycompany.javagameclient.RecordsScreenController">
+<BorderPane style="-fx-background: #36263D;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.javagameclient.RecordsScreenController">
    <center>
-      <VBox prefHeight="286.0" prefWidth="600.0" style="-fx-border-radius: 40; -fx-border-color: #E2FEFF; -fx-border-width: 5;" BorderPane.alignment="CENTER">
+      <VBox maxHeight="Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-border-radius: 40; -fx-border-color: #E2FEFF; -fx-border-width: 5;" BorderPane.alignment="CENTER">
          <effect>
             <DropShadow blurType="GAUSSIAN" color="WHITE" />
          </effect>
          <children>
-            <ScrollPane prefHeight="302.0" prefWidth="550.0" style="-fx-background: none;">
+            <ScrollPane maxHeight="Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background: none;" fitToWidth="true" vbarPolicy="AS_NEEDED" hbarPolicy="NEVER">
                <VBox.margin>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </VBox.margin>
                <content>
-                  <VBox fx:id="recordesList" prefHeight="232.0" prefWidth="549.0" style="-fx-background-color: none;" />
+                  <VBox fx:id="recordesList" maxHeight="Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: none;" spacing="10.0" />
                </content>
             </ScrollPane>
          </children>

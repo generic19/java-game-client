@@ -25,9 +25,6 @@ public class RecordsScreenController {
 
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
-
-//    @FXML // URL location of the FXML file that was given to the FXMLLoader
-//    private URL location;
     @FXML // fx:id="recordesList"
     private VBox recordesList; // Value injected by FXMLLoader
     RecordingManager<GameMove> recordManager = new RecordingManagerImpl();
@@ -38,7 +35,7 @@ public class RecordsScreenController {
         App.switchToFXML("HomeScreen");
     }
 
-    @FXML // This method is called by the FXMLLoader when initialization is complete
+    @FXML 
     void initialize() {
 
         List<File> recordsFiles = recordManager.getRecordings();
@@ -46,7 +43,10 @@ public class RecordsScreenController {
         for (int i = 0; i < recordsFiles.size(); i++) {
             File file = recordsFiles.get(i);
             createNode(file, i);
+
         }
+                            recordesList.prefHeightProperty().bind(recordesList.heightProperty());
+
     }
 
     void createNode(File recordFile, int index) {
