@@ -1,6 +1,7 @@
 package com.mycompany.javagameclient;
 
 import com.mycompany.networking.Communicator;
+import com.mycompany.networking.authentication.AuthManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -37,6 +38,7 @@ public class App extends Application {
         Communicator.getInstance().setDisconnectedListener(() -> {
             Platform.runLater(() -> {
                 App.switchToFXML("HomeScreen");
+                AuthManager.getInstance().clearUsername();
             });
         });
         

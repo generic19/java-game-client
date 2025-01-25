@@ -191,6 +191,8 @@ public class OnlineDashboardController implements
     @Override
     public void onGameStart(OnlinePlayer player, OnlinePlayer opponent, Player playerTurn) {
         try {
+            XOGameManager.getInstance().unsetListener();
+            
             FXMLLoader loader = App.getFXMLLoader("xoGame");
             Parent root = loader.load();
             

@@ -70,6 +70,11 @@ public class AuthManagerImpl implements AuthManager {
     }
 
     @Override
+    public void clearUsername() {
+        username = null;
+    }
+
+    @Override
     public void signInWithToken() {
         /*
         read token & username from the file
