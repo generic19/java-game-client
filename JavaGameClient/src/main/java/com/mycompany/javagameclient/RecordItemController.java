@@ -13,6 +13,7 @@ import com.mycompany.game.recording.RecordingManager;
 import com.mycompany.game.recording.RecordingManagerImpl;
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -34,8 +35,23 @@ public class RecordItemController {
 
     @FXML
     void onDeleteClicked(ActionEvent event) {
-        recordManager.deldeteFile(recordFile);
-        ((VBox) recordGame.getParent().getParent()).getChildren().remove(recordGame.getParent());
+        
+        UIHelper.showQuestion(
+            "Warning",
+            "Are you sure you want to delete this file?",
+            Map.of(
+                "Yes",
+                () -> {
+                    recordManager.deldeteFile(recordFile);
+                    ((VBox) recordGame.getParent().getParent()).getChildren().remove(recordGame.getParent());
+                },
+                "No",
+                () -> {
+                    
+                }
+            )
+        );
+        
     }
 
     @FXML
