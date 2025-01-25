@@ -2,10 +2,9 @@ package com.mycompany.networking;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  *
@@ -23,6 +22,8 @@ public class CommunicatorImpl implements Communicator {
     private ObjectOutputStream outputStream;
     
     private Thread thread;
+    
+    private Optional<String> serverAddress = Optional.empty();
     
     public static CommunicatorImpl getInstance() {
         if (instance == null) {
@@ -62,13 +63,20 @@ public class CommunicatorImpl implements Communicator {
         }
     }
     
+    public void setServerAddress(String ip) {
+        if (socket != null) {
+            throw new IllegalStateException("Cannot set server address while connected.");
+        }
+        serverAddress =  Optional.ofNullable(ip);
+    }
+    
     @Override
     public void openConnection() {
         if (socket == null) {
             synchronized (this) {
                 if (socket == null) {
                     try {
-                        socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
+                        socket = new Socket(serverAddress.orElse(DEFAULT_SERVER_ADDRESS), SERVER_PORT);
                         
                         try {
                             outputStream = new ObjectOutputStream(socket.getOutputStream());

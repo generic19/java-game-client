@@ -11,15 +11,16 @@ import java.io.Serializable;
  * @author ArwaKhaled
  */
 public class XOGameMove implements GameMove, Serializable {
+
     private final Player player;
-    private final int index ;
+    private final int index;
 
     public int getRow() {
-        return index/3;
+        return index / 3;
     }
 
     public int getCol() {
-        return  index%3;
+        return index % 3;
     }
 
     public int getIndex() {
@@ -33,19 +34,25 @@ public class XOGameMove implements GameMove, Serializable {
         this.index = index;
         this.player = player;
     }
-    
+
+    @Override
     public boolean equals(GameMove other) {
         if (other == null || getClass() != other.getClass()) {
             return false;
         }
-        
+
         XOGameMove otherMove = (XOGameMove) other;
-        
+
         return this.index == otherMove.index && this.player.equals(otherMove.player);
     }
 
     @Override
     public Player getPlayer() {
         return player;
+    }
+
+    @Override
+    public String toString() {
+        return "XOGameMove{" + "player=" + player + ", index=" + index + '}';
     }
 }

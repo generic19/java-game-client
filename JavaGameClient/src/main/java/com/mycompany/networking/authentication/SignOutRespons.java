@@ -18,5 +18,9 @@ public class SignOutRespons implements AuthMessage {
     public boolean isSuccess() {
         return success;
     }
-    
+
+    @Override
+    public String toString() {
+        return "SignOutRespons{" + "success=" + success + '}';
+    }
 }

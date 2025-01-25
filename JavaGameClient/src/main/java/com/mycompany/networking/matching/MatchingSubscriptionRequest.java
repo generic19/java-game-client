@@ -18,4 +18,9 @@ public class MatchingSubscriptionRequest implements MatchingMessage {
     public boolean isSubscribe() {
         return subscribe;
     }
+
+    @Override
+    public String toString() {
+        return "MatchingSubscriptionRequest{" + "subscribe=" + subscribe + '}';
+    }
 }

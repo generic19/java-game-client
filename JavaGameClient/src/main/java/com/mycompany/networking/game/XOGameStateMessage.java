@@ -15,5 +15,4 @@ public class XOGameStateMessage extends GameStateMessage<XOGameState>{
     public XOGameStateMessage(XOGameState state) {
         super(state);
     }
-    
 }

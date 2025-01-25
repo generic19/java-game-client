@@ -1,8 +1,8 @@
 package com.mycompany.networking.authentication;
 
 public class RegisterRequest implements AuthMessage {
-    private String username;
-    private String password;
+    private final String username;
+    private final String password;
    
     public RegisterRequest(String username, String password) {
         this.username = username;
@@ -15,5 +15,10 @@ public class RegisterRequest implements AuthMessage {
 
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String toString() {
+        return "RegisterRequest{" + "username=" + username + ", password=" + password + '}';
     }
 }

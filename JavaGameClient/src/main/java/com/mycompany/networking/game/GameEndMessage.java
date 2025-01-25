@@ -4,14 +4,12 @@
  */
 package com.mycompany.networking.game;
 
-import com.mycompany.networking.Message;
-
 
 public class GameEndMessage implements GameMessage {
 
-    private boolean winner;
-    private boolean loser;
-    private int score;
+    private final boolean winner;
+    private final boolean loser;
+    private final int score;
 
  
     public GameEndMessage(boolean isWinner, boolean isLoser, int score) {
@@ -30,6 +28,11 @@ public class GameEndMessage implements GameMessage {
 
     public int getScore() {
         return score;
+    }
+
+    @Override
+    public String toString() {
+        return "GameEndMessage{" + "winner=" + winner + ", loser=" + loser + ", score=" + score + '}';
     }
 }
 

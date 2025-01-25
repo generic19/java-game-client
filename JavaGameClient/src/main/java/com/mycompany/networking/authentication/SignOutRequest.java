@@ -9,5 +9,9 @@ package com.mycompany.networking.authentication;
  * @author ArwaKhaled
  */
 public class SignOutRequest implements AuthMessage {
-
+    
+    @Override
+    public String toString() {
+        return "SignOutRequest{" + '}';
+    }
 }

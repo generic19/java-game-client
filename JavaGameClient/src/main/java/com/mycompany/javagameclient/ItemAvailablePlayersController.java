@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
 package com.mycompany.javagameclient;
+import com.mycompany.networking.Communicator;
 import com.mycompany.networking.OnlinePlayer;
 import com.mycompany.networking.matching.InviteRequest;
 import java.net.URL;
@@ -41,8 +42,6 @@ public class ItemAvailablePlayersController implements Initializable {
     
     @FXML
     private void onInviteClicked(ActionEvent event){
-        // need validation 
-       InviteRequest inviteRequest = new InviteRequest(onlinePlayer.getUsername());
-       
+        Communicator.getInstance().sendMessage(new InviteRequest(onlinePlayer.getUsername()));
     }
 }

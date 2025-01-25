@@ -121,16 +121,15 @@ public class OnlineDashboardController implements
         if (!signedIn) {
             AuthManager.getInstance().unsetListener();
             MatchingManager.getInstance().unsetListener();
-            App.switchToFXML("HomeScreen");
+
+            Platform.runLater(() -> {
+                App.switchToFXML("HomeScreen");
+            });
         }
     }
 
     @Override
     public void onPlayersCollectionsUpdated() {
-//        Set<OnlinePlayer> newAvailablePlayers = MatchingManager.getInstance().getAvailable();
-//        Set<OnlinePlayer> newInGamePlayers = MatchingManager.getInstance().getInGame();
-
-//        updatePlayersLists(newAvailablePlayers, newInGamePlayers);
         Platform.runLater(() -> {
             availablePlayersList.getChildren().clear();
             inGamePlayersList.getChildren().clear();

@@ -34,8 +34,8 @@ public class XOGameManager implements GameManager<XOGameMove, XOGameState> {
     
     private XOGameManager() {
         gameStartListener = (GameStartMessage message) -> {
-            OnlinePlayer opponent = new OnlinePlayer(message.getOpponentUserName(), message.getOpponentScore());
-            listener.onGameStart(message.getPlayer(), opponent);
+            OnlinePlayer opponent = new OnlinePlayer(message.getOpponent().getUsername(), message.getOpponent().getScore());
+            listener.onGameStart(message.getPlayerTurn(), opponent);
         };
         
         gameEndListener = (GameEndMessage message) -> {

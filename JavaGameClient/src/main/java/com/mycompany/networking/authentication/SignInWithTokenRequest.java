@@ -18,4 +18,9 @@ public class SignInWithTokenRequest implements AuthMessage {
     public String getToken() {
         return token;
     }
+
+    @Override
+    public String toString() {
+        return "SignInWithTokenRequest{" + "token=" + token + '}';
+    }
 }

@@ -25,6 +25,9 @@ public class SignInRequest implements AuthMessage{
     public String getPassword() {
         return password;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "SignInRequest{" + "userName=" + userName + ", password=" + password + '}';
+    }
 }

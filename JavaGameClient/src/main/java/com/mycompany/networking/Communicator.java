@@ -9,7 +9,7 @@ package com.mycompany.networking;
  * @author ayasa
  */
 public interface Communicator {
-    static final String SERVER_ADDRESS = "127.0.0.1";
+    static final String DEFAULT_SERVER_ADDRESS = "127.0.0.1";
     static final int SERVER_PORT = 5005;
     
     static Communicator getInstance() {
@@ -30,6 +30,8 @@ public interface Communicator {
     boolean isConnected();
     void openConnection();
     void closeConnection();
+    
+    void setServerAddress(String ip);
     
     interface Listener <M extends Message> {
         void onMessage(M message);

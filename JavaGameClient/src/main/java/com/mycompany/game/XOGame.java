@@ -15,7 +15,7 @@ public class XOGame implements Game<XOGameMove, XOGameState> {
 
     private XOGameState currentState;
     private GameAgent[] gameAgents = new GameAgent[2];
-    private final List<Listener<XOGameMove, XOGameState>> listeners = new ArrayList<>();
+    private final List<Game.Listener<XOGameMove, XOGameState>> listeners = new ArrayList<>();
 
     public XOGame() {
         this.currentState = new XOGameState();
@@ -30,7 +30,7 @@ public class XOGame implements Game<XOGameMove, XOGameState> {
     public synchronized void play(XOGameMove move) throws IllegalStateException {
         if (currentState.isValidMove(move)) {
             currentState = currentState.play(move);
-            for (Listener listener : listeners) {
+            for (Game.Listener listener : listeners) {
                 listener.onStateChange(currentState);
             }
             Player nextTurnPlayer = currentState.getNextTurnPlayer();
@@ -54,19 +54,19 @@ public class XOGame implements Game<XOGameMove, XOGameState> {
     }
 
     @Override
-    public void addListener(Listener<XOGameMove, XOGameState> listener) {
+    public void addListener(Game.Listener<XOGameMove, XOGameState> listener) {
         listeners.add(listener);
     }
 
     @Override
-    public void removeListener(Listener<XOGameMove, XOGameState> listener) {
+    public void removeListener(Game.Listener<XOGameMove, XOGameState> listener) {
         listeners.remove(listener);
     }
 
     public void resetGame() {
 
         this.currentState = new XOGameState();
-        for (Listener listener : listeners) {
+        for (Game.Listener listener : listeners) {
             listener.onStateChange(currentState);
         }
     }

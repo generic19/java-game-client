@@ -19,4 +19,9 @@ public class GameMoveMessage<M extends GameMove> implements GameMessage {
     public M getMove() {
         return move;
     } 
+
+    @Override
+    public String toString() {
+        return "GameMoveMessage{" + "move=" + move + '}';
+    }
 }

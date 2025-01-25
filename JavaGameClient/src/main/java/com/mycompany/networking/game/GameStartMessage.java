@@ -5,32 +5,37 @@
 package com.mycompany.networking.game;
 
 import com.mycompany.game.Player;
+import com.mycompany.networking.OnlinePlayer;
 
 /**
  *
  * @author ArwaKhaled
  */
 public class GameStartMessage implements GameMessage {
-    private String OpponentUserName;
-    private int opponentScore ;
-    private Player player;
+    private final OnlinePlayer player;
+    private final OnlinePlayer opponent;
+    private final Player playerTurn;
 
-    public GameStartMessage(String OpponentUserName, int opponentScore, Player player) {
-        this.OpponentUserName = OpponentUserName;
-        this.opponentScore = opponentScore;
+    public GameStartMessage(OnlinePlayer player, OnlinePlayer opponent, Player playerTurn) {
         this.player = player;
+        this.opponent = opponent;
+        this.playerTurn = playerTurn;
     }
 
-    public String getOpponentUserName() {
-        return OpponentUserName;
-    }
-
-    public int getOpponentScore() {
-        return opponentScore;
-    }
-
-    public Player getPlayer() {
+    public OnlinePlayer getPlayer() {
         return player;
     }
-    
+
+    public OnlinePlayer getOpponent() {
+        return opponent;
+    }
+
+    public Player getPlayerTurn() {
+        return playerTurn;
+    }
+
+    @Override
+    public String toString() {
+        return "GameStartMessage{" + "player=" + player + ", opponent=" + opponent + ", playerTurn=" + playerTurn + '}';
+    }
 }

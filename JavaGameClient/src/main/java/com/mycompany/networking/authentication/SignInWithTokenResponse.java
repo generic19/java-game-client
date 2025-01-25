@@ -18,4 +18,9 @@ public class SignInWithTokenResponse implements AuthMessage {
     public boolean isSuccess() {
         return success;
     }
+
+    @Override
+    public String toString() {
+        return "SignInWithTokenResponse{" + "success=" + success + '}';
+    }
 }

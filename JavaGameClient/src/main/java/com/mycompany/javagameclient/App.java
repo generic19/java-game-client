@@ -8,8 +8,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Optional;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.StageStyle;
@@ -40,8 +42,21 @@ public class App extends Application {
         
         scene = new Scene(loadFXML("HomeScreen"));
 
+        Communicator.getInstance().setServerAddress(showServerIpDialog());
+        
         stage.setScene(scene);
         stage.show();
+    }
+    
+    private String showServerIpDialog() {
+        TextInputDialog dialog = new TextInputDialog("127.0.0.1");
+        
+        dialog.setHeaderText("Server IP Address");
+        dialog.setContentText("Enter the IP address of the server you want to connect to.");
+        
+        Optional<String> result = dialog.showAndWait();
+        
+        return result.orElse(null);
     }
 
     static Stage openModal(String fxml) {

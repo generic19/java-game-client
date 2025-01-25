@@ -9,7 +9,7 @@ package com.mycompany.networking.matching;
  * @author AhmedAli
  */
 public class InviteRequest implements MatchingMessage{
-    private String userName;
+    private final String userName;
 
     public InviteRequest(String userName) {
         this.userName = userName;
@@ -18,6 +18,9 @@ public class InviteRequest implements MatchingMessage{
     public String getUserName() {
         return userName;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "InviteRequest{" + "userName=" + userName + '}';
+    }
 }
