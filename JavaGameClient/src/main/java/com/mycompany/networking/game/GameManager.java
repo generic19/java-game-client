@@ -23,6 +23,6 @@ public interface GameManager<M extends GameMove, S extends GameState<M>> {
         void onGameStart(Player player, OnlinePlayer opponent);
         void onGameState(S newState);
         void onGameEnd(boolean isWinner, boolean isLoser, int score);
-        void onError(String errorMessage);
+        void onGameError(String errorMessage);
     }
 }

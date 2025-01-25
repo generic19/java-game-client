@@ -11,8 +11,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Optional;
-import java.util.StringTokenizer;
+import java.util.*;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -24,12 +23,33 @@ import javafx.scene.control.ButtonType;
 public class UIHelper {
     
     public static void showAlert(String header, String message, Alert.AlertType type){
-        
         Platform.runLater(() -> {
             Alert alert = new Alert(type);
             alert.setHeaderText(header);
             alert.setContentText(message);
-            alert.show();
+            alert.showAndWait();
+        });
+    }
+    
+    public static void showQuestion(String header, String message, Map<String, Runnable> options) {
+        Alert alert = new Alert(Alert.AlertType.NONE);
+        
+        alert.setHeaderText(header);
+        alert.setContentText(message);
+        
+        alert.getButtonTypes().clear();
+        
+        options.keySet().forEach(title -> {
+            alert.getButtonTypes().add(new ButtonType(title));
+        });
+        
+        Platform.runLater(() -> {
+            Optional<ButtonType> result = alert.showAndWait();
+            
+            if (result.isPresent()) {
+                String choice = result.get().getText();
+                options.get(choice).run();
+            }
         });
     }
     
@@ -162,16 +182,16 @@ public class UIHelper {
     public static class TokenData {
         private final String username;
         private final String token;
-
+        
         public TokenData(String username, String token) {
             this.username = username;
             this.token = token;
         }
-
+        
         public String getUsername() {
             return username;
         }
-
+        
         public String getToken() {
             return token;
         }

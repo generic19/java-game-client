@@ -21,8 +21,9 @@ public interface AuthManager {
     void signIn(String username, String password);
     void signOut();
     String getUsername();
+    
     interface Listener{
         void onAuthStateChange(boolean signedIn);
-        void onError(String errorMsg);
+        void onAuthError(String errorMsg);
     }
 }

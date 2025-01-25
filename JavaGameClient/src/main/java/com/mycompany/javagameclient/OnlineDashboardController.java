@@ -1,22 +1,23 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
+* Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+* Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
 package com.mycompany.javagameclient;
 
-import static com.mycompany.javagameclient.App.switchToFXML;
-import com.mycompany.networking.authentication.AuthManager;
+import com.mycompany.game.Player;
+import com.mycompany.game.XOGameMove;
+import com.mycompany.game.XOGameState;
 import com.mycompany.networking.Communicator;
-import com.mycompany.networking.Message;
+import com.mycompany.networking.authentication.AuthManager;
 import com.mycompany.networking.OnlinePlayer;
+import com.mycompany.networking.game.GameManager;
+import com.mycompany.networking.game.XOGameManager;
 import com.mycompany.networking.matching.IncomingInviteRespose;
 import com.mycompany.networking.matching.MatchingManager;
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,13 +33,11 @@ import javafx.scene.layout.VBox;
  *
  * @author AhmedAli
  */
-public class OnlineDashboardController implements Initializable, MatchingManager.Listener, AuthManager.Listener {
-
-    MatchingManager matchingManager;
-    Communicator communicator = Communicator.getInstance();
-    Set<OnlinePlayer> availablePlayers, inGamePlayers;
-    Map<OnlinePlayer, Node> availablePlayersNodes = new HashMap<>();
-    Map<OnlinePlayer, Node> inGamePlayersNodes = new HashMap<>();
+public class OnlineDashboardController implements
+    Initializable,
+    AuthManager.Listener,
+    MatchingManager.Listener,
+    GameManager.Listener<XOGameState> {
 
     @FXML
     private Label labelPlayerName;
@@ -56,143 +55,164 @@ public class OnlineDashboardController implements Initializable, MatchingManager
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        AuthManager.getInstance().setListener(this);
+        MatchingManager.getInstance().setListener(this);
+        XOGameManager.getInstance().setListener(this);
 
-        matchingManager = new MatchingManager(communicator);
-
-        matchingManager.addListener(this);
-        availablePlayers = (matchingManager.getAvailable());
-        inGamePlayers = (matchingManager.getAvailable());
-
-        availablePlayers.add(new OnlinePlayer("basel", 0));
-
-        for (OnlinePlayer player : availablePlayers) {
-            addAvailablePlayerItem(player);
-        }
-        for (OnlinePlayer player : inGamePlayers) {
-            addInGamePlayerItem(player);
-        }
+        labelPlayerName.setText(AuthManager.getInstance().getUsername());
     }
 
     private void addAvailablePlayerItem(OnlinePlayer player) {
-        FXMLLoader loader = App.getFXMLLoader("itemAvailablePlayers");
-        try {
-            Node element = loader.load();
-            ItemAvailablePlayersController controller = loader.getController();
+        if (player.getUsername().equals(AuthManager.getInstance().getUsername())) {
+            labelScore.setText("Score: " + player.getScore());
+        } else {
+            FXMLLoader loader = App.getFXMLLoader("itemAvailablePlayers");
 
-            controller.setPlayer(player);
+            try {
+                Node item = loader.load();
+                ItemAvailablePlayersController controller = loader.getController();
 
-            availablePlayersList.getChildren().add(element);
-            availablePlayersNodes.put(player, element);
-        } catch (IOException ex) {
-            ex.printStackTrace();
+                controller.setPlayer(player);
+
+                availablePlayersList.getChildren().add(item);
+            } catch (IOException ex) {
+                throw new RuntimeException("Incorrect FXML file name.", ex);
+            }
         }
     }
 
     private void addInGamePlayerItem(OnlinePlayer player) {
-        FXMLLoader loader = App.getFXMLLoader("playersInGame");
-        try {
-            Node element = loader.load();
-            PlayersInGameController controller = loader.getController();
-            controller.setPlayer(player);
-            inGamePlayersList.getChildren().add(element);
-            inGamePlayersNodes.put(player, element);
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        if (player.getUsername().equals(AuthManager.getInstance().getUsername())) {
+            labelScore.setText("Score: " + player.getScore());
+        } else {
+            FXMLLoader loader = App.getFXMLLoader("playersInGame");
+
+            try {
+                Node item = loader.load();
+                ItemAvailablePlayersController controller = loader.getController();
+
+                controller.setPlayer(player);
+
+                inGamePlayersList.getChildren().add(item);
+            } catch (IOException ex) {
+                throw new RuntimeException("Incorrect FXML file name.", ex);
+            }
         }
-    }
-
-    private void removeInGamePlayerItem(OnlinePlayer player) {
-        Node node = inGamePlayersNodes.remove(player);
-        inGamePlayersList.getChildren().remove(node);
-    }
-
-    private void removeAvailablePlayerItem(OnlinePlayer player) {
-        Node node = availablePlayersNodes.remove(player);
-        availablePlayersList.getChildren().remove(node);
     }
 
     @FXML
     private void onBackClicked(ActionEvent event) throws IOException {
-        switchToFXML("HomeScreen");
+        AuthManager.getInstance().unsetListener();
+        MatchingManager.getInstance().unsetListener();
+
+        App.switchToFXML("HomeScreen");
     }
 
     @FXML
     private void onLogoutClicked(ActionEvent event) {
-          //////////// just bu screen , the token is not deleted yet
-        AuthManager.getInstance().setListener(this);
         AuthManager.getInstance().signOut();
-        App.switchToFXML("HomeScreen");
-        
     }
 
     @Override
     public void onAuthStateChange(boolean signedIn) {
         if (!signedIn) {
+            AuthManager.getInstance().unsetListener();
+            MatchingManager.getInstance().unsetListener();
+
             App.switchToFXML("HomeScreen");
         }
     }
 
     @Override
-    public void onMatchingUpdate() {
-        Set<OnlinePlayer> newAvailablePlayers = matchingManager.getAvailable();
-        Set<OnlinePlayer> newInGamePlayers = matchingManager.getInGame();
-        for (OnlinePlayer player : inGamePlayersNodes.keySet()) {
-            boolean inOld = inGamePlayers.contains(player);
-            boolean inNew = newInGamePlayers.contains(player);
+    public void onPlayersCollectionsUpdated() {
+//        Set<OnlinePlayer> newAvailablePlayers = MatchingManager.getInstance().getAvailable();
+//        Set<OnlinePlayer> newInGamePlayers = MatchingManager.getInstance().getInGame();
 
-            if (inOld && !inNew) {
-                addInGamePlayerItem(player);
-            } else if (!inOld && inNew) {
-                removeInGamePlayerItem(player);
-            }
-        }
-        for (OnlinePlayer player : availablePlayersNodes.keySet()) {
-            boolean inOld = availablePlayers.contains(player);
-            boolean inNew = newAvailablePlayers.contains(player);
-
-            if (inOld && !inNew) {
-                addAvailablePlayerItem(player);
-            } else if (!inOld && inNew) {
-                removeAvailablePlayerItem(player);
-            }
-        }
+//        updatePlayersLists(newAvailablePlayers, newInGamePlayers);
+        Platform.runLater(() -> {
+            availablePlayersList.getChildren().clear();
+            inGamePlayersList.getChildren().clear();
+            
+            MatchingManager.getInstance().getAvailable().forEach(player -> addAvailablePlayerItem(player));
+            MatchingManager.getInstance().getInGame().forEach(player -> addInGamePlayerItem(player));
+        });
     }
-
+    
     @Override
     public void onIncomingInviteRequest(String userName) {
-        UIHelper.showAlertWithButton(
-            "Invitation",
-            userName + " wants to play with you",
-            () -> {
-                Message message = new IncomingInviteRespose(IncomingInviteRespose.Response.ACCEPTED);
-                communicator.sendMessage(message);
-            },
-            () -> {
-                Message message = new IncomingInviteRespose(IncomingInviteRespose.Response.REJECTED);
-                communicator.sendMessage(message);
-            }
+        UIHelper.showQuestion(
+            "Incoming Invitation",
+            "User " + userName + " wants to start a game with you.",
+            Map.of(
+                "Accept",
+                () -> Communicator.getInstance().sendMessage(
+                    new IncomingInviteRespose(IncomingInviteRespose.Response.ACCEPTED)),
+                "Decline",
+                () -> Communicator.getInstance().sendMessage(
+                    new IncomingInviteRespose(IncomingInviteRespose.Response.REJECTED))
+            )
         );
     }
 
     @Override
     public void onInviteResponse(boolean accept, boolean timeOut) {
-        if (accept) {
-            //start the game 
-        } else if (!accept || timeOut) {
-            UIHelper.showAlert("Rejected", " the Invitation Has been rejected", Alert.AlertType.NONE);
-
+        if (!accept) {
+            AuthManager.getInstance().setListener(this);
+            MatchingManager.getInstance().setListener(this);
+            XOGameManager.getInstance().setListener(this);
+        } else {
+            if (timeOut) {
+                UIHelper.showAlert(
+                    "Invitation",
+                    "Player did not respond to your invitation in time.",
+                    Alert.AlertType.INFORMATION
+                );
+            } else {
+                UIHelper.showAlert(
+                    "Invitation Declined",
+                    "Player did not want to play with you at this moment. Try again another time.",
+                    Alert.AlertType.INFORMATION
+                );
+            }
         }
     }
 
     @Override
-    public void onErrorMessage(String errorMsg) {
-
-        UIHelper.showAlert("error", errorMsg, Alert.AlertType.NONE);
-        // throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void onMatchingError(String errorMsg) {
+        UIHelper.showAlert("Matching Error", errorMsg, Alert.AlertType.ERROR);
     }
 
     @Override
-    public void onError(String errorMsg) {
-        UIHelper.showAlert("Error", errorMsg, Alert.AlertType.ERROR);
+    public void onAuthError(String errorMsg) {
     }
+
+    @Override
+    public void onGameStart(Player player, OnlinePlayer opponent) {
+
+    }
+
+    @Override
+    public void onGameState(XOGameState newState) {
+    }
+
+    @Override
+    public void onGameEnd(boolean isWinner, boolean isLoser, int score) {
+    }
+
+    @Override
+    public void onGameError(String errorMessage) {
+    }
+
+    private static <T> Set<T> intersection(Set<T> lhs, Set<T> rhs) {
+        Set<T> result = new HashSet<T>(lhs);
+        result.retainAll(rhs);
+        return result;
+    }
+
+    private static <T> Set<T> difference(Set<T> lhs, Set<T> rhs) {
+        Set<T> result = new HashSet<T>(lhs);
+        result.removeAll(rhs);
+        return result;
+    }
+
 }

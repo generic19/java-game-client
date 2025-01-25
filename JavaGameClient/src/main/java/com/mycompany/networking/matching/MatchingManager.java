@@ -6,8 +6,7 @@ package com.mycompany.networking.matching;
 
 import com.mycompany.networking.Communicator;
 import com.mycompany.networking.OnlinePlayer;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  *
@@ -15,115 +14,142 @@ import java.util.Set;
  */
 public class MatchingManager {
 
-    private final Communicator communicator;
+    private final Map<String, OnlinePlayer> availablePlayers = new LinkedHashMap<>();
+    private final Map<String, OnlinePlayer> inGamePlayers = new LinkedHashMap<>();
 
-    public MatchingManager(Communicator communicator) {
-
-        this.communicator = communicator;
-        if (!this.communicator.isConnected()) {
-            communicator.openConnection();
-        }
-    }
+    private final Communicator.Listener<MatchingInitialStateMessage> initialStateListener;
+    private final Communicator.Listener<MatchingUpdateMessage> updateListener;
+    private final Communicator.Listener<IncomingInviteRequest> incomingInviteListener;
 
     private Listener listener = null;
-    private final Set<OnlinePlayer> availablePlayers = new HashSet<>();
-    private final Set<OnlinePlayer> inGamePlayers = new HashSet<>();
 
-    public void addListener(Listener listener) {
-        this.listener = listener;
+    private static MatchingManager instance;
 
-        communicator.sendMessage(new MatchingSubscriptionRequest(true));
-        Communicator.Listener<MatchingInitialStateMessage> commuiactorListener = (MatchingInitialStateMessage msg) -> {
+    public static MatchingManager getInstance() {
+        if (instance == null) {
+            synchronized (MatchingManager.class) {
+                if (instance == null) {
+                    instance = new MatchingManager();
+                }
+            }
+        }
+        return instance;
+    }
+
+    private MatchingManager() {
+        initialStateListener = (msg) -> {
             if (msg != null) {
-                availablePlayers.addAll(msg.getAvailable());
-                inGamePlayers.addAll(msg.getInGame());
-                listener.onMatchingUpdate();
+                msg.getAvailable().forEach(player -> availablePlayers.put(player.getUsername(), player));
+                msg.getInGame().forEach(player -> inGamePlayers.put(player.getUsername(), player));
+
+                listener.onPlayersCollectionsUpdated();
             }
         };
-        Communicator.Listener<MatchingUpdateMessage> commuiactorUpdateListener = (MatchingUpdateMessage msg) -> {
-            if (msg != null) {
-                if (msg.getTarget() == MatchingUpdateMessage.Target.AVAILABLE) {
-                    if (msg.getUpdateType() == MatchingUpdateMessage.UpdateType.ADD) {
 
-                        availablePlayers.add(msg.getPlayer());
-                    } else {
-                        availablePlayers.remove(msg.getPlayer());
-                    }
-                } else {
-                    if (msg.getUpdateType() == MatchingUpdateMessage.UpdateType.ADD) {
-                        inGamePlayers.add(msg.getPlayer());
-                    } else {
-                        inGamePlayers.remove(msg.getPlayer());
-                    }
+        updateListener = (msg) -> {
+            if (msg != null) {
+                Map<String, OnlinePlayer> toUpdate;
+
+                switch (msg.getTarget()) {
+                    case AVAILABLE:
+                        toUpdate = availablePlayers;
+                        break;
+
+                    case IN_GAME:
+                        toUpdate = inGamePlayers;
+                        break;
+
+                    default:
+                        return;
                 }
 
-                listener.onMatchingUpdate();
+                switch (msg.getUpdateType()) {
+                    case ADD:
+                        toUpdate.put(msg.getPlayer().getUsername(), msg.getPlayer());
+                        break;
+
+                    case REMOVE:
+                        toUpdate.remove(msg.getPlayer().getUsername());
+                        break;
+
+                    default:
+                        return;
+                }
+
+                listener.onPlayersCollectionsUpdated();
             }
         };
-        communicator.setMessageListener(MatchingInitialStateMessage.class, commuiactorListener);
-        communicator.setMessageListener(MatchingUpdateMessage.class, commuiactorUpdateListener);
 
-        Communicator.Listener<IncomingInviteRequest> incomingInviteRequest = (IncomingInviteRequest msg) -> {
+        incomingInviteListener = (msg) -> {
             if (msg != null) {
                 listener.onIncomingInviteRequest(msg.getUserName());
             }
-
         };
-        communicator.setMessageListener(IncomingInviteRequest.class, incomingInviteRequest);
-
     }
 
-    public void removeListener(Listener listener) {
+    public void setListener(Listener listener) {
+        this.listener = listener;
+
+        Communicator.getInstance().setMessageListener(MatchingInitialStateMessage.class, initialStateListener);
+        Communicator.getInstance().setMessageListener(MatchingUpdateMessage.class, updateListener);
+        Communicator.getInstance().setMessageListener(IncomingInviteRequest.class, incomingInviteListener);
+
+        Communicator.getInstance().sendMessage(new MatchingSubscriptionRequest(true));
+    }
+
+    public void unsetListener() {
         listener = null;
-        communicator.sendMessage(new MatchingSubscriptionRequest(false));
+
+        Communicator.getInstance().sendMessage(new MatchingSubscriptionRequest(false));
+
+        Communicator.getInstance().unsetMessageListener(MatchingInitialStateMessage.class);
+        Communicator.getInstance().unsetMessageListener(MatchingUpdateMessage.class);
+        Communicator.getInstance().unsetMessageListener(IncomingInviteRequest.class);
+
         availablePlayers.clear();
         inGamePlayers.clear();
-
     }
 
-    public Set<OnlinePlayer> getAvailable() {
-        return new HashSet<>(availablePlayers);
+    public List<OnlinePlayer> getAvailable() {
+        return new ArrayList<>(availablePlayers.values());
     }
 
-    public Set<OnlinePlayer> getInGame() {
-        return new HashSet<>(inGamePlayers);
+    public List<OnlinePlayer> getInGame() {
+        return new ArrayList<>(inGamePlayers.values());
     }
 
     public void invite(OnlinePlayer player) {
-        Communicator.Listener<InviteResponse> commListener = (InviteResponse msg) -> {
+        Communicator.getInstance().setMessageListener(InviteResponse.class, (msg) -> {
             if (listener != null) {
                 if (msg != null) {
 
                     listener.onInviteResponse(msg.getResult() == InviteResponse.Result.ACCEPTED,
                         msg.getResult() == InviteResponse.Result.TIMEOUT);
-                } else {
-
-                    listener.onErrorMessage("error inviting user");
                 }
             }
-        };
-        communicator.setMessageListener(InviteResponse.class, commListener);
-        communicator.sendMessage(new InviteRequest(player.getUsername()));
+        });
+
+        Communicator.getInstance().sendMessage(new InviteRequest(player.getUsername()));
     }
 
     public void acceptInvite(OnlinePlayer player) {
-        communicator.sendMessage(new IncomingInviteRespose(IncomingInviteRespose.Response.ACCEPTED));
+        Communicator.getInstance().sendMessage(new IncomingInviteRespose(IncomingInviteRespose.Response.ACCEPTED));
 
     }
 
     public void rejectInvite(OnlinePlayer player) {
-        communicator.sendMessage(new IncomingInviteRespose(IncomingInviteRespose.Response.REJECTED));
+        Communicator.getInstance().sendMessage(new IncomingInviteRespose(IncomingInviteRespose.Response.REJECTED));
     }
 
     public interface Listener {
 
-        public void onMatchingUpdate(); // done
+        public void onPlayersCollectionsUpdated();
 
-        public void onIncomingInviteRequest(String userName);//
+        public void onIncomingInviteRequest(String userName);
 
-        public void onInviteResponse(boolean accept, boolean timeOut);//done
+        public void onInviteResponse(boolean accept, boolean timeOut);
 
-        public void onErrorMessage(String errorMsg);//done
+        public void onMatchingError(String errorMsg);
 
     }
 

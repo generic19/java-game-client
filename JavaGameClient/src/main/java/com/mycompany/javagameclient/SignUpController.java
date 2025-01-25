@@ -1,4 +1,4 @@
-/*
+ /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
@@ -26,16 +26,11 @@ import javafx.stage.Stage;
  */
 public class SignUpController implements Initializable {
 
-    @FXML
-    private TextField username;
-    @FXML
-    private TextField password;
-    @FXML
-    private TextField confirmPassword;
-    @FXML
-    private Button signUp;
-    @FXML
-    private Label loginPage;
+    @FXML private TextField username;
+    @FXML private TextField password;
+    @FXML private TextField confirmPassword;
+    @FXML private Button signUp;
+    @FXML private Label loginPage;
     
     /**
      * Initializes the controller class.
@@ -48,17 +43,23 @@ public class SignUpController implements Initializable {
     @FXML
     private void handleSignUp(ActionEvent event) {
         if(!password.getText().equals(confirmPassword.getText())){
-            UIHelper.showAlert("Warning", "password and confirm password is not tha same", Alert.AlertType.WARNING);
+            UIHelper.showAlert(
+                "Validation Error",
+                "password and confirm password is not the same",
+                Alert.AlertType.WARNING
+            );
         } else {
-            AuthManager.getInstance().register(username.getText().trim(), password.getText().trim());
+            AuthManager.getInstance().register(
+                username.getText().trim(),
+                password.getText().trim()
+            );
         }
     }
 
     @FXML
     private void goToLoginPage(MouseEvent event) throws IOException {
-       Stage stagee=(Stage) loginPage.getScene().getWindow();
-        stagee.close();
-        App.openModal("Login");
+       Stage stage = (Stage) loginPage.getScene().getWindow();
+        App.switchModal("Login", stage);
     }
 
     private void validateInputFields() {
