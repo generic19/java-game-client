@@ -13,7 +13,7 @@ import com.mycompany.networking.Communicator;
  */
 public class XOGameManager implements GameManager<XOGameMove, XOGameState> {
 
-    private static XOGameManager instance;
+    private static volatile XOGameManager instance;
 
     private Listener<XOGameState> listener;
 

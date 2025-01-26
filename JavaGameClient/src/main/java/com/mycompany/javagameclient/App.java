@@ -31,6 +31,11 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        stage.setOnHidden((event) -> {
+            Communicator.getInstance().closeConnection();
+            Platform.exit();
+        });
+        
         Communicator.getInstance().setErrorListener(((errorMessage) -> {
             UIHelper.showAlert("Connection Error", errorMessage, Alert.AlertType.ERROR);
         }));

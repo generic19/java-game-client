@@ -23,7 +23,7 @@ public class MatchingManager {
 
     private Listener listener = null;
 
-    private static MatchingManager instance;
+    private static volatile MatchingManager instance;
 
     public static MatchingManager getInstance() {
         if (instance == null) {
@@ -39,6 +39,9 @@ public class MatchingManager {
     private MatchingManager() {
         initialStateListener = (msg) -> {
             if (msg != null) {
+                availablePlayers.clear();
+                inGamePlayers.clear();
+                
                 msg.getAvailable().forEach(player -> availablePlayers.put(player.getUsername(), player));
                 msg.getInGame().forEach(player -> inGamePlayers.put(player.getUsername(), player));
 

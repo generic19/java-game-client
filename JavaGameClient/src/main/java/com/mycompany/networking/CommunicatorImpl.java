@@ -20,6 +20,7 @@ public class CommunicatorImpl implements Communicator {
     private Socket socket;
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
+    private boolean isClosing;
     
     private Thread thread;
     
@@ -76,6 +77,8 @@ public class CommunicatorImpl implements Communicator {
     
     @Override
     public void openConnection() {
+        isClosing = false;
+        
         if (socket == null) {
             synchronized (this) {
                 if (socket == null) {
@@ -85,11 +88,10 @@ public class CommunicatorImpl implements Communicator {
                         try {
                             outputStream = new ObjectOutputStream(socket.getOutputStream());
                             inputStream = new ObjectInputStream(socket.getInputStream());
+                            
                             startListenerThread();
                         } catch (IOException ex) {
-                            if (socket.isConnected()) {
-                                socket.close();
-                            }
+                            socket.close();
                             
                             socket = null;
                             inputStream = null;
@@ -111,6 +113,8 @@ public class CommunicatorImpl implements Communicator {
     
     @Override
     public void closeConnection() {
+        isClosing = true;
+        
         for (Listener listener : listeners.values()) {
             listener.onMessage(null);
         }
@@ -118,7 +122,9 @@ public class CommunicatorImpl implements Communicator {
         listeners.clear();
         
         try {
-            socket.close();
+            if (socket != null) {
+                socket.close();
+            }
         } catch (IOException ex) {
             System.err.println("Could not close socket.");
         }
@@ -126,6 +132,12 @@ public class CommunicatorImpl implements Communicator {
         socket = null;
         inputStream = null;
         outputStream = null;
+        
+        try {
+            thread.stop();
+        } catch (UnsupportedOperationException ex) {
+            thread.interrupt();
+        }
         
         thread = null;
         
@@ -143,6 +155,8 @@ public class CommunicatorImpl implements Communicator {
         }
         
         thread = new Thread(() -> {
+            isClosing = false;
+            
             try {
                 while (true) {
                     try {
@@ -172,9 +186,10 @@ public class CommunicatorImpl implements Communicator {
                 }
             }
             catch (IOException ex) {
-                closeConnection();
-                broadcastError("Lost connection to server.");
-                ex.printStackTrace();
+                if (!isClosing) {
+                    closeConnection();
+                    broadcastError("Lost connection to server.");
+                }
             }
         });
         
@@ -195,12 +210,12 @@ public class CommunicatorImpl implements Communicator {
     public boolean isConnected() {
         return socket != null && socket.isConnected() && thread != null && thread.isAlive();
     }
-
+    
     @Override
     public void setDisconnectedListener(DisconnectedListener listener) {
         disconnectedListener = listener;
     }
-
+    
     @Override
     public void unsetDisconnectedListener() {
         disconnectedListener = null;
