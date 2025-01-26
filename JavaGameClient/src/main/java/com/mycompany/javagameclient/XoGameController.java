@@ -550,7 +550,7 @@ public class XoGameController implements Initializable, XOGame.Listener, GameMan
 
             showVideo(video, () -> {
                 showSaveDialog(() -> {
-                    App.switchToFXML("HomeScreen");
+                    App.switchToFXML("OnlineDashboard");
                 });
             });
         });
