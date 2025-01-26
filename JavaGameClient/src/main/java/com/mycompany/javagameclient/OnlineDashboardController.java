@@ -92,7 +92,7 @@ public class OnlineDashboardController implements
             
             try {
                 Node item = loader.load();
-                ItemAvailablePlayersController controller = loader.getController();
+                PlayersInGameController controller = loader.getController();
                 
                 controller.setPlayer(player);
                 
